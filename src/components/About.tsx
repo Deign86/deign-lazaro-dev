@@ -44,29 +44,36 @@ export function About({ techStack }: { techStack: TechStackProps }) {
           {/* Bio */}
           <ScrollReveal direction="left" blur={true} delay={0.2}>
             <p className="text-xl md:text-2xl text-mono-700 dark:text-mono-300 leading-relaxed">
-              I&apos;m a passionate developer and student who loves building things that live on the internet.
+              I&apos;m a 3rd-year BSIT student at Pamantasan ng Lungsod ng Valenzuela, passionate about building impactful software that solves real problems.
             </p>
             <p className="mt-6 text-lg text-mono-600 dark:text-mono-400 leading-relaxed">
-              My journey spans from crafting elegant frontend experiences to architecting robust backend systems. 
-              I believe in clean code, thoughtful design, and continuous learning.
+              From crafting elegant frontend experiences to architecting robust backend systems and integrating AI solutions, 
+              I bring a full-stack perspective to every project. A consistent honor student with proven leadership experience 
+              from years of student council participation.
             </p>
             <p className="mt-6 text-lg text-mono-600 dark:text-mono-400 leading-relaxed">
-              When I&apos;m not coding, you&apos;ll find me exploring new technologies, 
-              contributing to open source, or working on side projects that challenge my skills.
+              I specialize in Python, TypeScript, and modern frameworks like Next.js, Django, and FastAPI—with growing expertise 
+              in AI/ML integration using OpenAI, Claude, and Azure AI services.
             </p>
 
             {/* Stats with staggered animation */}
-            <StaggerContainer className="mt-12 flex gap-12" staggerDelay={0.15}>
+            <StaggerContainer className="mt-12 flex flex-wrap gap-8 md:gap-12" staggerDelay={0.15}>
               <StaggerItem direction="up" blur={true} scale={true}>
                 <div>
-                  <span className="text-4xl md:text-5xl font-bold text-mono-950 dark:text-mono-50">7+</span>
+                  <span className="text-4xl md:text-5xl font-bold text-mono-950 dark:text-mono-50">4+</span>
+                  <p className="mt-2 text-sm text-mono-500 uppercase tracking-wider">Years Coding</p>
+                </div>
+              </StaggerItem>
+              <StaggerItem direction="up" blur={true} scale={true}>
+                <div>
+                  <span className="text-4xl md:text-5xl font-bold text-mono-950 dark:text-mono-50">10+</span>
                   <p className="mt-2 text-sm text-mono-500 uppercase tracking-wider">Projects</p>
                 </div>
               </StaggerItem>
               <StaggerItem direction="up" blur={true} scale={true}>
                 <div>
-                  <span className="text-4xl md:text-5xl font-bold text-mono-950 dark:text-mono-50">5+</span>
-                  <p className="mt-2 text-sm text-mono-500 uppercase tracking-wider">Technologies</p>
+                  <span className="text-4xl md:text-5xl font-bold text-mono-950 dark:text-mono-50">4</span>
+                  <p className="mt-2 text-sm text-mono-500 uppercase tracking-wider">Live Deploys</p>
                 </div>
               </StaggerItem>
             </StaggerContainer>

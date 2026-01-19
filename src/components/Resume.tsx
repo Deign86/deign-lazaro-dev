@@ -66,11 +66,11 @@ const projects: TimelineItem[] = [
 const skillCategories: SkillCategory[] = [
   {
     name: 'Languages',
-    skills: ['Python', 'TypeScript', 'JavaScript', 'Dart', 'SQL'],
+    skills: ['Python', 'TypeScript', 'JavaScript', 'HTML', 'CSS', 'Dart', 'SQL'],
   },
   {
     name: 'Frameworks',
-    skills: ['Django', 'Flask', 'FastAPI', 'Next.js', 'React', 'Flutter'],
+    skills: ['Django', 'Flask', 'FastAPI', 'Next.js', 'React', 'Tailwind CSS', 'Flutter'],
   },
   {
     name: 'AI & ML',
@@ -265,8 +265,8 @@ export function Resume() {
             
             {/* Download CV button */}
             <motion.a
-              href="/cv.html"
-              download="Deign-CV.html"
+              href="/api/cv"
+              download="Deign-Lazaro-CV.pdf"
               initial={{ opacity: 0, x: 20 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.3 }}

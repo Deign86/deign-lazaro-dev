@@ -124,8 +124,9 @@ export function Contact() {
 
         <ScrollReveal direction="up" blur={true} delay={0.3}>
           <p className="mt-8 text-lg md:text-xl text-mono-600 dark:text-mono-400 max-w-xl mx-auto">
-            I&apos;m always interested in hearing about new projects, opportunities, 
-            or just having a chat about technology.
+            Open to internships, freelance projects, and full-time opportunities. 
+            Whether it&apos;s building an AI-powered solution or a full-stack web app, 
+            I&apos;d love to hear about your ideas.
           </p>
         </ScrollReveal>
 

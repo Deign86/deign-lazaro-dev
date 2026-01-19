@@ -13,13 +13,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Deign | Full-Stack Developer & Student",
-  description: "Personal portfolio showcasing full-stack development projects with Python, TypeScript, and Flutter.",
-  keywords: ["developer", "portfolio", "full-stack", "python", "typescript", "flutter", "react", "nextjs"],
-  authors: [{ name: "Deign" }],
+  title: "Deign Lazaro | Full-Stack Developer & AI Enthusiast",
+  description: "Building modern web apps with Python, TypeScript & AI integrations. From concept to deployment—clean code, thoughtful design.",
+  keywords: ["developer", "portfolio", "full-stack", "python", "typescript", "AI", "react", "nextjs", "software engineer"],
+  authors: [{ name: "Deign Lazaro" }],
   openGraph: {
-    title: "Deign | Full-Stack Developer & Student",
-    description: "Personal portfolio showcasing full-stack development projects.",
+    title: "Deign Lazaro | Full-Stack Developer & AI Enthusiast",
+    description: "Building modern web apps with Python, TypeScript & AI integrations. From concept to deployment—clean code, thoughtful design.",
     type: "website",
   },
 };

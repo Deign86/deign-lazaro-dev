@@ -96,6 +96,11 @@ const CUSTOM_DISPLAY_NAMES: Record<string, string> = {
   'V-Serve-ARTA-Feedback-Analytics': 'V-Serve ARTA Analytics',
 };
 
+// Custom demo URLs to override GitHub homepage field (fixes typos in repo settings)
+const CUSTOM_DEMO_URLS: Record<string, string> = {
+  'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'https://digital-classroom-reservation-for-plv.vercel.app',
+};
+
 // Repos to exclude from the portfolio
 const EXCLUDED_REPOS = [
   'comlec-assignment-for-kisch',
@@ -147,7 +152,7 @@ export function processRepo(repo: GitHubRepo): ProcessedRepo {
     displayName: formatRepoName(repo.name),
     description: getDescription(repo),
     url: repo.html_url,
-    demoUrl: repo.homepage || null,
+    demoUrl: CUSTOM_DEMO_URLS[repo.name] || repo.homepage || null,
     language: repo.language || 'Unknown',
     stars: repo.stargazers_count,
     forks: repo.forks_count,
@@ -236,6 +241,10 @@ export function extractTechStack(repos: GitHubRepo[]): {
   if (languages.has('JavaScript') && !frontend.includes('JavaScript')) frontend.push('JavaScript');
   if (languages.has('Python') && !backend.includes('Python')) backend.unshift('Python');
   if (languages.has('Dart') && !mobile.includes('Dart')) mobile.unshift('Dart');
+  
+  // Always include HTML & CSS as fundamental web technologies
+  if (!frontend.includes('HTML')) frontend.push('HTML');
+  if (!frontend.includes('CSS')) frontend.push('CSS');
   
   // Add Firebase and Supabase (commonly used in your projects)
   if (!backend.includes('Firebase')) backend.push('Firebase');

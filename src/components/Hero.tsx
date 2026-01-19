@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { SpotlightCursor } from './ui/spotlight-cursor';
 import { BlurredTextReveal } from './ui/text-reveal';
+import { EtherealShadow } from './ui/ethereal-shadow';
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -12,9 +13,9 @@ export function Hero() {
     offset: ['start start', 'end start'],
   });
 
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 400]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const y1 = useTransform(scrollYProgress, [0, 1], ['0px', '200px']);
+  const y2 = useTransform(scrollYProgress, [0, 1], ['0px', '400px']);
+  const y3 = useTransform(scrollYProgress, [0, 1], ['0px', '100px']);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
 
@@ -23,11 +24,22 @@ export function Hero() {
       ref={ref}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
+      {/* Silk-like animated background */}
+      <div className="absolute inset-0 z-0">
+        <EtherealShadow
+          color="rgba(80, 80, 80, 1)"
+          animation={{ scale: 100, speed: 40 }}
+          noise={{ opacity: 0.6, scale: 1.0 }}
+          sizing="fill"
+          className="dark:opacity-100 opacity-20"
+        />
+      </div>
+
       {/* Spotlight cursor effect */}
       <SpotlightCursor className="z-[1]" />
 
       {/* Parallax background shapes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-[2]">
         {/* Large circle */}
         <motion.div
           style={{ y: y1 }}
@@ -70,7 +82,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-mono-500 dark:text-mono-400 text-xs sm:text-sm md:text-base tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] uppercase mb-8 px-4"
         >
-          <BlurredTextReveal text="Full-Stack Developer & Student" delay={0.3} />
+          <BlurredTextReveal text="Full-Stack Developer & AI Enthusiast" delay={0.3} />
         </motion.p>
 
         {/* Main title with letter-by-letter reveal */}
@@ -90,9 +102,9 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 1.0 }}
           className="mt-8 text-lg md:text-xl text-mono-600 dark:text-mono-400 max-w-2xl mx-auto leading-relaxed"
         >
-          Building digital experiences with Python, TypeScript & Flutter.
+          Building modern web apps with Python, TypeScript & AI integrations.
           <br className="hidden md:block" />
-          Turning ideas into elegant, functional code.
+          From concept to deployment—clean code, thoughtful design.
         </motion.div>
 
         {/* CTA Button */}
