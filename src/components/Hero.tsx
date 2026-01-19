@@ -68,7 +68,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-mono-500 dark:text-mono-400 text-sm md:text-base tracking-[0.3em] uppercase mb-8"
+          className="text-mono-500 dark:text-mono-400 text-xs sm:text-sm md:text-base tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] uppercase mb-8 px-4"
         >
           <BlurredTextReveal text="Full-Stack Developer & Student" delay={0.3} />
         </motion.p>

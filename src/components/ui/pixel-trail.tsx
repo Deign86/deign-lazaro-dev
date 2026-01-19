@@ -33,9 +33,22 @@ export function PixelCursorTrail({
 }: PixelCursorTrailProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [pixels, setPixels] = useState<Pixel[]>([])
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
   const pixelIdRef = useRef(0)
   const lastPositionRef = useRef({ x: 0, y: 0 })
   const animationRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    // Detect touch device
+    const checkTouchDevice = () => {
+      return (
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        (navigator as any).msMaxTouchPoints > 0
+      );
+    };
+    setIsTouchDevice(checkTouchDevice());
+  }, [])
 
   const createPixel = useCallback((x: number, y: number) => {
     return {
@@ -90,6 +103,11 @@ export function PixelCursorTrail({
       }
     }
   }, [])
+
+  // Don't render on touch devices
+  if (isTouchDevice) {
+    return null;
+  }
 
   const baseClasses = fullscreen 
     ? "fixed inset-0 w-screen h-screen overflow-hidden select-none pointer-events-auto z-0"

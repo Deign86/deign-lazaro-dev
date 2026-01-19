@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect, HTMLAttributes } from 'react';
+import { useRef, useEffect, useState, HTMLAttributes } from 'react';
 
 interface SpotlightConfig {
   radius?: number;
@@ -90,6 +90,20 @@ export const SpotlightCursor = ({
   className = '',
   ...rest
 }: SpotlightCursorProps) => {
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    // Detect touch device
+    const checkTouchDevice = () => {
+      return (
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        (navigator as any).msMaxTouchPoints > 0
+      );
+    };
+    setIsTouchDevice(checkTouchDevice());
+  }, []);
+
   const spotlightConfig = {
     radius: 200,
     brightness: 0.15,
@@ -99,6 +113,11 @@ export const SpotlightCursor = ({
   };
 
   const canvasRef = useSpotlightEffect(spotlightConfig);
+
+  // Don't render on touch devices
+  if (isTouchDevice) {
+    return null;
+  }
 
   return (
     <canvas
