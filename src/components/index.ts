@@ -1,0 +1,8 @@
+export { Hero } from './Hero';
+export { About } from './About';
+export { Resume } from './Resume';
+export { Projects } from './Projects';
+export { ProjectCard } from './ProjectCard';
+export { Contact } from './Contact';
+export { Navbar } from './Navbar';
+export { Deployments } from './Deployments';
