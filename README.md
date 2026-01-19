@@ -4,7 +4,7 @@ A modern, animated portfolio website built with Next.js 16, React 19, and TypeSc
 
 ## 🚀 Live Demo
 
-**Production**: [https://my-updated-portfolio-2026.vercel.app](https://my-updated-portfolio-2026.vercel.app)
+**Production**: [https://deign-lazaro-dev.vercel.app](https://deign-lazaro-dev.vercel.app)
 
 **Repository**: [https://github.com/Deign86/deign-lazaro-dev](https://github.com/Deign86/deign-lazaro-dev)
 
@@ -196,7 +196,7 @@ This project is open source and available under the [MIT License](LICENSE).
 **Deign Lazaro**
 
 - GitHub: [@Deign86](https://github.com/Deign86)
-- Portfolio: [https://my-updated-portfolio-2026.vercel.app](https://my-updated-portfolio-2026.vercel.app)
+- Portfolio: [https://deign-lazaro-dev.vercel.app](https://deign-lazaro-dev.vercel.app)
 
 ---
 
