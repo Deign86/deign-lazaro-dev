@@ -131,12 +131,12 @@ export function Contact() {
 
         {/* Expandable Contact Button */}
         <ScrollReveal direction="up" blur={true} scale={true} delay={0.4}>
-          <div className="mt-12 flex flex-col items-center">
+          <div className="mt-12 flex flex-col items-center relative z-20">
             <div className="relative">
               {/* Main expandable button */}
               <motion.button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-mono-950 dark:bg-mono-50 text-mono-50 dark:text-mono-950 rounded-full font-medium text-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-mono-950/20 dark:hover:shadow-mono-50/20 cursor-pointer"
+                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-mono-950 dark:bg-mono-50 text-mono-50 dark:text-mono-950 rounded-full font-medium text-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-mono-950/20 dark:hover:shadow-mono-50/20 cursor-pointer z-30"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -164,7 +164,7 @@ export function Contact() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -10, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-80 sm:w-96 bg-mono-50 dark:bg-mono-900 rounded-2xl border border-mono-200 dark:border-mono-800 shadow-2xl shadow-mono-200/50 dark:shadow-mono-950/50 overflow-hidden"
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-80 sm:w-96 bg-white/95 dark:bg-mono-900/95 backdrop-blur-sm rounded-2xl border border-mono-200 dark:border-mono-800 shadow-2xl shadow-mono-200/50 dark:shadow-mono-950/50 overflow-hidden z-40"
                 >
                   {/* Header */}
                   <div className="px-5 py-4 border-b border-mono-200 dark:border-mono-800">
@@ -215,7 +215,7 @@ export function Contact() {
 
           {/* Social links row */}
           <ScrollReveal direction="up" blur={true} delay={0.5}>
-            <div className="mt-8 flex items-center gap-4">
+            <div className="mt-8 flex items-center gap-4 relative z-10">
               <span className="text-sm text-mono-400 dark:text-mono-600">Or find me on</span>
               <div className="flex items-center gap-2">
                 {socialLinks.map((social) => {

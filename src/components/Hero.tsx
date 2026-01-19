@@ -120,25 +120,25 @@ export function Hero() {
             <span className="absolute inset-0 bg-mono-800 dark:bg-mono-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
           </a>
         </motion.div>
+      </motion.div>
 
-        {/* Scroll indicator */}
+      {/* Scroll indicator - positioned outside main content for proper layering */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+      >
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+          className="w-6 h-10 rounded-full border-2 border-mono-400 dark:border-mono-600 flex items-start justify-center p-2"
         >
           <motion.div
-            animate={{ y: [0, 10, 0] }}
+            animate={{ opacity: [1, 0, 1], y: [0, 6, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-6 h-10 rounded-full border-2 border-mono-400 dark:border-mono-600 flex items-start justify-center p-2"
-          >
-            <motion.div
-              animate={{ opacity: [1, 0, 1], y: [0, 6, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-              className="w-1 h-2 bg-mono-400 dark:bg-mono-600 rounded-full"
-            />
-          </motion.div>
+            className="w-1 h-2 bg-mono-400 dark:bg-mono-600 rounded-full"
+          />
         </motion.div>
       </motion.div>
     </section>
