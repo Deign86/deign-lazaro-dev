@@ -50,6 +50,11 @@ export interface ProcessedRepo {
 
 // Categorize repos based on language and topics
 function categorizeRepo(repo: GitHubRepo): ProcessedRepo['category'] {
+  // Check for manual category override first
+  if (CUSTOM_CATEGORIES[repo.name]) {
+    return CUSTOM_CATEGORIES[repo.name];
+  }
+  
   const lang = repo.language?.toLowerCase() || '';
   const topics = repo.topics.map(t => t.toLowerCase());
   const name = repo.name.toLowerCase();
@@ -99,6 +104,11 @@ const CUSTOM_DISPLAY_NAMES: Record<string, string> = {
 // Custom demo URLs to override GitHub homepage field (fixes typos in repo settings)
 const CUSTOM_DEMO_URLS: Record<string, string> = {
   'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'https://digital-classroom-reservation-for-plv.vercel.app',
+};
+
+// Custom category overrides for repos that are miscategorized by auto-detection
+const CUSTOM_CATEGORIES: Record<string, ProcessedRepo['category']> = {
+  'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'fullstack',
 };
 
 // Repos to exclude from the portfolio
