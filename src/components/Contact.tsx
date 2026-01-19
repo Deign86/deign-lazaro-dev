@@ -164,7 +164,7 @@ export function Contact() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-80 sm:w-96 bg-white/95 dark:bg-mono-900/95 backdrop-blur-sm rounded-2xl border border-mono-200 dark:border-mono-800 shadow-2xl shadow-mono-200/50 dark:shadow-mono-950/50 overflow-hidden"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-80 sm:w-96 bg-white dark:bg-mono-900 rounded-2xl border border-mono-200 dark:border-mono-800 shadow-2xl shadow-mono-950/20 dark:shadow-mono-950/50 z-[100]"
                   >
                     {/* Header */}
                     <div className="px-5 py-4 border-b border-mono-200 dark:border-mono-800">
@@ -174,7 +174,7 @@ export function Contact() {
                     </div>
 
                     {/* Contact options */}
-                    <div className="py-2">
+                    <div className="pt-2 pb-3">
                       {contactOptions.map((option, index) => {
                         const IconComponent = option.icon;
                         const isLucideIcon = IconComponent === Mail || IconComponent === Phone;
@@ -215,9 +215,17 @@ export function Contact() {
           </div>
         </ScrollReveal>
 
-        {/* Social links row */}
+        {/* Social links row - fades out when dropdown is expanded */}
         <ScrollReveal direction="up" blur={true} delay={0.5}>
-          <div className="mt-8 flex items-center justify-center gap-4">
+          <motion.div 
+            className="mt-8 flex items-center justify-center gap-4"
+            animate={{ 
+              opacity: isExpanded ? 0 : 1,
+              y: isExpanded ? -10 : 0,
+              pointerEvents: isExpanded ? 'none' : 'auto'
+            }}
+            transition={{ duration: 0.2 }}
+          >
             <span className="text-sm text-mono-400 dark:text-mono-600">Or find me on</span>
             <div className="flex items-center gap-2">
               {socialLinks.map((social) => {
@@ -238,12 +246,19 @@ export function Contact() {
                 );
               })}
             </div>
-          </div>
+          </motion.div>
         </ScrollReveal>
 
         {/* Quick contact cards for larger screens */}
         <ScrollReveal direction="up" blur={true} delay={0.6}>
-          <div className="mt-16 hidden md:grid grid-cols-3 gap-4">
+          <motion.div 
+            className="mt-16 hidden md:grid grid-cols-3 gap-4"
+            animate={{ 
+              opacity: isExpanded ? 0 : 1,
+              pointerEvents: isExpanded ? 'none' : 'auto'
+            }}
+            transition={{ duration: 0.2 }}
+          >
           {/* Email card */}
           <a
             href="mailto:deign86@gmail.com"
@@ -301,12 +316,19 @@ export function Contact() {
               Message me
             </p>
           </a>
-        </div>
-      </ScrollReveal>
+          </motion.div>
+        </ScrollReveal>
 
         {/* Footer */}
         <ScrollReveal direction="up" blur={true} delay={0.7}>
-          <footer className="mt-32 pt-8 border-t border-mono-200 dark:border-mono-800">
+          <motion.footer 
+            className="mt-32 pt-8 border-t border-mono-200 dark:border-mono-800"
+            animate={{ 
+              opacity: isExpanded ? 0 : 1,
+              pointerEvents: isExpanded ? 'none' : 'auto'
+            }}
+            transition={{ duration: 0.2 }}
+          >
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <p className="text-mono-500 dark:text-mono-500 text-sm">
                 © {new Date().getFullYear()} Deign. Built with Next.js & Tailwind CSS.
@@ -332,7 +354,7 @@ export function Contact() {
                 })}
               </div>
             </div>
-          </footer>
+          </motion.footer>
         </ScrollReveal>
       </div>
     </section>
