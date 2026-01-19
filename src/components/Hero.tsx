@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import { PixelCursorTrail } from './ui/pixel-trail';
+import { SpotlightCursor } from './ui/spotlight-cursor';
 import { BlurredTextReveal } from './ui/text-reveal';
 
 export function Hero() {
@@ -23,8 +23,8 @@ export function Hero() {
       ref={ref}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Pixel cursor trail effect */}
-      <PixelCursorTrail className="z-[1]" />
+      {/* Spotlight cursor effect */}
+      <SpotlightCursor className="z-[1]" />
 
       {/* Parallax background shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
