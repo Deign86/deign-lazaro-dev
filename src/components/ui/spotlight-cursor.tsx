@@ -211,8 +211,8 @@ export const SpotlightCursor = ({
   }, []);
 
   const spotlightConfig = {
-    radius: 200,
-    brightness: 0.15,
+    radius: 250,
+    brightness: 0.06,
     color: '#ffffff',
     smoothing: 0.1,
     ...config,
@@ -229,7 +229,7 @@ export const SpotlightCursor = ({
     <canvas
       ref={canvasRef}
       style={{ willChange: 'transform' }}
-      className={`fixed top-0 left-0 pointer-events-none z-[9999] w-full h-full ${className}`}
+      className={`fixed top-0 left-0 pointer-events-none z-0 w-full h-full ${className}`}
       {...rest}
     />
   );
