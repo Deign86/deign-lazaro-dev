@@ -29,10 +29,10 @@ function DeploymentCard({
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "group relative flex h-40 w-[22rem] -skew-y-[8deg] select-none flex-col justify-between rounded-xl border border-mono-800 bg-mono-900/80 backdrop-blur-md px-5 py-4 transition-all duration-500",
+        "group relative flex h-32 sm:h-40 w-[16rem] sm:w-[22rem] -skew-y-[8deg] select-none flex-col justify-between rounded-xl border border-mono-800 bg-mono-900/80 backdrop-blur-md px-4 sm:px-5 py-3 sm:py-4 transition-all duration-500",
         "hover:border-mono-600 hover:bg-mono-800/90 hover:shadow-lg hover:shadow-mono-950/50 cursor-pointer",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-2 focus-visible:ring-offset-mono-950 focus-visible:border-mono-600",
-        "after:absolute after:-right-1 after:top-[-5%] after:h-[110%] after:w-[20rem] after:bg-gradient-to-l after:from-background after:to-transparent after:content-[''] after:pointer-events-none",
+        "after:absolute after:-right-1 after:top-[-5%] after:h-[110%] after:w-[14rem] sm:after:w-[20rem] after:bg-gradient-to-l after:from-background after:to-transparent after:content-[''] after:pointer-events-none",
         className
       )}
     >
@@ -45,7 +45,7 @@ function DeploymentCard({
           <p className="text-base font-semibold text-mono-100 group-hover:text-white transition-colors">
             {title}
           </p>
-          <p className="text-xs text-mono-500 truncate max-w-[200px]">{url.replace('https://', '')}</p>
+          <p className="text-xs text-mono-500 truncate max-w-[140px] sm:max-w-[200px]">{url.replace('https://', '')}</p>
         </div>
       </div>
 
@@ -59,7 +59,7 @@ function DeploymentCard({
 
       {/* Footer */}
       <div className="flex items-center justify-between relative z-10">
-        <p className="text-xs text-mono-500 truncate max-w-[180px]" title={lastCommit}>
+        <p className="text-xs text-mono-500 truncate max-w-[120px] sm:max-w-[180px]" title={lastCommit}>
           {lastCommit || 'Latest deployment'}
         </p>
         <p className="text-xs text-mono-600">{date}</p>
@@ -93,12 +93,13 @@ export default function DisplayCards({ deployments }: DisplayCardsProps) {
   // and old projects (at the end of the array) appear at the bottom of the stack
   const reversedDeployments = [...deployments].reverse();
   
+  // Mobile-first card positions: smaller offsets on mobile, larger on sm+
   const cardStyles = [
     "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-mono-800 before:h-full before:content-[''] before:bg-blend-overlay before:bg-mono-950/60 grayscale-[60%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0 before:pointer-events-none",
-    "[grid-area:stack] translate-x-12 translate-y-10 hover:-translate-y-1 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-mono-800 before:h-full before:content-[''] before:bg-blend-overlay before:bg-mono-950/60 grayscale-[60%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0 before:pointer-events-none",
-    "[grid-area:stack] translate-x-24 translate-y-20 hover:translate-y-10 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-mono-800 before:h-full before:content-[''] before:bg-blend-overlay before:bg-mono-950/40 grayscale-[30%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0 before:pointer-events-none",
-    "[grid-area:stack] translate-x-36 translate-y-[7.5rem] hover:translate-y-[5rem] before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-mono-800 before:h-full before:content-[''] before:bg-blend-overlay before:bg-mono-950/30 grayscale-[20%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0 before:pointer-events-none",
-    "[grid-area:stack] translate-x-48 translate-y-[10rem] hover:translate-y-[7.5rem]",
+    "[grid-area:stack] translate-x-6 sm:translate-x-12 translate-y-6 sm:translate-y-10 hover:-translate-y-1 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-mono-800 before:h-full before:content-[''] before:bg-blend-overlay before:bg-mono-950/60 grayscale-[60%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0 before:pointer-events-none",
+    "[grid-area:stack] translate-x-12 sm:translate-x-24 translate-y-12 sm:translate-y-20 hover:translate-y-10 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-mono-800 before:h-full before:content-[''] before:bg-blend-overlay before:bg-mono-950/40 grayscale-[30%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0 before:pointer-events-none",
+    "[grid-area:stack] translate-x-[4.5rem] sm:translate-x-36 translate-y-[4.5rem] sm:translate-y-[7.5rem] hover:translate-y-[5rem] before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-mono-800 before:h-full before:content-[''] before:bg-blend-overlay before:bg-mono-950/30 grayscale-[20%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0 before:pointer-events-none",
+    "[grid-area:stack] translate-x-24 sm:translate-x-48 translate-y-24 sm:translate-y-[10rem] hover:translate-y-[7.5rem]",
   ];
 
   return (
