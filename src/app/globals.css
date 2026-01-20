@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* B&W Monochromatic Design System */
+/* B&W Monochromatic Design System - Dark Mode Only */
 :root {
   /* Pure B&W palette with grays */
   --mono-50: #fafafa;
@@ -15,16 +15,16 @@
   --mono-900: #171717;
   --mono-950: #0a0a0a;
   
-  /* Semantic tokens - Light mode */
-  --background: var(--mono-50);
-  --foreground: var(--mono-950);
-  --muted: var(--mono-100);
-  --muted-foreground: var(--mono-500);
-  --card: var(--mono-50);
-  --card-foreground: var(--mono-950);
-  --border: var(--mono-200);
-  --accent: var(--mono-900);
-  --accent-foreground: var(--mono-50);
+  /* Semantic tokens - Dark mode enforced */
+  --background: var(--mono-950);
+  --foreground: var(--mono-50);
+  --muted: var(--mono-900);
+  --muted-foreground: var(--mono-400);
+  --card: var(--mono-900);
+  --card-foreground: var(--mono-50);
+  --border: var(--mono-800);
+  --accent: var(--mono-100);
+  --accent-foreground: var(--mono-950);
 }
 
 @theme inline {
@@ -55,33 +55,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Dark mode - inverted B&W */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--mono-950);
-    --foreground: var(--mono-50);
-    --muted: var(--mono-900);
-    --muted-foreground: var(--mono-400);
-    --card: var(--mono-900);
-    --card-foreground: var(--mono-50);
-    --border: var(--mono-800);
-    --accent: var(--mono-100);
-    --accent-foreground: var(--mono-950);
-  }
-}
-
-/* Force dark mode class */
-.dark {
-  --background: var(--mono-950);
-  --foreground: var(--mono-50);
-  --muted: var(--mono-900);
-  --muted-foreground: var(--mono-400);
-  --card: var(--mono-900);
-  --card-foreground: var(--mono-50);
-  --border: var(--mono-800);
-  --accent: var(--mono-100);
-  --accent-foreground: var(--mono-950);
-}
+/* Dark mode is always active - no light mode variants */
 
 * {
   box-sizing: border-box;
@@ -152,26 +126,16 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* Glass card effect */
+/* Glass card effect - dark mode only */
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.dark .glass-card {
-  background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Selection */
+/* Selection - dark mode only */
 ::selection {
-  background: var(--mono-900);
-  color: var(--mono-50);
-}
-
-.dark ::selection {
   background: var(--mono-100);
   color: var(--mono-950);
 }
