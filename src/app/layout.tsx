@@ -17,6 +17,11 @@ export const metadata: Metadata = {
   description: "Building modern web apps with Python, TypeScript & AI integrations. From concept to deployment—clean code, thoughtful design.",
   keywords: ["developer", "portfolio", "full-stack", "python", "typescript", "AI", "react", "nextjs", "software engineer"],
   authors: [{ name: "Deign Lazaro" }],
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   openGraph: {
     title: "Deign Lazaro | Full-Stack Developer & AI Enthusiast",
     description: "Building modern web apps with Python, TypeScript & AI integrations. From concept to deployment—clean code, thoughtful design.",

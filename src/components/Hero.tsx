@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import Image from 'next/image';
 import { SpotlightCursor } from './ui/spotlight-cursor';
 import { BlurredTextReveal } from './ui/text-reveal';
 import { EtherealShadow } from './ui/ethereal-shadow';
@@ -85,15 +86,22 @@ export function Hero() {
           <BlurredTextReveal text="Full-Stack Developer & AI Enthusiast" delay={0.3} />
         </motion.p>
 
-        {/* Main title with letter-by-letter reveal */}
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.4 }}
-          className="text-[15vw] md:text-[12vw] lg:text-[10vw] font-bold leading-[0.85] tracking-tighter text-mono-950 dark:text-mono-50"
+        {/* Main logo with simple fade-in animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="flex justify-center items-center"
         >
-          <BlurredTextReveal text="DEIGN" delay={0.5} staggerDelay={0.08} />
-        </motion.h1>
+          <Image
+            src="/logo.svg"
+            alt="Deign"
+            width={800}
+            height={460}
+            className="w-[80vw] md:w-[60vw] lg:w-[50vw] max-w-[800px] text-mono-950 dark:text-mono-50"
+            priority
+          />
+        </motion.div>
 
         {/* Subtitle with word reveal */}
         <motion.div
