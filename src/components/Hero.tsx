@@ -110,7 +110,11 @@ export function Hero() {
           transition={{ duration: isMobile ? 0.4 : 0.8, delay: 0.2 }}
           className="text-mono-500 dark:text-mono-400 text-xs sm:text-sm md:text-base tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] uppercase mb-8 px-4"
         >
-          <BlurredTextReveal text="Full-Stack Developer & AI Enthusiast" delay={0.3} blur={!isMobile && !prefersReducedMotion} />
+          {isMobile || prefersReducedMotion ? (
+            "Full-Stack Developer & AI Enthusiast"
+          ) : (
+            <BlurredTextReveal text="Full-Stack Developer & AI Enthusiast" delay={0.3} blur={true} />
+          )}
         </motion.p>
 
         {/* Main logo with simple fade-in animation */}
