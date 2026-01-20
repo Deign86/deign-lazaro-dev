@@ -149,9 +149,9 @@ export function Deployments({ deployments }: DeploymentsProps) {
             </ScrollReveal>
           </div>
 
-          {/* Right side - Display cards (hidden until lg screens) */}
+          {/* Right side - Display cards */}
           <ScrollReveal direction="right" blur={true} scale={true} delay={0.2}>
-            <div className="hidden lg:flex justify-center lg:justify-end">
+            <div className="flex justify-center lg:justify-end">
               <DisplayCards deployments={displayCardsData} />
             </div>
           </ScrollReveal>
