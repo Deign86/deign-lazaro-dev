@@ -21,7 +21,7 @@ export default async function Home() {
       {/* Main content */}
       <main id="main-content">
         <Hero />
-        <About techStack={techStack} />
+        <About techStack={techStack} liveDeployCount={liveDeployments.length} />
         <AppLogos />
         <Resume />
         <Deployments deployments={liveDeployments} />

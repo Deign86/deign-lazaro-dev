@@ -2,6 +2,7 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import Image from 'next/image';
 import { ScrollReveal, StaggerContainer, StaggerItem } from './ui/scroll-reveal';
 import { WordReveal } from './ui/text-reveal';
 
@@ -12,7 +13,7 @@ interface TechStackProps {
   tools: string[];
 }
 
-export function About({ techStack }: { techStack: TechStackProps }) {
+export function About({ techStack, liveDeployCount }: { techStack: TechStackProps; liveDeployCount: number }) {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
@@ -41,17 +42,56 @@ export function About({ techStack }: { techStack: TechStackProps }) {
         </ScrollReveal>
 
         <div className="grid md:grid-cols-2 gap-16 md:gap-24 mt-20">
-          {/* Bio */}
+          {/* Profile Picture + Bio */}
           <ScrollReveal direction="left" blur={true} delay={0.2}>
-            <p className="text-xl md:text-2xl text-mono-700 dark:text-mono-300 leading-relaxed">
-              I&apos;m a 3rd-year BSIT student at Pamantasan ng Lungsod ng Valenzuela, passionate about building impactful software that solves real problems.
-            </p>
-            <p className="mt-6 text-lg text-mono-600 dark:text-mono-400 leading-relaxed">
+            {/* Profile Picture + First paragraph in horizontal layout */}
+            <div className="flex items-start gap-6 md:gap-8 mb-8">
+              {/* Profile Picture */}
+              <motion.div
+                className="relative group cursor-pointer flex-shrink-0"
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+              >
+                {/* Outer rotating ring on hover */}
+                <motion.div 
+                  className="absolute -inset-3 rounded-full border border-mono-300 dark:border-mono-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                />
+                
+                {/* Static decorative ring */}
+                <div className="absolute -inset-1.5 rounded-full border border-mono-200 dark:border-mono-700" />
+                
+                {/* Image container - circular for symmetry */}
+                <div className="relative w-32 h-32 md:w-40 md:h-40 overflow-hidden rounded-full shadow-xl shadow-mono-950/10 dark:shadow-mono-950/30">
+                  <Image
+                    src="/profile.jpg"
+                    alt="Deign Lazaro"
+                    fill
+                    className="object-cover object-[65%_65%] scale-[1.05] transition-transform duration-500 group-hover:scale-[1.1]"
+                    sizes="(max-width: 768px) 128px, 160px"
+                    priority
+                  />
+                  
+                  {/* Subtle gradient overlay for depth */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-mono-950/10 via-transparent to-transparent" />
+                  
+                  {/* Inner border */}
+                  <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-white/20" />
+                </div>
+              </motion.div>
+              
+              {/* First paragraph beside image */}
+              <p className="text-lg md:text-xl text-mono-700 dark:text-mono-300 leading-relaxed pt-2 text-justify">
+                I&apos;m a 3rd-year BSIT student at Pamantasan ng Lungsod ng Valenzuela, passionate about building impactful software that solves real problems.
+              </p>
+            </div>
+            <p className="mt-6 text-lg text-mono-600 dark:text-mono-400 leading-relaxed text-justify">
               From crafting elegant frontend experiences to architecting robust backend systems and integrating AI solutions, 
               I bring a full-stack perspective to every project. A consistent honor student with proven leadership experience 
               from years of student council participation.
             </p>
-            <p className="mt-6 text-lg text-mono-600 dark:text-mono-400 leading-relaxed">
+            <p className="mt-6 text-lg text-mono-600 dark:text-mono-400 leading-relaxed text-justify">
               I specialize in Python, TypeScript, and modern frameworks like Next.js, Django, and FastAPI—with growing expertise 
               in AI/ML integration using OpenAI, Claude, and Azure AI services.
             </p>
@@ -72,7 +112,7 @@ export function About({ techStack }: { techStack: TechStackProps }) {
               </StaggerItem>
               <StaggerItem direction="up" blur={true} scale={true}>
                 <div>
-                  <span className="text-4xl md:text-5xl font-bold text-mono-950 dark:text-mono-50">4</span>
+                  <span className="text-4xl md:text-5xl font-bold text-mono-950 dark:text-mono-50">{liveDeployCount}</span>
                   <p className="mt-2 text-sm text-mono-500 uppercase tracking-wider">Live Deploys</p>
                 </div>
               </StaggerItem>
