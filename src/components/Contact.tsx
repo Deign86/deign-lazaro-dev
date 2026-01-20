@@ -90,9 +90,18 @@ const socialLinks = [
 
 export function Contact() {
   const ref = useRef<HTMLElement>(null);
+  const formContainerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [isExpanded, setIsExpanded] = useState(false);
   const [showForm, setShowForm] = useState(false);
+
+  const handleShowForm = () => {
+    setShowForm(true);
+    // Scroll to form container after a brief delay for animation
+    setTimeout(() => {
+      formContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  };
 
   return (
     <section
@@ -134,11 +143,11 @@ export function Contact() {
 
         {/* Contact Form or Quick Contact Options */}
         <ScrollReveal direction="up" blur={true} scale={true} delay={0.4}>
-          <div className="mt-12">
+          <div ref={formContainerRef} className="mt-12">
             {/* Toggle buttons */}
             <div className="flex items-center justify-center gap-4 mb-8">
               <motion.button
-                onClick={() => setShowForm(true)}
+                onClick={handleShowForm}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={`px-6 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${
