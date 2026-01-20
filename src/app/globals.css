@@ -96,14 +96,26 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   overflow-x: hidden;
+  /* Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* Performance optimizations for mobile devices */
 @media (max-width: 768px) {
-  * {
-    /* Reduce GPU memory usage on mobile */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
+  body {
+    /* Crisp text rendering on mobile */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Remove translateZ from text elements to prevent blur */
+  p, h1, h2, h3, h4, h5, h6, span, div {
+    -webkit-transform: none;
+    transform: none;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
   
   /* Disable parallax and complex animations on mobile for better performance */

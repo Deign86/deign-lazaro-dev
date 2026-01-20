@@ -105,9 +105,9 @@ export function Hero() {
       >
         {/* Eyebrow */}
         <motion.p
-          initial={{ opacity: 0, y: 20, filter: isMobile || prefersReducedMotion ? 'none' : 'blur(10px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'none' }}
-          transition={{ duration: isMobile ? 0.5 : 0.8, delay: 0.2 }}
+          initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: isMobile ? 0.4 : 0.8, delay: 0.2 }}
           className="text-mono-500 dark:text-mono-400 text-xs sm:text-sm md:text-base tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] uppercase mb-8 px-4"
         >
           <BlurredTextReveal text="Full-Stack Developer & AI Enthusiast" delay={0.3} blur={!isMobile && !prefersReducedMotion} />
@@ -115,11 +115,11 @@ export function Hero() {
 
         {/* Main logo with simple fade-in animation */}
         <motion.div
-          initial={{ opacity: 0, y: 20, filter: isMobile || prefersReducedMotion ? 'none' : 'blur(10px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'none' }}
-          transition={{ duration: isMobile ? 0.5 : 0.8, delay: 0.6 }}
+          initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: isMobile ? 0.4 : 0.8, delay: 0.6 }}
           className="flex justify-center items-center"
-          style={{ willChange: 'opacity, transform' }}
+          style={{ willChange: isMobile ? 'auto' : 'opacity, transform' }}
         >
           <Image
             src="/logo.svg"
@@ -133,13 +133,13 @@ export function Hero() {
 
         {/* Subtitle with word reveal */}
         <motion.div
-          initial={{ opacity: 0, y: isMobile ? 15 : 30, filter: isMobile || prefersReducedMotion ? 'none' : 'blur(10px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'none' }}
-          transition={{ duration: isMobile ? 0.5 : 0.8, delay: isMobile ? 0.8 : 1.0 }}
+          initial={{ opacity: 0, y: isMobile ? 10 : 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: isMobile ? 0.4 : 0.8, delay: isMobile ? 0.8 : 1.0 }}
           className="mt-8 text-lg md:text-xl text-mono-600 dark:text-mono-400 max-w-2xl mx-auto leading-relaxed"
-          style={{ willChange: 'opacity, transform' }}
+          style={{ willChange: isMobile ? 'auto' : 'opacity, transform' }}
         >
-          Building modern web apps with Python, TypeScript & AI integrations.
+          Building modern web apps with Python, TypeScript & AI integrations.{' '}
           <br className="hidden md:block" />
           From concept to deployment—clean code, thoughtful design.
         </motion.div>
