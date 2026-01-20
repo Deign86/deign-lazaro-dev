@@ -1,5 +1,5 @@
 import { Hero, About, Resume, Projects, Deployments, Contact, Navbar, AppLogos } from '@/components';
-import { fetchGitHubRepos, processRepo, extractTechStack } from '@/lib/github';
+import { fetchGitHubRepos, processRepo, extractTechStack, getLiveDeployments } from '@/lib/github';
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -8,6 +8,7 @@ export default async function Home() {
   const rawRepos = await fetchGitHubRepos('Deign86');
   const repos = rawRepos.map(processRepo);
   const techStack = extractTechStack(rawRepos);
+  const liveDeployments = getLiveDeployments(repos);
 
   return (
     <div className="relative min-h-screen bg-background text-foreground">
@@ -23,7 +24,7 @@ export default async function Home() {
         <About techStack={techStack} />
         <AppLogos />
         <Resume />
-        <Deployments />
+        <Deployments deployments={liveDeployments} />
         <Projects repos={repos} />
         <Contact />
       </main>

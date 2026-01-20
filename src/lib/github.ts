@@ -44,9 +44,46 @@ export interface ProcessedRepo {
   stars: number;
   forks: number;
   topics: string[];
+  createdAt: string;
   updatedAt: string;
   category: 'frontend' | 'backend' | 'fullstack' | 'mobile' | 'other';
 }
+
+// Deployment data for live preview
+export interface DeploymentInfo {
+  name: string;
+  title: string;
+  url: string;
+  description: string;
+  tags: string[];
+  updatedAt: string;
+  createdAt: string;
+  isOldProject?: boolean; // For projects that should always be at the end
+}
+
+// Live deployments configuration - maps repo names to their Vercel URLs
+const LIVE_DEPLOYMENTS: Record<string, { url: string; tags: string[] }> = {
+  'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': {
+    url: 'https://digital-classroom-reservation-for-plv.vercel.app',
+    tags: ['Next.js', 'TypeScript', 'Firebase'],
+  },
+  'V-Serve-ARTA-Feedback-Analytics': {
+    url: 'https://v-serve-arta-feedback.vercel.app',
+    tags: ['Flutter', 'Dart', 'Firebase'],
+  },
+  'rcbc-debt-tracker': {
+    url: 'https://rcbc-debt-tracker.vercel.app',
+    tags: ['React', 'PWA', 'Tailwind'],
+  },
+  'mathpulse-ai': {
+    url: 'https://mathpulse-ai.vercel.app',
+    tags: ['Next.js', 'TypeScript', 'FastAPI'],
+  },
+  'zhi-wei-zai': {
+    url: 'https://zhi-wei-zai.vercel.app',
+    tags: ['HTML', 'Tailwind', 'Firebase'],
+  },
+};
 
 // Categorize repos based on language and topics
 function categorizeRepo(repo: GitHubRepo): ProcessedRepo['category'] {
@@ -89,6 +126,7 @@ const CUSTOM_DESCRIPTIONS: Record<string, string> = {
   'mathpulse-ai': 'An AI-powered mathematics learning platform designed to help teachers monitor student progress and provide personalized intervention strategies.',
   'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'Full-stack digital classroom management system for PLV CEIT Building with real-time scheduling and room assignment features.',
   'V-Serve-ARTA-Feedback-Analytics': 'Centralized platform for collecting, analyzing, and reporting feedback on government service transactions through the ARTA Client Satisfaction Measurement initiative.',
+  'zhi-wei-zai': 'A modern restaurant website for Zhi Wei Zai featuring menu browsing, shopping cart, user authentication, and reservations. Built with HTML/CSS and Firebase backend.',
 };
 
 // Custom display names for repos
@@ -98,6 +136,7 @@ const CUSTOM_DISPLAY_NAMES: Record<string, string> = {
   'mathpulse-api': 'MathPulse API',
   'mathpulse-ai': 'MathPulse AI',
   'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'Digital Classroom PLV',
+  'zhi-wei-zai': 'Zhi Wei Zai',
   'V-Serve-ARTA-Feedback-Analytics': 'V-Serve ARTA Analytics',
 };
 
@@ -109,7 +148,14 @@ const CUSTOM_DEMO_URLS: Record<string, string> = {
 // Custom category overrides for repos that are miscategorized by auto-detection
 const CUSTOM_CATEGORIES: Record<string, ProcessedRepo['category']> = {
   'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'fullstack',
+  'zhi-wei-zai': 'fullstack',
 };
+
+// Old/legacy projects that should ALWAYS appear at the END of lists
+// These are kept for portfolio history but are less relevant
+const OLD_PROJECTS = new Set([
+  'zhi-wei-zai',
+]);
 
 // Repos to exclude from the portfolio
 const EXCLUDED_REPOS = [
@@ -167,9 +213,41 @@ export function processRepo(repo: GitHubRepo): ProcessedRepo {
     stars: repo.stargazers_count,
     forks: repo.forks_count,
     topics: repo.topics,
+    createdAt: repo.created_at,
     updatedAt: repo.updated_at,
     category: categorizeRepo(repo),
   };
+}
+
+// Get live deployment info from processed repos
+export function getLiveDeployments(repos: ProcessedRepo[]): DeploymentInfo[] {
+  const deployments: DeploymentInfo[] = [];
+  
+  for (const repo of repos) {
+    const deploymentConfig = LIVE_DEPLOYMENTS[repo.name];
+    if (deploymentConfig) {
+      deployments.push({
+        name: repo.name,
+        title: repo.displayName,
+        url: deploymentConfig.url,
+        description: repo.description,
+        tags: deploymentConfig.tags,
+        updatedAt: repo.updatedAt,
+        createdAt: repo.createdAt,
+        isOldProject: OLD_PROJECTS.has(repo.name),
+      });
+    }
+  }
+  
+  // Sort: old projects at the end, then by updatedAt (most recent first)
+  return deployments.sort((a, b) => {
+    // Old projects always go to the end
+    if (a.isOldProject && !b.isOldProject) return 1;
+    if (!a.isOldProject && b.isOldProject) return -1;
+    
+    // For non-old projects, sort by updatedAt (most recent first)
+    return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+  });
 }
 
 // Extract tech stack from repos
@@ -256,9 +334,8 @@ export function extractTechStack(repos: GitHubRepo[]): {
   if (!frontend.includes('HTML')) frontend.push('HTML');
   if (!frontend.includes('CSS')) frontend.push('CSS');
   
-  // Add Firebase and Supabase (commonly used in your projects)
+  // Add Firebase (commonly used in your projects)
   if (!backend.includes('Firebase')) backend.push('Firebase');
-  if (!backend.includes('Supabase')) backend.push('Supabase');
   
   // Add inferred tools
   if (!tools.includes('Git')) tools.push('Git');
@@ -291,11 +368,24 @@ export async function fetchGitHubRepos(username: string): Promise<GitHubRepo[]> 
     const repos: GitHubRepo[] = await res.json();
     
     // Filter out forks, archived repos, and excluded repos
-    return repos.filter(repo => 
+    const filtered = repos.filter(repo => 
       !repo.fork && 
       !repo.archived && 
       !EXCLUDED_REPOS.includes(repo.name)
     );
+    
+    // Sort: OLD_PROJECTS always at the end, everything else by updated date (most recent first)
+    return filtered.sort((a, b) => {
+      const aIsOld = OLD_PROJECTS.has(a.name);
+      const bIsOld = OLD_PROJECTS.has(b.name);
+      
+      // Old projects always go to the end
+      if (aIsOld && !bIsOld) return 1;
+      if (!aIsOld && bIsOld) return -1;
+      
+      // Both are old or both are not old: sort by updated date (most recent first)
+      return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+    });
   } catch {
     return [];
   }

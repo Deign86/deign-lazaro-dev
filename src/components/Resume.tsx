@@ -78,7 +78,7 @@ const skillCategories: SkillCategory[] = [
   },
   {
     name: 'Tools',
-    skills: ['Git', 'Docker', 'VS Code', 'Figma', 'Firebase', 'Supabase'],
+    skills: ['Git', 'Docker', 'VS Code', 'Figma', 'Firebase'],
   },
 ];
 

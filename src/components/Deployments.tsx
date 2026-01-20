@@ -1,51 +1,87 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { useInView } from 'framer-motion';
 import DisplayCards, { type DeploymentData } from './ui/display-cards';
-import { Rocket, Brain, Building2, ClipboardCheck } from 'lucide-react';
+import { Rocket, Brain, Building2, ClipboardCheck, Utensils, Globe } from 'lucide-react';
 import { ScrollReveal, StaggerContainer, StaggerItem } from './ui/scroll-reveal';
 import { WordReveal } from './ui/text-reveal';
+import { LivePreview, type LivePreviewProject } from './ui/live-preview';
+import type { DeploymentInfo } from '@/lib/github';
 
-// Your Vercel deployments data
-const deployments: DeploymentData[] = [
-  {
-    title: 'MathPulse AI',
-    url: 'https://mathpulse-ai.vercel.app',
-    repoName: 'Deign86/mathpulse-ai',
-    lastCommit: 'Merge pull request #3 from Deign86/vercel-web-analyt...',
-    date: '3h ago',
-    icon: <Brain className="size-4 text-mono-300" />,
-  },
-  {
-    title: 'PLV CEIT Classroom',
-    url: 'https://digital-classroom-reservation-for-plv.vercel.app',
-    repoName: 'Deign86/Digital-Classroom...',
-    lastCommit: 'Improve audit log details: show relevant fields only...',
-    date: '12/16/25',
-    icon: <Building2 className="size-4 text-mono-300" />,
-  },
-  {
-    title: 'RCBC Debt Tracker',
-    url: 'https://rcbc-debt-tracker.vercel.app',
-    repoName: 'Deign86/rcbc-debt-tracker',
-    lastCommit: 'fix: Position offline indicator above mobile nav bar',
-    date: '11/28/25',
-    icon: <Rocket className="size-4 text-mono-300" />,
-  },
-  {
-    title: 'V-Serve ARTA Feedback',
-    url: 'https://v-serve-arta-feedback.vercel.app',
-    repoName: 'Deign86/V-Serve-ARTA-Fe...',
-    lastCommit: 'fix: remove unused local variables in suggestions...',
-    date: '12/16/25',
-    icon: <ClipboardCheck className="size-4 text-mono-300" />,
-  },
-];
+// Icon mapping for different project types
+const ICON_MAP: Record<string, React.ReactNode> = {
+  'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': <Building2 className="size-4 text-mono-300" />,
+  'V-Serve-ARTA-Feedback-Analytics': <ClipboardCheck className="size-4 text-mono-300" />,
+  'rcbc-debt-tracker': <Rocket className="size-4 text-mono-300" />,
+  'mathpulse-ai': <Brain className="size-4 text-mono-300" />,
+  'zhi-wei-zai': <Utensils className="size-4 text-mono-300" />,
+};
 
-export function Deployments() {
+const ICON_MAP_LARGE: Record<string, React.ReactNode> = {
+  'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': <Building2 className="size-5 text-mono-300" />,
+  'V-Serve-ARTA-Feedback-Analytics': <ClipboardCheck className="size-5 text-mono-300" />,
+  'rcbc-debt-tracker': <Rocket className="size-5 text-mono-300" />,
+  'mathpulse-ai': <Brain className="size-5 text-mono-300" />,
+  'zhi-wei-zai': <Utensils className="size-5 text-mono-300" />,
+};
+
+// Format date for display
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', { 
+    month: '2-digit', 
+    day: '2-digit', 
+    year: '2-digit' 
+  }).replace(/\//g, '/');
+}
+
+// Format relative time
+function formatRelativeTime(dateString: string): string {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  
+  if (diffHours < 24) return `${diffHours}h ago`;
+  if (diffDays < 7) return `${diffDays}d ago`;
+  return formatDate(dateString);
+}
+
+// Truncate repo name for display
+function truncateRepoName(name: string): string {
+  const maxLength = 20;
+  if (name.length <= maxLength) return `Deign86/${name}`;
+  return `Deign86/${name.slice(0, maxLength)}...`;
+}
+
+interface DeploymentsProps {
+  deployments: DeploymentInfo[];
+}
+
+export function Deployments({ deployments }: DeploymentsProps) {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+
+  // Transform deployment data for DisplayCards
+  const displayCardsData: DeploymentData[] = deployments.map((d) => ({
+    title: d.title,
+    url: d.url,
+    repoName: truncateRepoName(d.name),
+    lastCommit: `Updated ${formatRelativeTime(d.updatedAt)}`,
+    date: formatDate(d.updatedAt),
+    icon: ICON_MAP[d.name] || <Globe className="size-4 text-mono-300" />,
+  }));
+
+  // Transform deployment data for LivePreview
+  const livePreviewData: LivePreviewProject[] = deployments.map((d) => ({
+    title: d.title,
+    url: d.url,
+    description: d.description,
+    icon: ICON_MAP_LARGE[d.name] || <Globe className="size-5 text-mono-300" />,
+    tags: d.tags,
+  }));
 
   return (
     <section
@@ -84,7 +120,7 @@ export function Deployments() {
             <StaggerContainer className="mt-10 flex gap-10" staggerDelay={0.15}>
               <StaggerItem direction="up" blur={true} scale={true}>
                 <div>
-                  <span className="text-3xl md:text-4xl font-bold text-mono-100">4</span>
+                  <span className="text-3xl md:text-4xl font-bold text-mono-100">{deployments.length}</span>
                   <p className="mt-1 text-sm text-mono-500 uppercase tracking-wider">Live Apps</p>
                 </div>
               </StaggerItem>
@@ -116,8 +152,26 @@ export function Deployments() {
           {/* Right side - Display cards */}
           <ScrollReveal direction="right" blur={true} scale={true} delay={0.2}>
             <div className="flex justify-center lg:justify-end">
-              <DisplayCards deployments={deployments} />
+              <DisplayCards deployments={displayCardsData} />
             </div>
+          </ScrollReveal>
+        </div>
+
+        {/* Live Preview Section */}
+        <div className="mt-24 lg:mt-32">
+          <ScrollReveal direction="up" blur={true} delay={0.1}>
+            <div className="text-center mb-10">
+              <span className="text-mono-500 text-sm tracking-[0.2em] uppercase">
+                Interactive Preview
+              </span>
+              <h3 className="mt-2 text-2xl md:text-3xl font-bold text-mono-100">
+                Explore Live
+              </h3>
+            </div>
+          </ScrollReveal>
+          
+          <ScrollReveal direction="up" blur={true} scale={true} delay={0.2}>
+            <LivePreview projects={livePreviewData} className="max-w-4xl mx-auto" />
           </ScrollReveal>
         </div>
       </div>

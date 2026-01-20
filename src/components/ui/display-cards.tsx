@@ -87,11 +87,17 @@ interface DisplayCardsProps {
 
 export default function DisplayCards({ deployments }: DisplayCardsProps) {
   // Pre-defined card positions for the stacked effect
+  // Note: In CSS grid stacking, later elements appear on TOP
+  // So we reverse the array so that the first item (most important) appears on top
+  // and old projects (at the end of the array) appear at the bottom of the stack
+  const reversedDeployments = [...deployments].reverse();
+  
   const cardStyles = [
     "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-mono-800 before:h-full before:content-[''] before:bg-blend-overlay before:bg-mono-950/60 grayscale-[60%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0 before:pointer-events-none",
     "[grid-area:stack] translate-x-12 translate-y-10 hover:-translate-y-1 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-mono-800 before:h-full before:content-[''] before:bg-blend-overlay before:bg-mono-950/60 grayscale-[60%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0 before:pointer-events-none",
     "[grid-area:stack] translate-x-24 translate-y-20 hover:translate-y-10 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-mono-800 before:h-full before:content-[''] before:bg-blend-overlay before:bg-mono-950/40 grayscale-[30%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0 before:pointer-events-none",
-    "[grid-area:stack] translate-x-36 translate-y-[7.5rem] hover:translate-y-[5rem]",
+    "[grid-area:stack] translate-x-36 translate-y-[7.5rem] hover:translate-y-[5rem] before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-mono-800 before:h-full before:content-[''] before:bg-blend-overlay before:bg-mono-950/30 grayscale-[20%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0 before:pointer-events-none",
+    "[grid-area:stack] translate-x-48 translate-y-[10rem] hover:translate-y-[7.5rem]",
   ];
 
   return (
@@ -102,7 +108,7 @@ export default function DisplayCards({ deployments }: DisplayCardsProps) {
       transition={{ duration: 0.6, delay: 0.2 }}
       className="grid [grid-template-areas:'stack'] place-items-center"
     >
-      {deployments.slice(0, 4).map((deployment, index) => (
+      {reversedDeployments.slice(0, 5).map((deployment, index) => (
         <DeploymentCard
           key={deployment.url}
           className={cardStyles[index] || cardStyles[cardStyles.length - 1]}
