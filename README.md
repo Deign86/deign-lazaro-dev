@@ -86,7 +86,6 @@ deign-lazaro-dev/
 │   │   ├── Contact.tsx       # Contact form/info
 │   │   ├── Deployments.tsx   # Deployment information
 │   │   └── ui/               # Reusable UI components
-│   │       ├── pixel-trail.tsx      # Mouse tracking animation
 │   │       ├── text-reveal.tsx      # Text reveal effects
 │   │       ├── scroll-reveal.tsx    # Scroll-triggered animations
 │   │       └── spotlight-card.tsx   # Interactive hover cards

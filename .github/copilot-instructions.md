@@ -75,7 +75,6 @@ GitHub API → fetchGitHubRepos → processRepo → <Projects repos={...} />
 ### Component Architecture
 - **Page Components** (src/components/*.tsx): Hero, About, Resume, Projects, Contact, Deployments
 - **UI Primitives** (src/components/ui/*.tsx): Reusable animated components
-  - `pixel-trail.tsx`: Mouse tracking pixel animation
   - `text-reveal.tsx`: Staggered text blur/fade effects
   - `scroll-reveal.tsx`: Scroll-triggered animations with IntersectionObserver
   - `spotlight-card.tsx`: Interactive hover spotlight effect
@@ -192,7 +191,7 @@ import { cn } from '@/lib/utils';
 ### Adding New Animated Components
 1. Create in `src/components/ui/` with Framer Motion
 2. Mark as `'use client'` if interactive
-3. Use existing patterns (scroll-reveal, pixel-trail, text-reveal)
+3. Use existing patterns (scroll-reveal, text-reveal, spotlight-card)
 4. Follow B&W design system strictly
 
 ### Customizing GitHub Projects
