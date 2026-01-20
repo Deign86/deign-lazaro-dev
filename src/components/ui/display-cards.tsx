@@ -31,6 +31,7 @@ function DeploymentCard({
       className={cn(
         "group relative flex h-40 w-[22rem] -skew-y-[8deg] select-none flex-col justify-between rounded-xl border border-mono-800 bg-mono-900/80 backdrop-blur-md px-5 py-4 transition-all duration-500",
         "hover:border-mono-600 hover:bg-mono-800/90 hover:shadow-lg hover:shadow-mono-950/50 cursor-pointer",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-2 focus-visible:ring-offset-mono-950 focus-visible:border-mono-600",
         "after:absolute after:-right-1 after:top-[-5%] after:h-[110%] after:w-[20rem] after:bg-gradient-to-l after:from-background after:to-transparent after:content-[''] after:pointer-events-none",
         className
       )}

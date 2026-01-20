@@ -80,35 +80,35 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
         <div className="relative rounded-xl overflow-hidden border border-mono-800 bg-mono-950 shadow-2xl shadow-black/50">
           {/* Browser Header / Title Bar */}
           <div className="flex items-center justify-between px-4 py-3 bg-mono-900/80 border-b border-mono-800">
-            {/* Traffic Lights */}
+            {/* Traffic Lights (decorative) */}
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-500/80 hover:bg-red-500 transition-colors cursor-pointer" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80 hover:bg-yellow-500 transition-colors cursor-pointer" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80 hover:bg-green-500 transition-colors cursor-pointer" />
+              <div className="flex items-center gap-1.5" aria-hidden="true">
+                <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                <div className="w-3 h-3 rounded-full bg-green-500/80" />
               </div>
               
               {/* Navigation arrows */}
               <div className="flex items-center gap-1 ml-4">
                 <button
                   onClick={handlePrev}
-                  className="p-1 rounded hover:bg-mono-800 transition-colors text-mono-500 hover:text-mono-300"
+                  className="p-1 rounded hover:bg-mono-800 transition-colors text-mono-500 hover:text-mono-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-1 focus-visible:ring-offset-mono-900"
                   aria-label="Previous project"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleNext}
-                  className="p-1 rounded hover:bg-mono-800 transition-colors text-mono-500 hover:text-mono-300"
+                  className="p-1 rounded hover:bg-mono-800 transition-colors text-mono-500 hover:text-mono-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-1 focus-visible:ring-offset-mono-900"
                   aria-label="Next project"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleRefresh}
-                  className="p-1 rounded hover:bg-mono-800 transition-colors text-mono-500 hover:text-mono-300 ml-1"
+                  className="p-1 rounded hover:bg-mono-800 transition-colors text-mono-500 hover:text-mono-300 ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-1 focus-visible:ring-offset-mono-900"
                   aria-label="Refresh"
-                >
+>
                   <RefreshCw className={cn("w-3.5 h-3.5", isLoading && "animate-spin")} />
                 </button>
               </div>
@@ -130,7 +130,7 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
                 href={activeProject.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded hover:bg-mono-800 transition-colors text-mono-500 hover:text-mono-300"
+                className="p-1.5 rounded hover:bg-mono-800 transition-colors text-mono-500 hover:text-mono-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-1 focus-visible:ring-offset-mono-900"
                 aria-label="Open in new tab"
               >
                 <ExternalLink className="w-4 h-4" />
@@ -139,7 +139,7 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
                 href={activeProject.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded hover:bg-mono-800 transition-colors text-mono-500 hover:text-mono-300"
+                className="p-1.5 rounded hover:bg-mono-800 transition-colors text-mono-500 hover:text-mono-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-1 focus-visible:ring-offset-mono-900"
                 aria-label="Fullscreen"
               >
                 <Maximize2 className="w-4 h-4" />
@@ -218,7 +218,7 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
               key={project.url}
               onClick={() => setActiveIndex(index)}
               className={cn(
-                "w-2 h-2 rounded-full transition-all duration-300 cursor-pointer",
+                "w-2 h-2 rounded-full transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-2 focus-visible:ring-offset-mono-950",
                 index === activeIndex 
                   ? "bg-mono-300 w-6" 
                   : "bg-mono-700 hover:bg-mono-600"
@@ -263,7 +263,7 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
             href={activeProject.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-mono-300 bg-mono-800 rounded-lg border border-mono-700 hover:bg-mono-700 hover:text-mono-100 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-mono-300 bg-mono-800 rounded-lg border border-mono-700 hover:bg-mono-700 hover:text-mono-100 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-2 focus-visible:ring-offset-mono-950"
           >
             Visit
             <ExternalLink className="w-3.5 h-3.5" />
