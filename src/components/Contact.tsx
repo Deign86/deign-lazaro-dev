@@ -5,6 +5,7 @@ import { useRef, useState } from 'react';
 import { Mail, Phone, ChevronDown, X } from 'lucide-react';
 import { ScrollReveal } from './ui/scroll-reveal';
 import { WordReveal } from './ui/text-reveal';
+import { ContactForm } from './ui/contact-form';
 
 // Social/Contact links data
 const contactOptions = [
@@ -91,6 +92,7 @@ export function Contact() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   return (
     <section
@@ -130,100 +132,143 @@ export function Contact() {
           </p>
         </ScrollReveal>
 
-        {/* Expandable Contact Button */}
+        {/* Contact Form or Quick Contact Options */}
         <ScrollReveal direction="up" blur={true} scale={true} delay={0.4}>
-          <div className="mt-12 flex flex-col items-center relative">
-            <div className="relative z-50">
-              {/* Main expandable button */}
+          <div className="mt-12">
+            {/* Toggle buttons */}
+            <div className="flex items-center justify-center gap-4 mb-8">
               <motion.button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-mono-950 dark:bg-mono-50 text-mono-50 dark:text-mono-950 rounded-full font-medium text-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-mono-950/20 dark:hover:shadow-mono-50/20 cursor-pointer"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                onClick={() => setShowForm(true)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`px-6 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${
+                  showForm
+                    ? 'bg-mono-950 dark:bg-mono-50 text-mono-50 dark:text-mono-950'
+                    : 'bg-mono-100 dark:bg-mono-800 text-mono-600 dark:text-mono-400 hover:bg-mono-200 dark:hover:bg-mono-700'
+                }`}
               >
-                <Mail className="relative z-10 w-5 h-5" />
-                <span className="relative z-10">Get in Touch</span>
-                <motion.div
-                  animate={{ rotate: isExpanded ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative z-10"
-                >
-                  {isExpanded ? (
-                    <X className="w-5 h-5" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5" />
-                  )}
-                </motion.div>
-                <span className="absolute inset-0 bg-mono-800 dark:bg-mono-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                Send Message
               </motion.button>
+              <motion.button
+                onClick={() => setShowForm(false)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`px-6 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${
+                  !showForm
+                    ? 'bg-mono-950 dark:bg-mono-50 text-mono-50 dark:text-mono-950'
+                    : 'bg-mono-100 dark:bg-mono-800 text-mono-600 dark:text-mono-400 hover:bg-mono-200 dark:hover:bg-mono-700'
+                }`}
+              >
+                Quick Contact
+              </motion.button>
+            </div>
+
+            {/* Contact Form */}
+            <AnimatePresence mode="wait">
+              {showForm ? (
+                <ContactForm key="form" />
+              ) : (
+                <motion.div
+                  key="quick-contact"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  className="flex flex-col items-center relative"
+                >
+                  <div className="relative z-50">
+                    {/* Main expandable button */}
+                    <motion.button
+                      onClick={() => setIsExpanded(!isExpanded)}
+                      className="group relative inline-flex items-center gap-3 px-8 py-4 bg-mono-950 dark:bg-mono-50 text-mono-50 dark:text-mono-950 rounded-full font-medium text-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-mono-950/20 dark:hover:shadow-mono-50/20 cursor-pointer"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Mail className="relative z-10 w-5 h-5" />
+                      <span className="relative z-10">Get in Touch</span>
+                      <motion.div
+                        animate={{ rotate: isExpanded ? 180 : 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="relative z-10"
+                      >
+                        {isExpanded ? (
+                          <X className="w-5 h-5" />
+                        ) : (
+                          <ChevronDown className="w-5 h-5" />
+                        )}
+                      </motion.div>
+                      <span className="absolute inset-0 bg-mono-800 dark:bg-mono-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                    </motion.button>
 
               {/* Expanded contact options */}
-              <AnimatePresence>
-                {isExpanded && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-80 sm:w-96 bg-white dark:bg-mono-900 rounded-2xl border border-mono-200 dark:border-mono-800 shadow-2xl shadow-mono-950/20 dark:shadow-mono-950/50 z-[100]"
-                  >
-                    {/* Header */}
-                    <div className="px-5 py-4 border-b border-mono-200 dark:border-mono-800">
-                      <p className="text-sm font-medium text-mono-500 dark:text-mono-400 uppercase tracking-wider">
-                        Choose how to reach me
-                      </p>
-                    </div>
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-80 sm:w-96 bg-white dark:bg-mono-900 rounded-2xl border border-mono-200 dark:border-mono-800 shadow-2xl shadow-mono-950/20 dark:shadow-mono-950/50 z-[100]"
+                        >
+                          {/* Header */}
+                          <div className="px-5 py-4 border-b border-mono-200 dark:border-mono-800">
+                            <p className="text-sm font-medium text-mono-500 dark:text-mono-400 uppercase tracking-wider">
+                              Choose how to reach me
+                            </p>
+                          </div>
 
-                    {/* Contact options */}
-                    <div className="pt-2 pb-3">
-                      {contactOptions.map((option, index) => {
-                        const IconComponent = option.icon;
-                        const isLucideIcon = IconComponent === Mail || IconComponent === Phone;
-                        return (
-                          <motion.a
-                            key={option.name}
-                            href={option.href}
-                            target={option.href.startsWith('http') ? '_blank' : undefined}
-                            rel={option.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.2, delay: index * 0.05 }}
-                            className={`flex items-center gap-4 px-5 py-3.5 transition-colors cursor-pointer ${option.color}`}
-                          >
-                            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-mono-100 dark:bg-mono-800">
-                              {isLucideIcon ? (
-                                <IconComponent className="w-5 h-5 text-mono-600 dark:text-mono-400" />
-                              ) : (
-                                <IconComponent />
-                              )}
-                            </div>
-                            <div className="flex flex-col items-start">
-                              <span className="text-sm font-medium text-mono-900 dark:text-mono-100">
-                                {option.name}
-                              </span>
-                              <span className="text-xs text-mono-500 dark:text-mono-500">
-                                {option.value}
-                              </span>
-                            </div>
-                          </motion.a>
-                        );
-                      })}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                          {/* Contact options */}
+                          <div className="pt-2 pb-3">
+                            {contactOptions.map((option, index) => {
+                              const IconComponent = option.icon;
+                              const isLucideIcon = IconComponent === Mail || IconComponent === Phone;
+                              return (
+                                <motion.a
+                                  key={option.name}
+                                  href={option.href}
+                                  target={option.href.startsWith('http') ? '_blank' : undefined}
+                                  rel={option.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                                  initial={{ opacity: 0, x: -20 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ duration: 0.2, delay: index * 0.05 }}
+                                  className={`flex items-center gap-4 px-5 py-3.5 transition-colors cursor-pointer ${option.color}`}
+                                >
+                                  <div className="flex items-center justify-center w-10 h-10 rounded-full bg-mono-100 dark:bg-mono-800">
+                                    {isLucideIcon ? (
+                                      <IconComponent className="w-5 h-5 text-mono-600 dark:text-mono-400" />
+                                    ) : (
+                                      <IconComponent />
+                                    )}
+                                  </div>
+                                  <div className="flex flex-col items-start">
+                                    <span className="text-sm font-medium text-mono-900 dark:text-mono-100">
+                                      {option.name}
+                                    </span>
+                                    <span className="text-xs text-mono-500 dark:text-mono-500">
+                                      {option.value}
+                                    </span>
+                                  </div>
+                                </motion.a>
+                              );
+                            })}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </ScrollReveal>
 
-        {/* Social links row - fades out when dropdown is expanded */}
+        {/* Social links row - fades out when dropdown is expanded or form is shown */}
         <ScrollReveal direction="up" blur={true} delay={0.5}>
           <motion.div 
             className="mt-8 flex items-center justify-center gap-4"
             animate={{ 
-              opacity: isExpanded ? 0 : 1,
-              y: isExpanded ? -10 : 0,
-              pointerEvents: isExpanded ? 'none' : 'auto'
+              opacity: (isExpanded || showForm) ? 0 : 1,
+              y: (isExpanded || showForm) ? -10 : 0,
+              pointerEvents: (isExpanded || showForm) ? 'none' : 'auto'
             }}
             transition={{ duration: 0.2 }}
           >
@@ -255,8 +300,8 @@ export function Contact() {
           <motion.div 
             className="mt-16 hidden md:grid grid-cols-3 gap-4"
             animate={{ 
-              opacity: isExpanded ? 0 : 1,
-              pointerEvents: isExpanded ? 'none' : 'auto'
+              opacity: (isExpanded || showForm) ? 0 : 1,
+              pointerEvents: (isExpanded || showForm) ? 'none' : 'auto'
             }}
             transition={{ duration: 0.2 }}
           >
@@ -325,8 +370,8 @@ export function Contact() {
           <motion.footer 
             className="mt-32 pt-8 border-t border-mono-200 dark:border-mono-800"
             animate={{ 
-              opacity: isExpanded ? 0 : 1,
-              pointerEvents: isExpanded ? 'none' : 'auto'
+              opacity: (isExpanded || showForm) ? 0 : 1,
+              pointerEvents: (isExpanded || showForm) ? 'none' : 'auto'
             }}
             transition={{ duration: 0.2 }}
           >
