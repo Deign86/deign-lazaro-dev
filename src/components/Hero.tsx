@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { SpotlightCursor } from './ui/spotlight-cursor';
 import { BlurredTextReveal } from './ui/text-reveal';
-import { EtherealShadow } from './ui/ethereal-shadow';
+import { EtherealShadowVideo } from './ui/ethereal-shadow-video';
 
 // Mobile detection hook
 function useIsMobile() {
@@ -50,18 +50,17 @@ export function Hero() {
       ref={ref}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Silk-like animated background - disabled on mobile for performance */}
-      {!isMobile && (
-        <div className="absolute inset-0 z-0">
-          <EtherealShadow
-            color="rgba(80, 80, 80, 1)"
-            animation={{ scale: 100, speed: 40 }}
-            noise={{ opacity: 0.6, scale: 1.0 }}
-            sizing="fill"
-            className="dark:opacity-100 opacity-20"
-          />
-        </div>
-      )}
+      {/* Silk-like animated background - video-based for all devices */}
+      <div className="absolute inset-0 z-0">
+        <EtherealShadowVideo
+          videoSrc="/ethereal-shadow"
+          availableFps={[60]}
+          noise={{ opacity: 0.6, scale: 1.0 }}
+          sizing="fill"
+          className="dark:opacity-100 opacity-20"
+          fallbackColor="rgba(80, 80, 80, 1)"
+        />
+      </div>
 
       {/* Spotlight cursor effect - already handles mobile detection */}
       <SpotlightCursor className="z-[1]" />
