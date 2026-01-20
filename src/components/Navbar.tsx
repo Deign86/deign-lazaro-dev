@@ -62,7 +62,7 @@ export function Navbar() {
         <nav
           className={`max-w-6xl mx-auto px-6 py-4 rounded-2xl transition-all duration-500 ${
             isScrolled
-              ? 'bg-mono-50/90 dark:bg-mono-950/90 backdrop-blur-lg border border-mono-200 dark:border-mono-800 shadow-lg shadow-mono-200/20 dark:shadow-mono-950/50 pointer-events-auto'
+              ? 'bg-mono-50/95 dark:bg-mono-950/95 backdrop-blur-md border border-mono-200 dark:border-mono-800 shadow-lg shadow-mono-200/20 dark:shadow-mono-950/50 pointer-events-auto'
               : 'bg-transparent'
           }`}
         >

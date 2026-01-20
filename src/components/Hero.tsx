@@ -55,7 +55,7 @@ export function Hero() {
         <EtherealShadowVideo
           videoSrc="/ethereal-shadow"
           availableFps={[60]}
-          noise={{ opacity: 0.6, scale: 1.0 }}
+          noise={{ opacity: 0.3, scale: 1.0 }}
           sizing="fill"
           className="dark:opacity-100 opacity-20"
           fallbackColor="rgba(80, 80, 80, 1)"
