@@ -18,7 +18,7 @@ export default async function Home() {
       <Navbar />
       
       {/* Main content */}
-      <main>
+      <main id="main-content">
         <Hero />
         <About techStack={techStack} />
         <AppLogos />

@@ -110,7 +110,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
               onChange={handleChange}
               required
               disabled={status === 'sending'}
-              className="block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border border-mono-200 dark:border-mono-800 rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus:ring-2 focus:ring-mono-950 dark:focus:ring-mono-50 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border border-mono-200 dark:border-mono-800 rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-mono-950 dark:focus-visible:ring-mono-50 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="John Doe"
             />
           </div>
@@ -136,7 +136,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
               onChange={handleChange}
               required
               disabled={status === 'sending'}
-              className="block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border border-mono-200 dark:border-mono-800 rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus:ring-2 focus:ring-mono-950 dark:focus:ring-mono-50 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border border-mono-200 dark:border-mono-800 rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-mono-950 dark:focus-visible:ring-mono-50 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="john@example.com"
             />
           </div>
@@ -162,7 +162,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
               required
               disabled={status === 'sending'}
               rows={6}
-              className="block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border border-mono-200 dark:border-mono-800 rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus:ring-2 focus:ring-mono-950 dark:focus:ring-mono-50 focus:border-transparent transition-all resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+              className="block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border border-mono-200 dark:border-mono-800 rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-mono-950 dark:focus-visible:ring-mono-50 focus:border-transparent transition-all resize-none disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Tell me about your project or idea..."
             />
           </div>
@@ -174,12 +174,14 @@ export function ContactForm({ onClose }: ContactFormProps) {
             {status === 'error' && errorMessage && (
               <motion.div
                 key="error"
+                role="alert"
+                aria-live="assertive"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 className="flex items-center gap-2 p-4 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 rounded-xl text-red-800 dark:text-red-300"
               >
-                <XCircle className="h-5 w-5 flex-shrink-0" />
+                <XCircle className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
                 <p className="text-sm">{errorMessage}</p>
               </motion.div>
             )}
@@ -187,12 +189,14 @@ export function ContactForm({ onClose }: ContactFormProps) {
             {status === 'success' && (
               <motion.div
                 key="success"
+                role="status"
+                aria-live="polite"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 className="flex items-center gap-2 p-4 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900 rounded-xl text-green-800 dark:text-green-300"
               >
-                <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
+                <CheckCircle2 className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
                 <p className="text-sm">Message sent successfully! I&apos;ll get back to you soon.</p>
               </motion.div>
             )}
@@ -205,7 +209,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
           disabled={status === 'sending' || status === 'success'}
           whileHover={status === 'idle' || status === 'error' ? { scale: 1.02 } : {}}
           whileTap={status === 'idle' || status === 'error' ? { scale: 0.98 } : {}}
-          className="w-full relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-mono-950 dark:bg-mono-50 text-mono-50 dark:text-mono-950 rounded-xl font-medium text-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-mono-950/20 dark:hover:shadow-mono-50/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer group"
+          className="w-full relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-mono-950 dark:bg-mono-50 text-mono-50 dark:text-mono-950 rounded-xl font-medium text-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-mono-950/20 dark:hover:shadow-mono-50/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-2 focus-visible:ring-offset-mono-950"
         >
           {status === 'sending' ? (
             <>
@@ -223,7 +227,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
               <span>Send Message</span>
             </>
           )}
-          <span className="absolute inset-0 bg-mono-800 dark:bg-mono-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left -z-10" />
+          <span className="absolute inset-0 bg-mono-800 dark:bg-mono-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-0" />
         </motion.button>
       </form>
     </motion.div>

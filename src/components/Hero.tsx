@@ -170,7 +170,7 @@ export function Hero() {
             </svg>
             
             {/* Hover effect */}
-            <span className="absolute inset-0 bg-mono-800 dark:bg-mono-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+            <span className="absolute inset-0 bg-mono-800 dark:bg-mono-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-0" />
           </a>
         </motion.div>
       </motion.div>
@@ -181,6 +181,8 @@ export function Hero() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.6 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+        aria-hidden="true"
+        role="presentation"
       >
         <motion.div
           animate={{ y: [0, 10, 0] }}

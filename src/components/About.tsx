@@ -99,7 +99,7 @@ export function About({ techStack }: { techStack: TechStackProps }) {
                       <StaggerItem key={tech} direction="up" blur={true} scale={true}>
                         <motion.span
                           whileHover={{ scale: 1.05, y: -2 }}
-                          className="px-4 py-2 bg-mono-100 dark:bg-mono-800 text-mono-700 dark:text-mono-300 rounded-full text-sm font-medium cursor-default transition-colors hover:bg-mono-200 dark:hover:bg-mono-700"
+                          className="px-4 py-2 bg-mono-100 dark:bg-mono-800 text-mono-700 dark:text-mono-300 rounded-full text-sm font-medium cursor-pointer transition-colors hover:bg-mono-200 dark:hover:bg-mono-700 select-none"
                         >
                           {tech}
                         </motion.span>
