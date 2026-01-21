@@ -63,6 +63,31 @@
 
 html {
   scroll-behavior: smooth;
+  /* Normalize color rendering across browsers */
+  color-scheme: dark;
+}
+
+/* Cross-browser video and compositing normalization */
+video {
+  /* Force consistent color rendering across Chromium browsers */
+  image-rendering: auto;
+  /* Prevent color banding differences */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /* Force GPU layer for consistent compositing */
+  transform: translateZ(0);
+  /* Normalize video color space handling */
+  color-interpolation: sRGB;
+}
+
+/* Normalize compositing for layered effects */
+[style*="position: absolute"],
+[class*="absolute"] {
+  /* Force layer creation for consistent rendering */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  /* Prevent sub-pixel rendering differences */
+  -webkit-font-smoothing: antialiased;
 }
 
 body {

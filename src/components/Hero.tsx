@@ -29,7 +29,8 @@ export function Hero() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
       {/* Silk-like animated background - video-based for all devices */}
-      <div className="absolute inset-0 z-0">
+      {/* isolation-isolate ensures consistent layer compositing across Chromium browsers */}
+      <div className="absolute inset-0 z-0 isolation-isolate" style={{ contain: 'layout paint' }}>
         <EtherealShadowVideo
           videoSrc="/ethereal-shadow"
           availableFps={[60]}

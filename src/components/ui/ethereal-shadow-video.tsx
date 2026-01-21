@@ -139,6 +139,14 @@ export function EtherealShadowVideo({
                 position: 'relative',
                 width: '100%',
                 height: '100%',
+                // Isolate stacking context for consistent cross-browser compositing
+                isolation: 'isolate',
+                // Contain layout for performance and rendering consistency
+                contain: 'layout paint',
+                // Force GPU acceleration
+                transform: 'translateZ(0)',
+                WebkitBackfaceVisibility: 'hidden',
+                backfaceVisibility: 'hidden',
                 ...style
             }}
         >
@@ -157,16 +165,26 @@ export function EtherealShadowVideo({
                     muted
                     playsInline
                     preload="auto"
+                    // @ts-expect-error - colorSpace is a valid attribute for video color management
+                    colorSpace="srgb"
                     style={{
                         position: 'absolute',
                         top: '50%',
                         left: '50%',
-                        transform: 'translate(-50%, -50%)',
+                        // Use translate3d for consistent GPU compositing across browsers
+                        transform: 'translate3d(-50%, -50%, 0)',
                         minWidth: '100%',
                         minHeight: '100%',
                         width: 'auto',
                         height: 'auto',
                         objectFit: sizing === 'stretch' ? 'fill' : 'cover',
+                        // Force consistent rendering pipeline
+                        WebkitBackfaceVisibility: 'hidden',
+                        backfaceVisibility: 'hidden',
+                        // Prevent color interpolation differences
+                        imageRendering: 'auto',
+                        // Force layer isolation for consistent compositing
+                        isolation: 'isolate',
                     }}
                 >
                     <source src={videoPath} type="video/mp4" />
@@ -188,6 +206,10 @@ export function EtherealShadowVideo({
                         backgroundRepeat: 'repeat',
                         opacity: noise.opacity / 2,
                         pointerEvents: 'none',
+                        // Force consistent overlay rendering
+                        mixBlendMode: 'overlay',
+                        transform: 'translateZ(0)',
+                        willChange: 'opacity',
                     }}
                 />
             )}
