@@ -219,7 +219,7 @@ export function processRepo(repo: GitHubRepo): ProcessedRepo {
   };
 }
 
-// Get live deployment info from processed repos
+// Get live deployment info from processed repos (LEGACY - kept for fallback)
 export function getLiveDeployments(repos: ProcessedRepo[]): DeploymentInfo[] {
   const deployments: DeploymentInfo[] = [];
   
@@ -246,6 +246,50 @@ export function getLiveDeployments(repos: ProcessedRepo[]): DeploymentInfo[] {
     if (!a.isOldProject && b.isOldProject) return -1;
     
     // For non-old projects, sort by updatedAt (most recent first)
+    return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+  });
+}
+
+// Import types from vercel.ts
+import type { LiveDeployment } from './vercel';
+import { getFrameworkTags } from './vercel';
+
+// Merge Vercel deployments with GitHub repo data for richer information
+export function mergeDeploymentsWithRepos(
+  vercelDeployments: LiveDeployment[],
+  repos: ProcessedRepo[]
+): DeploymentInfo[] {
+  const repoMap = new Map(repos.map(r => [r.name.toLowerCase(), r]));
+  
+  const deployments: DeploymentInfo[] = vercelDeployments.map(deployment => {
+    // Try to find matching GitHub repo
+    const repoName = deployment.repoName?.toLowerCase() || deployment.projectName.toLowerCase();
+    const matchingRepo = repoMap.get(repoName) || 
+      Array.from(repoMap.values()).find(r => 
+        r.name.toLowerCase().includes(deployment.projectName.toLowerCase()) ||
+        deployment.projectName.toLowerCase().includes(r.name.toLowerCase().slice(0, 10))
+      );
+    
+    // Get tags from custom config if exists, otherwise infer from framework
+    const customConfig = LIVE_DEPLOYMENTS[matchingRepo?.name || ''];
+    const tags = customConfig?.tags || getFrameworkTags(deployment.framework, deployment.repoName);
+    
+    return {
+      name: matchingRepo?.name || deployment.projectName,
+      title: matchingRepo?.displayName || deployment.displayName,
+      url: deployment.url,
+      description: matchingRepo?.description || `A ${deployment.framework || 'web'} project deployed on Vercel.`,
+      tags,
+      updatedAt: deployment.updatedAt,
+      createdAt: deployment.createdAt,
+      isOldProject: OLD_PROJECTS.has(deployment.projectName),
+    };
+  });
+  
+  // Sort: old projects at the end, then by updatedAt (most recent first)
+  return deployments.sort((a, b) => {
+    if (a.isOldProject && !b.isOldProject) return 1;
+    if (!a.isOldProject && b.isOldProject) return -1;
     return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
   });
 }
