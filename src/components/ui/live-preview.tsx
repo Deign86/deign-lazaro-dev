@@ -116,12 +116,31 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
 
             {/* URL Bar */}
             <div className="flex-1 mx-2 sm:mx-4 max-w-xl">
-              <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-mono-950 rounded-lg border border-mono-800">
-                <Globe className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-mono-600 flex-shrink-0" />
-                <span className="text-[10px] sm:text-xs text-mono-400 truncate font-mono">
-                  {activeProject.url.replace('https://', '')}
+              <a 
+                href={activeProject.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-mono-950 rounded-lg border border-mono-800 hover:bg-mono-900 hover:border-mono-700 transition-colors cursor-pointer group"
+                title={activeProject.url.replace('https://', '')}
+              >
+                <Globe className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-mono-600 flex-shrink-0 group-hover:text-mono-400 transition-colors" />
+                <span className="text-[10px] sm:text-xs text-mono-400 truncate font-mono group-hover:text-mono-300 transition-colors">
+                  {/* Extract domain and show cleaner URL */}
+                  {(() => {
+                    const url = activeProject.url.replace('https://', '');
+                    // For Vercel apps, show just the subdomain.vercel.app
+                    if (url.includes('.vercel.app')) {
+                      const subdomain = url.split('.vercel.app')[0];
+                      // Truncate very long subdomains
+                      const cleanSubdomain = subdomain.length > 20 
+                        ? subdomain.slice(0, 18) + '...' 
+                        : subdomain;
+                      return `${cleanSubdomain}.vercel.app`;
+                    }
+                    return url;
+                  })()}
                 </span>
-              </div>
+              </a>
             </div>
 
             {/* Actions */}
