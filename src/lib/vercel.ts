@@ -49,12 +49,18 @@ export interface LiveDeployment {
 
 // Custom display names for Vercel projects
 const PROJECT_DISPLAY_NAMES: Record<string, string> = {
+  'plv-ceit-classroom': 'Digital Classroom PLV',
   'digital-classroom-reservation-for-plv': 'Digital Classroom PLV',
   'v-serve-arta-feedback': 'V-Serve ARTA Analytics',
   'rcbc-debt-tracker': 'RCBC Debt Tracker',
   'mathpulse-ai': 'MathPulse AI',
   'zhi-wei-zai': 'Zhi Wei Zai',
-  'deign-lazaro-dev': 'Portfolio', // Exclude the portfolio itself
+  'deign-lazaro-dev': 'Portfolio',
+};
+
+// Custom production URLs for projects with non-standard domains
+const CUSTOM_PRODUCTION_URLS: Record<string, string> = {
+  'plv-ceit-classroom': 'digital-classroom-reservation-for-plv.vercel.app',
 };
 
 // Projects to exclude from the deployments list (like this portfolio itself)
@@ -196,6 +202,11 @@ export async function fetchVercelProjects(): Promise<LiveDeployment[]> {
 
 // Get the best production domain from aliases (prefer short, clean URLs)
 function getProductionDomain(projectName: string, domains: string[]): string | null {
+  // Check for custom production URL override first
+  if (CUSTOM_PRODUCTION_URLS[projectName]) {
+    return CUSTOM_PRODUCTION_URLS[projectName];
+  }
+  
   if (!domains || domains.length === 0) {
     // Fallback to standard Vercel domain pattern
     return `${projectName}.vercel.app`;
