@@ -8,6 +8,27 @@ interface ContactFormProps {
   onClose?: () => void;
 }
 
+// Validation constants
+const VALIDATION = {
+  name: {
+    minLength: 2,
+    maxLength: 100,
+  },
+  email: {
+    maxLength: 254, // RFC 5321
+  },
+  message: {
+    minLength: 10,
+    maxLength: 2000,
+  },
+} as const;
+
+interface FieldErrors {
+  name?: string;
+  email?: string;
+  message?: string;
+}
+
 export function ContactForm({ onClose }: ContactFormProps) {
   const [formData, setFormData] = useState({
     name: '',
@@ -16,10 +37,77 @@ export function ContactForm({ onClose }: ContactFormProps) {
   });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  // Validate a single field
+  const validateField = (name: keyof typeof formData, value: string): string | undefined => {
+    const trimmedValue = value.trim();
+    
+    switch (name) {
+      case 'name':
+        if (!trimmedValue) return 'Name is required';
+        if (trimmedValue.length < VALIDATION.name.minLength) {
+          return `Name must be at least ${VALIDATION.name.minLength} characters`;
+        }
+        if (value.length > VALIDATION.name.maxLength) {
+          return `Name cannot exceed ${VALIDATION.name.maxLength} characters`;
+        }
+        return undefined;
+      
+      case 'email':
+        if (!trimmedValue) return 'Email is required';
+        if (value.length > VALIDATION.email.maxLength) {
+          return `Email cannot exceed ${VALIDATION.email.maxLength} characters`;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(trimmedValue)) {
+          return 'Please enter a valid email address';
+        }
+        return undefined;
+      
+      case 'message':
+        if (!trimmedValue) return 'Message is required';
+        if (trimmedValue.length < VALIDATION.message.minLength) {
+          return `Message must be at least ${VALIDATION.message.minLength} characters`;
+        }
+        if (value.length > VALIDATION.message.maxLength) {
+          return `Message cannot exceed ${VALIDATION.message.maxLength} characters`;
+        }
+        return undefined;
+      
+      default:
+        return undefined;
+    }
+  };
+
+  // Validate all fields and return errors
+  const validateAllFields = (): FieldErrors => {
+    const errors: FieldErrors = {};
+    (Object.keys(formData) as Array<keyof typeof formData>).forEach((field) => {
+      const error = validateField(field, formData[field]);
+      if (error) errors[field] = error;
+    });
+    return errors;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    // Mark all fields as touched
+    setTouched({ name: true, email: true, message: true });
+    
+    // Validate all fields
+    const errors = validateAllFields();
+    setFieldErrors(errors);
+    
+    if (Object.keys(errors).length > 0) {
+      setStatus('error');
+      setErrorMessage('Please fix the errors above');
+      setTimeout(() => setStatus('idle'), 3000);
+      return;
+    }
     
     // Prevent scroll by saving current scroll position and restoring it
     const scrollY = window.scrollY;
@@ -33,16 +121,6 @@ export function ContactForm({ onClose }: ContactFormProps) {
     });
 
     try {
-      // Validate fields
-      if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-        throw new Error('Please fill in all fields');
-      }
-
-      // Basic email validation
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(formData.email)) {
-        throw new Error('Please enter a valid email address');
-      }
 
       // Send email via API route
       const response = await fetch('/api/contact', {
@@ -76,9 +154,42 @@ export function ContactForm({ onClose }: ContactFormProps) {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    const fieldName = name as keyof typeof formData;
+    
+    // Enforce max length
+    let truncatedValue = value;
+    if (fieldName === 'name' && value.length > VALIDATION.name.maxLength) {
+      truncatedValue = value.slice(0, VALIDATION.name.maxLength);
+    } else if (fieldName === 'email' && value.length > VALIDATION.email.maxLength) {
+      truncatedValue = value.slice(0, VALIDATION.email.maxLength);
+    } else if (fieldName === 'message' && value.length > VALIDATION.message.maxLength) {
+      truncatedValue = value.slice(0, VALIDATION.message.maxLength);
+    }
+    
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: truncatedValue,
+    }));
+    
+    // Clear error on change if field was touched
+    if (touched[name]) {
+      const error = validateField(fieldName, truncatedValue);
+      setFieldErrors((prev) => ({
+        ...prev,
+        [name]: error,
+      }));
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    
+    const error = validateField(name as keyof typeof formData, value);
+    setFieldErrors((prev) => ({
+      ...prev,
+      [name]: error,
     }));
   };
 
@@ -92,15 +203,28 @@ export function ContactForm({ onClose }: ContactFormProps) {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Name Field */}
         <div className="group">
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-mono-700 dark:text-mono-300 mb-2"
-          >
-            Your Name
-          </label>
+          <div className="flex justify-between items-center mb-2">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-mono-700 dark:text-mono-300"
+            >
+              Your Name
+            </label>
+            <span className={`text-xs transition-colors ${
+              formData.name.length > VALIDATION.name.maxLength * 0.9
+                ? 'text-red-500 dark:text-red-400'
+                : 'text-mono-400 dark:text-mono-500'
+            }`}>
+              {formData.name.length}/{VALIDATION.name.maxLength}
+            </span>
+          </div>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <User className="h-5 w-5 text-mono-400 dark:text-mono-600" />
+              <User className={`h-5 w-5 transition-colors ${
+                fieldErrors.name && touched.name
+                  ? 'text-red-500 dark:text-red-400'
+                  : 'text-mono-400 dark:text-mono-600'
+              }`} />
             </div>
             <input
               type="text"
@@ -108,12 +232,25 @@ export function ContactForm({ onClose }: ContactFormProps) {
               name="name"
               value={formData.name}
               onChange={handleChange}
+              onBlur={handleBlur}
+              maxLength={VALIDATION.name.maxLength}
+              aria-invalid={!!fieldErrors.name && touched.name}
+              aria-describedby={fieldErrors.name ? 'name-error' : undefined}
               required
               disabled={status === 'sending'}
-              className="block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border border-mono-200 dark:border-mono-800 rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-mono-950 dark:focus-visible:ring-mono-50 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className={`block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                fieldErrors.name && touched.name
+                  ? 'border-red-500 dark:border-red-400 focus-visible:ring-red-500 dark:focus-visible:ring-red-400'
+                  : 'border-mono-200 dark:border-mono-800 focus-visible:ring-mono-950 dark:focus-visible:ring-mono-50'
+              }`}
               placeholder="John Doe"
             />
           </div>
+          {fieldErrors.name && touched.name && (
+            <p id="name-error" className="mt-1.5 text-sm text-red-500 dark:text-red-400">
+              {fieldErrors.name}
+            </p>
+          )}
         </div>
 
         {/* Email Field */}
@@ -126,7 +263,11 @@ export function ContactForm({ onClose }: ContactFormProps) {
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Mail className="h-5 w-5 text-mono-400 dark:text-mono-600" />
+              <Mail className={`h-5 w-5 transition-colors ${
+                fieldErrors.email && touched.email
+                  ? 'text-red-500 dark:text-red-400'
+                  : 'text-mono-400 dark:text-mono-600'
+              }`} />
             </div>
             <input
               type="email"
@@ -134,38 +275,82 @@ export function ContactForm({ onClose }: ContactFormProps) {
               name="email"
               value={formData.email}
               onChange={handleChange}
+              onBlur={handleBlur}
+              maxLength={VALIDATION.email.maxLength}
+              aria-invalid={!!fieldErrors.email && touched.email}
+              aria-describedby={fieldErrors.email ? 'email-error' : undefined}
               required
               disabled={status === 'sending'}
-              className="block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border border-mono-200 dark:border-mono-800 rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-mono-950 dark:focus-visible:ring-mono-50 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className={`block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                fieldErrors.email && touched.email
+                  ? 'border-red-500 dark:border-red-400 focus-visible:ring-red-500 dark:focus-visible:ring-red-400'
+                  : 'border-mono-200 dark:border-mono-800 focus-visible:ring-mono-950 dark:focus-visible:ring-mono-50'
+              }`}
               placeholder="john@example.com"
             />
           </div>
+          {fieldErrors.email && touched.email && (
+            <p id="email-error" className="mt-1.5 text-sm text-red-500 dark:text-red-400">
+              {fieldErrors.email}
+            </p>
+          )}
         </div>
 
         {/* Message Field */}
         <div className="group">
-          <label
-            htmlFor="message"
-            className="block text-sm font-medium text-mono-700 dark:text-mono-300 mb-2"
-          >
-            Your Message
-          </label>
+          <div className="flex justify-between items-center mb-2">
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium text-mono-700 dark:text-mono-300"
+            >
+              Your Message
+            </label>
+            <span className={`text-xs transition-colors ${
+              formData.message.length > VALIDATION.message.maxLength * 0.9
+                ? 'text-red-500 dark:text-red-400'
+                : formData.message.length < VALIDATION.message.minLength && touched.message
+                ? 'text-amber-500 dark:text-amber-400'
+                : 'text-mono-400 dark:text-mono-500'
+            }`}>
+              {formData.message.length}/{VALIDATION.message.maxLength}
+              {formData.message.length < VALIDATION.message.minLength && touched.message && (
+                <span className="ml-1">(min {VALIDATION.message.minLength})</span>
+              )}
+            </span>
+          </div>
           <div className="relative">
             <div className="absolute top-4 left-4 pointer-events-none">
-              <MessageSquare className="h-5 w-5 text-mono-400 dark:text-mono-600" />
+              <MessageSquare className={`h-5 w-5 transition-colors ${
+                fieldErrors.message && touched.message
+                  ? 'text-red-500 dark:text-red-400'
+                  : 'text-mono-400 dark:text-mono-600'
+              }`} />
             </div>
             <textarea
               id="message"
               name="message"
               value={formData.message}
               onChange={handleChange}
+              onBlur={handleBlur}
+              maxLength={VALIDATION.message.maxLength}
+              aria-invalid={!!fieldErrors.message && touched.message}
+              aria-describedby={fieldErrors.message ? 'message-error' : undefined}
               required
               disabled={status === 'sending'}
               rows={6}
-              className="block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border border-mono-200 dark:border-mono-800 rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-mono-950 dark:focus-visible:ring-mono-50 focus:border-transparent transition-all resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+              className={`block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus:border-transparent transition-all resize-none disabled:opacity-50 disabled:cursor-not-allowed ${
+                fieldErrors.message && touched.message
+                  ? 'border-red-500 dark:border-red-400 focus-visible:ring-red-500 dark:focus-visible:ring-red-400'
+                  : 'border-mono-200 dark:border-mono-800 focus-visible:ring-mono-950 dark:focus-visible:ring-mono-50'
+              }`}
               placeholder="Tell me about your project or idea..."
             />
           </div>
+          {fieldErrors.message && touched.message && (
+            <p id="message-error" className="mt-1.5 text-sm text-red-500 dark:text-red-400">
+              {fieldErrors.message}
+            </p>
+          )}
         </div>
 
         {/* Status Messages - fixed height container to prevent layout shift */}

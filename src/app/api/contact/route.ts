@@ -10,6 +10,21 @@ interface ContactFormData {
   message: string;
 }
 
+// Validation constants (must match client-side)
+const VALIDATION = {
+  name: {
+    minLength: 2,
+    maxLength: 100,
+  },
+  email: {
+    maxLength: 254, // RFC 5321
+  },
+  message: {
+    minLength: 10,
+    maxLength: 2000,
+  },
+} as const;
+
 export async function POST(request: NextRequest) {
   try {
     const body: ContactFormData = await request.json();
@@ -23,11 +38,45 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate email format
+    // Validate name length
+    if (name.trim().length < VALIDATION.name.minLength) {
+      return NextResponse.json(
+        { error: `Name must be at least ${VALIDATION.name.minLength} characters` },
+        { status: 400 }
+      );
+    }
+    if (name.length > VALIDATION.name.maxLength) {
+      return NextResponse.json(
+        { error: `Name cannot exceed ${VALIDATION.name.maxLength} characters` },
+        { status: 400 }
+      );
+    }
+
+    // Validate email length and format
+    if (email.length > VALIDATION.email.maxLength) {
+      return NextResponse.json(
+        { error: `Email cannot exceed ${VALIDATION.email.maxLength} characters` },
+        { status: 400 }
+      );
+    }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
         { error: 'Invalid email address' },
+        { status: 400 }
+      );
+    }
+
+    // Validate message length
+    if (message.trim().length < VALIDATION.message.minLength) {
+      return NextResponse.json(
+        { error: `Message must be at least ${VALIDATION.message.minLength} characters` },
+        { status: 400 }
+      );
+    }
+    if (message.length > VALIDATION.message.maxLength) {
+      return NextResponse.json(
+        { error: `Message cannot exceed ${VALIDATION.message.maxLength} characters` },
         { status: 400 }
       );
     }
