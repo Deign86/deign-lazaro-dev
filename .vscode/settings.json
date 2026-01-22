@@ -1,0 +1,7 @@
+{
+	"chat.mcp.autoInvoke": {
+		"io.github.ups": true,
+		"serena": true,
+		"dev-agent-deb": true
+	}
+}

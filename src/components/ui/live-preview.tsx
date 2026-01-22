@@ -30,14 +30,19 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
+  const [cacheBuster, setCacheBuster] = useState(() => Date.now());
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const activeProject = projects[activeIndex];
+  
+  // Build iframe URL with cache-busting parameter
+  const iframeSrc = `${activeProject.url}${activeProject.url.includes('?') ? '&' : '?'}_cb=${cacheBuster}`;
 
-  // Reset loading state when project changes
+  // Reset loading state and cache buster when project changes
   useEffect(() => {
     setIsLoading(true);
+    setCacheBuster(Date.now());
   }, [activeIndex]);
 
   const handlePrev = () => {
@@ -49,10 +54,8 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
   };
 
   const handleRefresh = () => {
-    if (iframeRef.current) {
-      setIsLoading(true);
-      iframeRef.current.src = iframeRef.current.src;
-    }
+    setIsLoading(true);
+    setCacheBuster(Date.now());
   };
 
   return (
@@ -217,7 +220,7 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
             {/* Actual Iframe */}
             <iframe
               ref={iframeRef}
-              src={activeProject.url}
+              src={iframeSrc}
               title={activeProject.title}
               className="w-full h-full border-0"
               onLoad={() => setIsLoading(false)}

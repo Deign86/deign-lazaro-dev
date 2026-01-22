@@ -107,7 +107,7 @@ export async function fetchVercelProjects(): Promise<LiveDeployment[]> {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        next: { revalidate: 3600 }, // Cache for 1 hour
+        next: { revalidate: 300 }, // Cache for 5 minutes for fresher deployments
       }
     );
     
@@ -136,7 +136,7 @@ export async function fetchVercelProjects(): Promise<LiveDeployment[]> {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-            next: { revalidate: 3600 },
+            next: { revalidate: 300 }, // Cache for 5 minutes
           }
         );
         
@@ -157,7 +157,7 @@ export async function fetchVercelProjects(): Promise<LiveDeployment[]> {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-            next: { revalidate: 3600 },
+            next: { revalidate: 300 }, // Cache for 5 minutes
           }
         );
         

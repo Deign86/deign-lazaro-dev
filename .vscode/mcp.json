@@ -45,6 +45,25 @@
 				"@21st-dev/magic@latest",
 				"API_KEY=\"ff51839226e0d22cf74ca60f431187b6fa2225dd644526db3a0da970e7b534fd\""
 			]
+		},
+		"dev-agent-deb": {
+			"type": "stdio",
+			"command": "dev",
+			"args": [
+				"mcp",
+				"start"
+			],
+			"env": {
+				"REPOSITORY_PATH": "${workspaceFolder}"
+			}
+		},
+		"io.github.ups": {
+			"type": "stdio",
+			"command": "npx",
+			"args": [
+				"-y",
+				"@upstash/context7-mcp@latest"
+			]
 		}
 	}
 }

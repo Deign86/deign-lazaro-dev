@@ -1,0 +1,74 @@
+{
+  "version": "1.0",
+  "repository": {
+    "path": ".",
+    "excludePatterns": [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/.git/**",
+      "**/coverage/**",
+      "**/*.mock.ts",
+      "**/*.mock.tsx",
+      "**/mocks/**",
+      "**/*.d.ts",
+      "**/test-utils/**",
+      "**/testing/**"
+    ],
+    "languages": [
+      "typescript",
+      "javascript",
+      "markdown"
+    ]
+  },
+  "mcp": {
+    "adapters": {
+      "search": {
+        "enabled": true
+      },
+      "refs": {
+        "enabled": true
+      },
+      "map": {
+        "enabled": true
+      },
+      "history": {
+        "enabled": true
+      },
+      "plan": {
+        "enabled": true
+      },
+      "explore": {
+        "enabled": true
+      },
+      "github": {
+        "enabled": true
+      },
+      "status": {
+        "enabled": true
+      },
+      "health": {
+        "enabled": true
+      }
+    }
+  },
+  "repositoryPath": "C:\\Users\\Deign\\Downloads\\deign-lazaro-dev",
+  "excludePatterns": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.git/**",
+    "**/coverage/**",
+    "**/*.mock.ts",
+    "**/*.mock.tsx",
+    "**/mocks/**",
+    "**/*.d.ts",
+    "**/test-utils/**",
+    "**/testing/**"
+  ],
+  "languages": [
+    "typescript",
+    "javascript",
+    "markdown"
+  ],
+  "embeddingModel": "Xenova/all-MiniLM-L6-v2",
+  "dimension": 384
+}
