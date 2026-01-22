@@ -165,8 +165,8 @@ export function EtherealShadowVideo({
                     muted
                     playsInline
                     preload="auto"
-                    // @ts-expect-error - colorSpace is a valid attribute for video color management
-                    colorSpace="srgb"
+                    // @ts-expect-error - colorspace is a valid attribute for video color management
+                    colorspace="srgb"
                     style={{
                         position: 'absolute',
                         top: '50%',
