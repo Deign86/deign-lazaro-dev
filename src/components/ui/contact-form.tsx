@@ -255,12 +255,14 @@ export function ContactForm({ onClose }: ContactFormProps) {
 
         {/* Email Field */}
         <div className="group">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-mono-700 dark:text-mono-300 mb-2"
-          >
-            Email Address
-          </label>
+          <div className="flex justify-between items-center mb-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-mono-700 dark:text-mono-300"
+            >
+              Email Address
+            </label>
+          </div>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <Mail className={`h-5 w-5 transition-colors ${
