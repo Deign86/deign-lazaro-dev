@@ -6,10 +6,9 @@ import type { ProcessedRepo } from '@/lib/github';
 
 interface ProjectCardProps {
   repo: ProcessedRepo;
-  index: number;
 }
 
-export function ProjectCard({ repo, index }: ProjectCardProps) {
+export function ProjectCard({ repo }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [spotlightPosition, setSpotlightPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -84,14 +83,14 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
       />
       
       <div
-        className={`relative bg-mono-50 dark:bg-mono-900 border border-mono-200 dark:border-mono-800 rounded-2xl p-6 md:p-8 h-full transition-all duration-500 hover:border-mono-400 dark:hover:border-mono-600 hover:shadow-2xl hover:shadow-mono-200/50 dark:hover:shadow-mono-950/50 border-l-4 ${categoryColors[repo.category]}`}
+        className={`relative bg-mono-900 border border-mono-800 rounded-2xl p-6 md:p-8 h-full transition-all duration-500 hover:border-mono-600 hover:shadow-2xl hover:shadow-mono-950/50 border-l-4 ${categoryColors[repo.category]}`}
         style={{ transform: 'translateZ(20px)' }}
       >
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
             {/* Folder icon */}
-            <div className="w-10 h-10 rounded-lg bg-mono-100 dark:bg-mono-800 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-lg bg-mono-800 flex items-center justify-center">
               <svg
                 className="w-5 h-5 text-mono-500"
                 fill="none"
@@ -106,7 +105,7 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
                 />
               </svg>
             </div>
-            <span className="text-xs uppercase tracking-wider text-mono-400 dark:text-mono-500 font-medium">
+            <span className="text-xs uppercase tracking-wider text-mono-500 font-medium">
               {repo.category}
             </span>
           </div>
@@ -119,7 +118,7 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="p-2 rounded-lg text-mono-400 hover:text-mono-900 dark:hover:text-mono-100 hover:bg-mono-100 dark:hover:bg-mono-800 transition-colors"
+                className="p-2 rounded-lg text-mono-400 hover:text-mono-100 hover:bg-mono-800 transition-colors"
                 aria-label="View live demo"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -137,7 +136,7 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="p-2 rounded-lg text-mono-400 hover:text-mono-900 dark:hover:text-mono-100 hover:bg-mono-100 dark:hover:bg-mono-800 transition-colors"
+              className="p-2 rounded-lg text-mono-400 hover:text-mono-100 hover:bg-mono-800 transition-colors"
               aria-label="View on GitHub"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -148,26 +147,26 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
         </div>
 
         {/* Title */}
-        <h3 className="text-xl md:text-2xl font-bold text-mono-900 dark:text-mono-100 mb-3 group-hover:text-mono-700 dark:group-hover:text-mono-200 transition-colors">
+        <h3 className="text-xl md:text-2xl font-bold text-mono-100 mb-3 group-hover:text-mono-200 transition-colors">
           {repo.displayName}
         </h3>
 
         {/* Description */}
-        <p className="text-mono-600 dark:text-mono-400 text-sm md:text-base leading-relaxed mb-6 line-clamp-3">
+        <p className="text-mono-400 text-sm md:text-base leading-relaxed mb-6 line-clamp-3">
           {repo.description}
         </p>
 
         {/* Footer */}
-        <div className="flex items-center justify-between mt-auto pt-4 border-t border-mono-100 dark:border-mono-800">
+        <div className="flex items-center justify-between mt-auto pt-4 border-t border-mono-800">
           {/* Tech tags */}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-3 py-1 bg-mono-100 dark:bg-mono-800 text-mono-700 dark:text-mono-300 rounded-full text-xs font-medium">
+            <span className="px-3 py-1 bg-mono-800 text-mono-300 rounded-full text-xs font-medium">
               {repo.language}
             </span>
             {repo.topics.slice(0, 2).map((topic) => (
               <span
                 key={topic}
-                className="px-3 py-1 bg-mono-50 dark:bg-mono-850 text-mono-500 dark:text-mono-400 rounded-full text-xs border border-mono-200 dark:border-mono-700"
+                className="px-3 py-1 bg-mono-850 text-mono-400 rounded-full text-xs border border-mono-700"
               >
                 {topic}
               </span>
@@ -186,7 +185,7 @@ export function ProjectCard({ repo, index }: ProjectCardProps) {
         </div>
 
         {/* Hover gradient overlay */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-mono-100/0 to-mono-200/0 group-hover:from-mono-100/50 group-hover:to-mono-200/30 dark:group-hover:from-mono-800/50 dark:group-hover:to-mono-900/30 transition-all duration-500 pointer-events-none" />
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-transparent to-transparent group-hover:from-mono-800/50 group-hover:to-mono-900/30 transition-all duration-500 pointer-events-none" />
       </div>
     </motion.div>
   );

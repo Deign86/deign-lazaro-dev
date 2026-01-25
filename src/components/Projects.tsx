@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { ProjectCard } from './ProjectCard';
 import type { ProcessedRepo } from '@/lib/github';
@@ -13,7 +13,6 @@ interface ProjectsProps {
 
 export function Projects({ repos }: ProjectsProps) {
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
   
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -31,20 +30,20 @@ export function Projects({ repos }: ProjectsProps) {
       {/* Parallax background element */}
       <motion.div
         style={{ y: backgroundY }}
-        className="absolute right-0 top-1/4 w-[500px] h-[500px] rounded-full border border-mono-200 dark:border-mono-800 opacity-20 pointer-events-none"
+        className="absolute right-0 top-1/4 w-[500px] h-[500px] rounded-full border border-mono-800 opacity-20 pointer-events-none"
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section header with text reveal */}
         <ScrollReveal direction="up" blur={true} delay={0}>
           <div className="mb-20">
-            <span className="text-mono-400 dark:text-mono-600 text-sm tracking-[0.3em] uppercase">
+            <span className="text-mono-600 text-sm tracking-[0.3em] uppercase">
               03 — Work
             </span>
-            <h2 className="mt-4 text-4xl md:text-6xl font-bold text-mono-950 dark:text-mono-50 tracking-tight">
+            <h2 className="mt-4 text-4xl md:text-6xl font-bold text-mono-50 tracking-tight">
               <WordReveal text="Selected Builds" />
             </h2>
-            <p className="mt-4 text-lg text-mono-600 dark:text-mono-400 max-w-xl">
+            <p className="mt-4 text-lg text-mono-400 max-w-xl">
               A collection of projects I&apos;ve built, from full-stack applications to experiments with new technologies.
             </p>
           </div>
@@ -66,7 +65,7 @@ export function Projects({ repos }: ProjectsProps) {
               href="https://github.com/Deign86?tab=repositories"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 text-mono-600 dark:text-mono-400 hover:text-mono-900 dark:hover:text-mono-100 transition-colors cursor-pointer"
+              className="group inline-flex items-center gap-2 text-mono-400 hover:text-mono-100 transition-colors cursor-pointer"
             >
               <span className="text-lg">View all repositories on GitHub</span>
               <svg

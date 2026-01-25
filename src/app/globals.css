@@ -117,24 +117,9 @@ body {
     backface-visibility: hidden;
   }
   
-  /* Disable parallax and complex animations on mobile for better performance */
-  @media (prefers-reduced-motion: no-preference) {
-    body {
-      /* Hint browser for smooth scrolling */
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-}
-
-/* Respect reduced motion preference */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  /* Hint browser for smooth scrolling on mobile */
+  body {
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -245,23 +230,4 @@ body {
 .animate-gradient-shift {
   background-size: 200% 200%;
   animation: gradient-shift 3s ease infinite;
-}
-
-/* Respect reduced motion preference */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  
-  .animate-float,
-  .animate-pulse-glow,
-  .animate-shimmer,
-  .animate-gradient-shift {
-    animation: none;
-  }
 }

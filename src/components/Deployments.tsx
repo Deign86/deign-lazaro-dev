@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef } from 'react';
-import { useInView } from 'framer-motion';
 import DisplayCards, { type DeploymentData } from './ui/display-cards';
 import { Rocket, Brain, Building2, ClipboardCheck, Utensils, Globe } from 'lucide-react';
 import { ScrollReveal, StaggerContainer, StaggerItem } from './ui/scroll-reveal';
@@ -62,7 +61,6 @@ interface DeploymentsProps {
 
 export function Deployments({ deployments }: DeploymentsProps) {
   const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   // Transform deployment data for DisplayCards
   const displayCardsData: DeploymentData[] = deployments.map((d) => ({
@@ -100,7 +98,7 @@ export function Deployments({ deployments }: DeploymentsProps) {
           {/* Left side - Text content */}
           <div>
             <ScrollReveal direction="left" blur={true} delay={0}>
-              <span className="text-mono-500 dark:text-mono-500 text-sm tracking-[0.3em] uppercase">
+              <span className="text-mono-500 text-sm tracking-[0.3em] uppercase">
                 Live Projects
               </span>
               <h2 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-bold text-mono-50 tracking-tight leading-tight">

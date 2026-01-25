@@ -42,7 +42,7 @@ export function SpotlightCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={cn(
-        'relative overflow-hidden rounded-2xl bg-mono-50 dark:bg-mono-900 border border-mono-200 dark:border-mono-800 transition-all duration-300 hover:border-mono-400 dark:hover:border-mono-600 cursor-pointer',
+        'relative overflow-hidden rounded-2xl bg-mono-900 border border-mono-800 transition-all duration-300 hover:border-mono-600 cursor-pointer',
         className
       )}
       {...props}
@@ -160,10 +160,10 @@ export function GlowCard({
       />
       
       {/* Static border */}
-      <div className="absolute inset-0 rounded-2xl border border-mono-200 dark:border-mono-800 group-hover:border-mono-300 dark:group-hover:border-mono-700 transition-colors" />
+      <div className="absolute inset-0 rounded-2xl border border-mono-800 group-hover:border-mono-700 transition-colors" />
       
       {/* Content wrapper */}
-      <div className="relative bg-mono-50 dark:bg-mono-900 rounded-2xl">
+      <div className="relative bg-mono-900 rounded-2xl">
         {children}
       </div>
     </div>

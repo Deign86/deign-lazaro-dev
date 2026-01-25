@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { 
@@ -39,17 +39,15 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
   // Build iframe URL with cache-busting parameter
   const iframeSrc = `${activeProject.url}${activeProject.url.includes('?') ? '&' : '?'}_cb=${cacheBuster}`;
 
-  // Reset loading state and cache buster when project changes
-  useEffect(() => {
+  const handlePrev = () => {
     setIsLoading(true);
     setCacheBuster(Date.now());
-  }, [activeIndex]);
-
-  const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? projects.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
+    setIsLoading(true);
+    setCacheBuster(Date.now());
     setActiveIndex((prev) => (prev === projects.length - 1 ? 0 : prev + 1));
   };
 

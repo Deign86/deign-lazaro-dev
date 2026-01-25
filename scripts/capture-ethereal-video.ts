@@ -11,7 +11,7 @@
 import puppeteer from 'puppeteer';
 import * as fs from 'fs';
 import * as path from 'path';
-import { spawn, execSync } from 'child_process';
+import { spawn } from 'child_process';
 
 const CONFIG = {
     width: 1920,
@@ -153,7 +153,7 @@ async function main() {
 </html>`;
 
     await page.setContent(html, { waitUntil: 'networkidle0' });
-    await page.evaluate(() => (window as any).ready);
+    await page.evaluate(() => (window as unknown as { ready: Promise<void> }).ready);
     await new Promise(r => setTimeout(r, 1000));
 
     // Create temp directory for frames
@@ -178,7 +178,7 @@ async function main() {
         const hue = (frame / totalFrames) * 360;
         
         await page.evaluate((h: number) => {
-            (window as any).setHue(h);
+            (window as unknown as { setHue: (h: number) => void }).setHue(h);
         }, hue);
 
         await new Promise(r => setTimeout(r, 16));

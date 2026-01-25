@@ -93,8 +93,8 @@ npm run lint     # ESLint (Next.js config)
 
 ### Monochromatic Palette
 **Strict B&W only** - no accent colors. Uses CSS variables in `globals.css`:
-- Light mode: `--mono-50` (lightest) to `--mono-950` (darkest)
-- Dark mode: Semantic tokens invert automatically via `prefers-color-scheme`
+- Mono palette: `--mono-50` (lightest) to `--mono-950` (darkest)
+- **Dark mode permanently locked** - no light mode variants, consistent across all devices
 - Apply via Tailwind: `bg-mono-100`, `text-mono-900`, `border-mono-200`
 
 ```tsx

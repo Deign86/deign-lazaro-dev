@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
 import { SpotlightCursor } from './ui/spotlight-cursor';
@@ -9,7 +9,6 @@ import { EtherealShadowVideo } from './ui/ethereal-shadow-video';
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
-  const prefersReducedMotion = useReducedMotion();
   
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -36,7 +35,7 @@ export function Hero() {
           availableFps={[60]}
           noise={{ opacity: 0.3, scale: 1.0 }}
           sizing="fill"
-          className="dark:opacity-100 opacity-20"
+          className="opacity-100"
           fallbackColor="rgba(80, 80, 80, 1)"
         />
       </div>
@@ -49,19 +48,19 @@ export function Hero() {
         {/* Large circle */}
         <motion.div
           style={{ y: y1, willChange: 'transform' }}
-          className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full border border-mono-200 dark:border-mono-800 opacity-40"
+          className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full border border-mono-800 opacity-40"
         />
         
         {/* Medium circle */}
         <motion.div
           style={{ y: y2, willChange: 'transform' }}
-          className="absolute top-1/2 -left-48 w-[400px] h-[400px] rounded-full bg-mono-100 dark:bg-mono-900 opacity-50"
+          className="absolute top-1/2 -left-48 w-[400px] h-[400px] rounded-full bg-mono-900 opacity-50"
         />
         
         {/* Small accent shapes */}
         <motion.div
           style={{ y: y3, willChange: 'transform' }}
-          className="absolute bottom-32 right-1/4 w-32 h-32 rotate-45 border-2 border-mono-300 dark:border-mono-700"
+          className="absolute bottom-32 right-1/4 w-32 h-32 rotate-45 border-2 border-mono-700"
         />
         
         {/* Grid lines */}
@@ -86,13 +85,9 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-mono-500 dark:text-mono-400 text-xs sm:text-sm md:text-base tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] uppercase mb-8 px-4"
+          className="text-mono-400 text-xs sm:text-sm md:text-base tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] uppercase mb-8 px-4"
         >
-          {prefersReducedMotion ? (
-            "Full-Stack Developer & AI Enthusiast"
-          ) : (
-            <BlurredTextReveal text="Full-Stack Developer & AI Enthusiast" delay={0.3} blur={true} />
-          )}
+          <BlurredTextReveal text="Full-Stack Developer & AI Enthusiast" delay={0.3} blur={true} />
         </motion.p>
 
         {/* Main logo with simple fade-in animation */}
@@ -108,7 +103,7 @@ export function Hero() {
             alt="Deign"
             width={800}
             height={460}
-            className="w-[80vw] md:w-[60vw] lg:w-[50vw] max-w-[800px] text-mono-950 dark:text-mono-50"
+            className="w-[80vw] md:w-[60vw] lg:w-[50vw] max-w-[800px] text-mono-50"
             priority
           />
         </motion.div>
@@ -118,7 +113,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.0 }}
-          className="mt-8 text-lg md:text-xl text-mono-600 dark:text-mono-400 max-w-2xl mx-auto leading-relaxed"
+          className="mt-8 text-lg md:text-xl text-mono-400 max-w-2xl mx-auto leading-relaxed"
           style={{ willChange: 'opacity, transform' }}
         >
           Building modern web apps with Python, TypeScript & AI integrations.{' '}
@@ -135,7 +130,7 @@ export function Hero() {
         >
           <a
             href="#projects"
-            className="group relative inline-flex items-center gap-3 px-8 py-4 bg-mono-950 dark:bg-mono-50 text-mono-50 dark:text-mono-950 rounded-full font-medium text-lg overflow-hidden transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="group relative inline-flex items-center gap-3 px-8 py-4 bg-mono-50 text-mono-950 rounded-full font-medium text-lg overflow-hidden transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
             <span className="relative z-10">View Selected Builds</span>
             <svg
@@ -148,7 +143,7 @@ export function Hero() {
             </svg>
             
             {/* Hover effect */}
-            <span className="absolute inset-0 bg-mono-800 dark:bg-mono-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-0" />
+            <span className="absolute inset-0 bg-mono-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-0" />
           </a>
         </motion.div>
       </motion.div>
@@ -165,12 +160,12 @@ export function Hero() {
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-          className="w-6 h-10 rounded-full border-2 border-mono-400 dark:border-mono-600 flex items-start justify-center p-2"
+          className="w-6 h-10 rounded-full border-2 border-mono-600 flex items-start justify-center p-2"
         >
           <motion.div
             animate={{ opacity: [1, 0, 1], y: [0, 6, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-1 h-2 bg-mono-400 dark:bg-mono-600 rounded-full"
+            className="w-1 h-2 bg-mono-600 rounded-full"
           />
         </motion.div>
       </motion.div>

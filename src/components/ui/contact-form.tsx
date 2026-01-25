@@ -206,14 +206,14 @@ export function ContactForm({ onClose }: ContactFormProps) {
           <div className="flex justify-between items-center mb-2">
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-mono-700 dark:text-mono-300"
+              className="block text-sm font-medium text-mono-300"
             >
               Your Name
             </label>
             <span className={`text-xs transition-colors ${
               formData.name.length > VALIDATION.name.maxLength * 0.9
-                ? 'text-red-500 dark:text-red-400'
-                : 'text-mono-400 dark:text-mono-500'
+                ? 'text-red-400'
+                : 'text-mono-500'
             }`}>
               {formData.name.length}/{VALIDATION.name.maxLength}
             </span>
@@ -222,8 +222,8 @@ export function ContactForm({ onClose }: ContactFormProps) {
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <User className={`h-5 w-5 transition-colors ${
                 fieldErrors.name && touched.name
-                  ? 'text-red-500 dark:text-red-400'
-                  : 'text-mono-400 dark:text-mono-600'
+                  ? 'text-red-400'
+                  : 'text-mono-600'
               }`} />
             </div>
             <input
@@ -238,16 +238,16 @@ export function ContactForm({ onClose }: ContactFormProps) {
               aria-describedby={fieldErrors.name ? 'name-error' : undefined}
               required
               disabled={status === 'sending'}
-              className={`block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`block w-full pl-12 pr-4 py-3.5 bg-mono-900 border rounded-xl text-mono-100 placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
                 fieldErrors.name && touched.name
-                  ? 'border-red-500 dark:border-red-400 focus-visible:ring-red-500 dark:focus-visible:ring-red-400'
-                  : 'border-mono-200 dark:border-mono-800 focus-visible:ring-mono-950 dark:focus-visible:ring-mono-50'
+                  ? 'border-red-400 focus-visible:ring-red-400'
+                  : 'border-mono-800 focus-visible:ring-mono-50'
               }`}
               placeholder="John Doe"
             />
           </div>
           {fieldErrors.name && touched.name && (
-            <p id="name-error" className="mt-1.5 text-sm text-red-500 dark:text-red-400">
+            <p id="name-error" className="mt-1.5 text-sm text-red-400">
               {fieldErrors.name}
             </p>
           )}
@@ -258,7 +258,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
           <div className="flex justify-between items-center mb-2">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-mono-700 dark:text-mono-300"
+              className="block text-sm font-medium text-mono-300"
             >
               Email Address
             </label>
@@ -267,8 +267,8 @@ export function ContactForm({ onClose }: ContactFormProps) {
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <Mail className={`h-5 w-5 transition-colors ${
                 fieldErrors.email && touched.email
-                  ? 'text-red-500 dark:text-red-400'
-                  : 'text-mono-400 dark:text-mono-600'
+                  ? 'text-red-400'
+                  : 'text-mono-600'
               }`} />
             </div>
             <input
@@ -283,16 +283,16 @@ export function ContactForm({ onClose }: ContactFormProps) {
               aria-describedby={fieldErrors.email ? 'email-error' : undefined}
               required
               disabled={status === 'sending'}
-              className={`block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`block w-full pl-12 pr-4 py-3.5 bg-mono-900 border rounded-xl text-mono-100 placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
                 fieldErrors.email && touched.email
-                  ? 'border-red-500 dark:border-red-400 focus-visible:ring-red-500 dark:focus-visible:ring-red-400'
-                  : 'border-mono-200 dark:border-mono-800 focus-visible:ring-mono-950 dark:focus-visible:ring-mono-50'
+                  ? 'border-red-400 focus-visible:ring-red-400'
+                  : 'border-mono-800 focus-visible:ring-mono-50'
               }`}
               placeholder="john@example.com"
             />
           </div>
           {fieldErrors.email && touched.email && (
-            <p id="email-error" className="mt-1.5 text-sm text-red-500 dark:text-red-400">
+            <p id="email-error" className="mt-1.5 text-sm text-red-400">
               {fieldErrors.email}
             </p>
           )}
@@ -303,16 +303,16 @@ export function ContactForm({ onClose }: ContactFormProps) {
           <div className="flex justify-between items-center mb-2">
             <label
               htmlFor="message"
-              className="block text-sm font-medium text-mono-700 dark:text-mono-300"
+              className="block text-sm font-medium text-mono-300"
             >
               Your Message
             </label>
             <span className={`text-xs transition-colors ${
               formData.message.length > VALIDATION.message.maxLength * 0.9
-                ? 'text-red-500 dark:text-red-400'
+                ? 'text-red-400'
                 : formData.message.length < VALIDATION.message.minLength && touched.message
-                ? 'text-amber-500 dark:text-amber-400'
-                : 'text-mono-400 dark:text-mono-500'
+                ? 'text-amber-400'
+                : 'text-mono-500'
             }`}>
               {formData.message.length}/{VALIDATION.message.maxLength}
               {formData.message.length < VALIDATION.message.minLength && touched.message && (
@@ -324,8 +324,8 @@ export function ContactForm({ onClose }: ContactFormProps) {
             <div className="absolute top-4 left-4 pointer-events-none">
               <MessageSquare className={`h-5 w-5 transition-colors ${
                 fieldErrors.message && touched.message
-                  ? 'text-red-500 dark:text-red-400'
-                  : 'text-mono-400 dark:text-mono-600'
+                  ? 'text-red-400'
+                  : 'text-mono-600'
               }`} />
             </div>
             <textarea
@@ -340,16 +340,16 @@ export function ContactForm({ onClose }: ContactFormProps) {
               required
               disabled={status === 'sending'}
               rows={6}
-              className={`block w-full pl-12 pr-4 py-3.5 bg-white dark:bg-mono-900 border rounded-xl text-mono-900 dark:text-mono-100 placeholder-mono-400 dark:placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus:border-transparent transition-all resize-none disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`block w-full pl-12 pr-4 py-3.5 bg-mono-900 border rounded-xl text-mono-100 placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus:border-transparent transition-all resize-none disabled:opacity-50 disabled:cursor-not-allowed ${
                 fieldErrors.message && touched.message
-                  ? 'border-red-500 dark:border-red-400 focus-visible:ring-red-500 dark:focus-visible:ring-red-400'
-                  : 'border-mono-200 dark:border-mono-800 focus-visible:ring-mono-950 dark:focus-visible:ring-mono-50'
+                  ? 'border-red-400 focus-visible:ring-red-400'
+                  : 'border-mono-800 focus-visible:ring-mono-50'
               }`}
               placeholder="Tell me about your project or idea..."
             />
           </div>
           {fieldErrors.message && touched.message && (
-            <p id="message-error" className="mt-1.5 text-sm text-red-500 dark:text-red-400">
+            <p id="message-error" className="mt-1.5 text-sm text-red-400">
               {fieldErrors.message}
             </p>
           )}
@@ -366,7 +366,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="flex items-center gap-2 p-4 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 rounded-xl text-red-800 dark:text-red-300"
+                className="flex items-center gap-2 p-4 bg-red-950/30 border border-red-900 rounded-xl text-red-300"
               >
                 <XCircle className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
                 <p className="text-sm">{errorMessage}</p>
@@ -381,7 +381,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="flex items-center gap-2 p-4 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900 rounded-xl text-green-800 dark:text-green-300"
+                className="flex items-center gap-2 p-4 bg-green-950/30 border border-green-900 rounded-xl text-green-300"
               >
                 <CheckCircle2 className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
                 <p className="text-sm">Message sent successfully! I&apos;ll get back to you soon.</p>
@@ -396,7 +396,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
           disabled={status === 'sending' || status === 'success'}
           whileHover={status === 'idle' || status === 'error' ? { scale: 1.02 } : {}}
           whileTap={status === 'idle' || status === 'error' ? { scale: 0.98 } : {}}
-          className="w-full relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-mono-950 dark:bg-mono-50 text-mono-50 dark:text-mono-950 rounded-xl font-medium text-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-mono-950/20 dark:hover:shadow-mono-50/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-2 focus-visible:ring-offset-mono-950"
+          className="w-full relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-mono-50 text-mono-950 rounded-xl font-medium text-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-mono-50/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-2 focus-visible:ring-offset-mono-950"
         >
           {status === 'sending' ? (
             <>
@@ -414,7 +414,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
               <span>Send Message</span>
             </>
           )}
-          <span className="absolute inset-0 bg-mono-800 dark:bg-mono-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-0" />
+          <span className="absolute inset-0 bg-mono-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-0" />
         </motion.button>
       </form>
     </motion.div>

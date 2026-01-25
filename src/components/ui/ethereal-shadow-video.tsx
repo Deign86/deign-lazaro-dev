@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect, useState, CSSProperties } from 'react';
+import React, { useRef, useEffect, useMemo, useState, CSSProperties } from 'react';
 
 interface NoiseConfig {
     opacity: number;
@@ -98,18 +98,13 @@ export function EtherealShadowVideo({
     className,
     children,
     videoSrc = '/ethereal-shadow',
-    fallbackColor = 'rgba(80, 80, 80, 1)',
     availableFps = [30, 60]
 }: EtherealShadowVideoProps) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const refreshRate = useRefreshRate();
-    const [selectedFps, setSelectedFps] = useState(60);
-
-    // Select best fps based on detected refresh rate
-    useEffect(() => {
-        const bestFps = selectVideoFps(refreshRate, availableFps);
-        setSelectedFps(bestFps);
-    }, [refreshRate, availableFps]);
+    
+    // Select best fps based on detected refresh rate - use useMemo to avoid setState in effect
+    const selectedFps = useMemo(() => selectVideoFps(refreshRate, availableFps), [refreshRate, availableFps]);
 
     // Construct video path with fps suffix
     const videoPath = videoSrc.endsWith('.mp4') || videoSrc.endsWith('.webm')

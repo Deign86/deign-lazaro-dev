@@ -3,6 +3,7 @@
 
 "use client";
 
+import Image from "next/image";
 import AutoScroll from "embla-carousel-auto-scroll";
 
 import {
@@ -191,7 +192,7 @@ const appLogos: AppLogo[] = [
     id: "postgresql",
     name: "PostgreSQL",
     icon: (
-      <img src="/logos/postgresql.svg" alt="PostgreSQL" className="h-8 w-8" />
+      <Image src="/logos/postgresql.svg" alt="PostgreSQL" width={32} height={32} className="h-8 w-8" />
     ),
   },
   {
@@ -235,56 +236,56 @@ const appLogos: AppLogo[] = [
     id: "photoshop",
     name: "Adobe Photoshop",
     icon: (
-      <img src="/logos/photoshop.svg" alt="Adobe Photoshop" className="h-8 w-8" />
+      <Image src="/logos/photoshop.svg" alt="Adobe Photoshop" width={32} height={32} className="h-8 w-8" />
     ),
   },
   {
     id: "lightroom",
     name: "Adobe Lightroom",
     icon: (
-      <img src="/logos/lightroom.svg" alt="Adobe Lightroom" className="h-8 w-8" />
+      <Image src="/logos/lightroom.svg" alt="Adobe Lightroom" width={32} height={32} className="h-8 w-8" />
     ),
   },
   {
     id: "premiere",
     name: "Adobe Premiere Pro",
     icon: (
-      <img src="/logos/premiere.svg" alt="Adobe Premiere Pro" className="h-8 w-8" />
+      <Image src="/logos/premiere.svg" alt="Adobe Premiere Pro" width={32} height={32} className="h-8 w-8" />
     ),
   },
   {
     id: "aftereffects",
     name: "Adobe After Effects",
     icon: (
-      <img src="/logos/aftereffects.svg" alt="Adobe After Effects" className="h-8 w-8" />
+      <Image src="/logos/aftereffects.svg" alt="Adobe After Effects" width={32} height={32} className="h-8 w-8" />
     ),
   },
   {
     id: "illustrator",
     name: "Adobe Illustrator",
     icon: (
-      <img src="/logos/illustrator.svg" alt="Adobe Illustrator" className="h-8 w-8" />
+      <Image src="/logos/illustrator.svg" alt="Adobe Illustrator" width={32} height={32} className="h-8 w-8" />
     ),
   },
   {
     id: "indesign",
     name: "Adobe InDesign",
     icon: (
-      <img src="/logos/indesign.svg" alt="Adobe InDesign" className="h-8 w-8" />
+      <Image src="/logos/indesign.svg" alt="Adobe InDesign" width={32} height={32} className="h-8 w-8" />
     ),
   },
   {
     id: "xd",
     name: "Adobe XD",
     icon: (
-      <img src="/logos/xd.svg" alt="Adobe XD" className="h-8 w-8" />
+      <Image src="/logos/xd.svg" alt="Adobe XD" width={32} height={32} className="h-8 w-8" />
     ),
   },
   {
     id: "audition",
     name: "Adobe Audition",
     icon: (
-      <img src="/logos/audition.svg" alt="Adobe Audition" className="h-8 w-8" />
+      <Image src="/logos/audition.svg" alt="Adobe Audition" width={32} height={32} className="h-8 w-8" />
     ),
   },
   // === PRODUCTIVITY & OTHER TOOLS ===
@@ -305,7 +306,7 @@ const appLogos: AppLogo[] = [
     id: "canva",
     name: "Canva",
     icon: (
-      <img src="/logos/canva.svg" alt="Canva" className="h-8 w-8" />
+      <Image src="/logos/canva.svg" alt="Canva" width={32} height={32} className="h-8 w-8" />
     ),
   },
   {
@@ -321,7 +322,7 @@ const appLogos: AppLogo[] = [
     id: "blender",
     name: "Blender",
     icon: (
-      <img src="/logos/blender.svg" alt="Blender" className="h-8 w-8" />
+      <Image src="/logos/blender.svg" alt="Blender" width={32} height={32} className="h-8 w-8" />
     ),
   },
   {
@@ -337,7 +338,7 @@ const appLogos: AppLogo[] = [
     id: "obs",
     name: "OBS Studio",
     icon: (
-      <img src="/logos/obs.svg" alt="OBS Studio" className="h-8 w-8" />
+      <Image src="/logos/obs.svg" alt="OBS Studio" width={32} height={32} className="h-8 w-8" />
     ),
   },
 ];
@@ -378,7 +379,7 @@ const AppLogos = ({
                   className="pl-2 basis-1/5 sm:basis-1/6 md:basis-1/7 lg:basis-[11%]"
                 >
                   <div className="flex flex-col items-center justify-center gap-2 group cursor-pointer">
-                    <div className="p-2.5 rounded-lg bg-mono-100 dark:bg-mono-800 text-mono-700 dark:text-mono-200 transition-all duration-300 group-hover:bg-mono-200 dark:group-hover:bg-mono-700 group-hover:scale-105">
+                    <div className="p-2.5 rounded-lg bg-mono-800 text-mono-200 transition-all duration-300 group-hover:bg-mono-700 group-hover:scale-105">
                       {app.icon}
                     </div>
                     <span className="text-[10px] text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">

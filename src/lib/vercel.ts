@@ -223,7 +223,7 @@ function getProductionDomain(projectName: string, domains: string[]): string | n
 }
 
 // Infer framework tags from Vercel framework field
-export function getFrameworkTags(framework: string | null, repoName: string | null): string[] {
+export function getFrameworkTags(framework: string | null): string[] {
   const tags: string[] = [];
   
   // Framework-based tags

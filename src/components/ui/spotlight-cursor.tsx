@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect, useState, HTMLAttributes } from 'react';
+import { useRef, useEffect, useMemo, HTMLAttributes } from 'react';
 
 interface SpotlightConfig {
   radius?: number;
@@ -19,13 +19,13 @@ const useSpotlightEffect = (config: SpotlightConfig) => {
     const detectGPUTier = (): 'high' | 'low' => {
       // Check for battery saver mode or reduced motion preference
       if (typeof navigator !== 'undefined') {
-        const connection = (navigator as any).connection;
+        const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
         if (connection?.saveData) return 'low';
       }
       
       // Detect based on hardware concurrency (rough heuristic)
       const cores = navigator.hardwareConcurrency || 4;
-      const memory = (performance as any).memory?.jsHeapSizeLimit || 0;
+      const memory = (performance as Performance & { memory?: { jsHeapSizeLimit?: number } }).memory?.jsHeapSizeLimit || 0;
       
       // Low-end: <= 4 cores or low memory
       if (cores <= 4 || memory < 1000000000) return 'low';
@@ -196,18 +196,15 @@ export const SpotlightCursor = ({
   className = '',
   ...rest
 }: SpotlightCursorProps) => {
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
-  useEffect(() => {
-    // Detect touch device
-    const checkTouchDevice = () => {
-      return (
-        'ontouchstart' in window ||
-        navigator.maxTouchPoints > 0 ||
-        (navigator as any).msMaxTouchPoints > 0
-      );
-    };
-    setIsTouchDevice(checkTouchDevice());
+  // Detect touch device using useMemo to avoid setState in effect
+  const isTouchDevice = useMemo(() => {
+    if (typeof window === 'undefined') return false;
+    return (
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      ((navigator as Navigator & { msMaxTouchPoints?: number }).msMaxTouchPoints ?? 0) > 0
+    );
   }, []);
 
   const spotlightConfig = {

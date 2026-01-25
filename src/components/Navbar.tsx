@@ -62,7 +62,7 @@ export function Navbar() {
         <nav
           className={`max-w-6xl mx-auto px-6 py-4 rounded-2xl transition-all duration-500 ${
             isScrolled
-              ? 'bg-mono-50/95 dark:bg-mono-950/95 backdrop-blur-md border border-mono-200 dark:border-mono-800 shadow-lg shadow-mono-200/20 dark:shadow-mono-950/50 pointer-events-auto'
+              ? 'bg-mono-950/95 backdrop-blur-md border border-mono-800 shadow-lg shadow-mono-950/50 pointer-events-auto'
               : 'bg-transparent'
           }`}
         >
@@ -73,7 +73,7 @@ export function Navbar() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-xl font-bold text-mono-950 dark:text-mono-50 tracking-tight cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 rounded-sm"
+              className="text-xl font-bold text-mono-50 tracking-tight cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 rounded-sm"
               aria-label="Go to top of page"
             >
               D.
@@ -88,7 +88,7 @@ export function Navbar() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.1 * index }}
-                  className="text-sm text-mono-600 dark:text-mono-400 hover:text-mono-950 dark:hover:text-mono-50 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 rounded-sm px-1"
+                  className="text-sm text-mono-400 hover:text-mono-50 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 rounded-sm px-1"
                 >
                   {link.name}
                 </motion.a>
@@ -105,7 +105,7 @@ export function Navbar() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
-                className="flex items-center gap-2 text-sm text-mono-700 dark:text-mono-300 hover:text-mono-950 dark:hover:text-mono-50 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 rounded-sm"
+                className="flex items-center gap-2 text-sm text-mono-300 hover:text-mono-50 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 rounded-sm"
                 aria-label="View GitHub profile"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -120,7 +120,7 @@ export function Navbar() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 text-mono-700 dark:text-mono-300 hover:text-mono-950 dark:hover:text-mono-50 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 rounded-lg pointer-events-auto"
+                className="md:hidden p-2 text-mono-300 hover:text-mono-50 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 rounded-lg pointer-events-auto"
                 aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
                 aria-expanded={isMobileMenuOpen}
                 aria-controls="mobile-menu"

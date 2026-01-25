@@ -272,7 +272,7 @@ export function mergeDeploymentsWithRepos(
     
     // Get tags from custom config if exists, otherwise infer from framework
     const customConfig = LIVE_DEPLOYMENTS[matchingRepo?.name || ''];
-    const tags = customConfig?.tags || getFrameworkTags(deployment.framework, deployment.repoName);
+    const tags = customConfig?.tags || getFrameworkTags(deployment.framework);
     
     return {
       name: matchingRepo?.name || deployment.projectName,

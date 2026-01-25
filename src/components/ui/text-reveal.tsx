@@ -1,8 +1,7 @@
 'use client';
 
-import { motion, Variants, useReducedMotion } from 'framer-motion';
+import { motion, Variants, useInView } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 
 interface TextRevealProps {
@@ -23,24 +22,17 @@ export function BlurredTextReveal({
   staggerDelay = 0.02,
   blur = true,
   once = true,
-  as: Component = 'span',
 }: TextRevealProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once, amount: 0.5 });
-  const prefersReducedMotion = useReducedMotion();
-
-  // Disable blur and reduce stagger for reduced motion
-  const shouldBlur = blur && !prefersReducedMotion;
-  const effectiveStagger = prefersReducedMotion ? 0 : staggerDelay;
 
   const container: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: effectiveStagger,
+        staggerChildren: staggerDelay,
         delayChildren: delay,
-        duration: prefersReducedMotion ? 0.3 : undefined,
       },
     },
   };
@@ -48,15 +40,15 @@ export function BlurredTextReveal({
   const letterVariants: Variants = {
     hidden: {
       opacity: 0,
-      y: prefersReducedMotion ? 0 : 20,
-      ...(shouldBlur && { filter: 'blur(10px)' }),
+      y: 20,
+      ...(blur && { filter: 'blur(10px)' }),
     },
     visible: {
       opacity: 1,
       y: 0,
-      ...(shouldBlur && { filter: 'blur(0px)' }),
+      ...(blur && { filter: 'blur(0px)' }),
       transition: {
-        duration: prefersReducedMotion ? 0.2 : 0.4,
+        duration: 0.4,
         ease: [0.25, 0.46, 0.45, 0.94],
       },
     },
