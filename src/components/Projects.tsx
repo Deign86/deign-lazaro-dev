@@ -51,9 +51,9 @@ export function Projects({ repos }: ProjectsProps) {
 
         {/* Projects grid with staggered animations */}
         <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" staggerDelay={0.1}>
-          {repos.map((repo, index) => (
+          {repos.map((repo) => (
             <StaggerItem key={repo.id} direction="up" blur={true} scale={true}>
-              <ProjectCard repo={repo} index={index} />
+              <ProjectCard repo={repo} />
             </StaggerItem>
           ))}
         </StaggerContainer>
