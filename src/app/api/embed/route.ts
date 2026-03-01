@@ -61,8 +61,6 @@ export async function GET(req: NextRequest) {
       'User-Agent': 'Mozilla/5.0 (compatible; PortfolioEmbed/1.0; +https://deign-lazaro-dev.vercel.app)',
       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
       'Accept-Language': 'en-US,en;q=0.9',
-      'Cache-Control': 'no-cache',
-      'Pragma': 'no-cache',
     },
   });
   if (!upstream.ok) {
