@@ -55,9 +55,19 @@ export async function GET(req: NextRequest) {
     return new Response('Domain not allowed', { status: 400 });
   }
 
-  const upstream = await fetch(targetUrl.toString(), { redirect: 'follow' });
+  const upstream = await fetch(targetUrl.toString(), {
+    redirect: 'follow',
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (compatible; PortfolioEmbed/1.0; +https://deign-lazaro-dev.vercel.app)',
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Cache-Control': 'no-cache',
+      'Pragma': 'no-cache',
+    },
+  });
   if (!upstream.ok) {
-    return new Response('Failed to load target', { status: upstream.status });
+    console.error(`Failed to fetch ${targetUrl.toString()}: ${upstream.status} ${upstream.statusText}`);
+    return new Response(`Failed to load target: ${upstream.status} ${upstream.statusText}`, { status: upstream.status });
   }
 
   const contentType = upstream.headers.get('content-type') || 'text/html';
