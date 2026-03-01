@@ -1,16 +1,17 @@
 import { NextResponse } from 'next/server';
-import puppeteer from 'puppeteer';
+import puppeteer, { type Browser } from 'puppeteer';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 
 export async function GET() {
+  let browser: Browser | undefined;
   try {
     // Read the HTML file
     const htmlPath = join(process.cwd(), 'public', 'cv.html');
     const htmlContent = await readFile(htmlPath, 'utf-8');
 
     // Launch Puppeteer
-    const browser = await puppeteer.launch({
+    browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
@@ -34,8 +35,6 @@ export async function GET() {
       },
     });
 
-    await browser.close();
-
     // Return PDF response
     return new NextResponse(Buffer.from(pdfBuffer), {
       status: 200,
@@ -50,5 +49,9 @@ export async function GET() {
       { error: 'Failed to generate PDF' },
       { status: 500 }
     );
+  } finally {
+    if (browser) {
+      await browser.close();
+    }
   }
 }
