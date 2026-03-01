@@ -238,7 +238,7 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
                 setHasError(true);
               }}
               loading="lazy"
-              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+              sandbox="allow-scripts allow-forms allow-popups"
             />
             
             {hasError && (

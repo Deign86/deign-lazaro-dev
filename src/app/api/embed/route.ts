@@ -15,6 +15,18 @@ function isAllowedHost(hostname: string) {
   );
 }
 
+// Rewrite absolute same-origin src/href attributes to go through the proxy.
+// Without allow-same-origin in the sandbox the page has an opaque origin, so
+// absolute same-origin asset URLs would otherwise fail to load.
+// appOrigin is used to build absolute proxy URLs (base tag would redirect root-relative paths to targetOrigin).
+function rewriteSameOriginUrls(html: string, targetOrigin: string, appOrigin: string): string {
+  const escapedOrigin = targetOrigin.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return html.replace(
+    new RegExp(`((?:src|href)=["'])${escapedOrigin}(/[^"'\\s>]*)`, 'gi'),
+    (_, attr, path) => `${attr}${appOrigin}/api/embed?url=${encodeURIComponent(`${targetOrigin}${path}`)}`
+  );
+}
+
 // Patch HTML to keep relative assets working when proxied
 function injectBaseTag(html: string, targetOrigin: string) {
   // Escape special HTML characters in the origin to prevent attribute breakout
@@ -87,22 +99,21 @@ export async function GET(req: NextRequest) {
       headers: {
         'content-type': contentType,
         'cache-control': 'no-store',
-        // allow-same-origin lets embedded apps load their own module scripts while the domain allowlist and frame-ancestors keep isolation boundaries.
-        'content-security-policy': "sandbox allow-scripts allow-forms allow-popups allow-same-origin; frame-ancestors 'self'",
+        'content-security-policy': "sandbox allow-scripts allow-forms allow-popups; frame-ancestors 'self'",
       },
     });
   }
 
   const html = await upstream.text();
-  const patchedHtml = injectBaseTag(html, targetUrl.origin);
+  const appOrigin = `${req.nextUrl.protocol}//${req.nextUrl.host}`;
+  const patchedHtml = rewriteSameOriginUrls(injectBaseTag(html, targetUrl.origin), targetUrl.origin, appOrigin);
 
   return new Response(patchedHtml, {
     status: upstream.status,
     headers: {
       'content-type': contentType,
       'cache-control': 'no-store',
-      // allow-same-origin lets embedded apps load their own module scripts while the domain allowlist and frame-ancestors keep isolation boundaries.
-      'content-security-policy': "sandbox allow-scripts allow-forms allow-popups allow-same-origin; frame-ancestors 'self'",
+      'content-security-policy': "sandbox allow-scripts allow-forms allow-popups; frame-ancestors 'self'",
     },
   });
 }
