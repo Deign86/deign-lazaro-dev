@@ -30,6 +30,7 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const [cacheBuster, setCacheBuster] = useState(() => Date.now());
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -37,22 +38,29 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
   const activeProject = projects[activeIndex];
   
   // Build iframe URL with cache-busting parameter
-  const iframeSrc = `${activeProject.url}${activeProject.url.includes('?') ? '&' : '?'}_cb=${cacheBuster}`;
+  const buildIframeSrc = (projectUrl: string) => {
+    const targetUrl = `${projectUrl}${projectUrl.includes('?') ? '&' : '?'}_cb=${cacheBuster}`;
+    return `/api/embed?url=${encodeURIComponent(targetUrl)}`;
+  };
+  const iframeSrc = buildIframeSrc(activeProject.url);
 
   const handlePrev = () => {
     setIsLoading(true);
+    setHasError(false);
     setCacheBuster(Date.now());
     setActiveIndex((prev) => (prev === 0 ? projects.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
     setIsLoading(true);
+    setHasError(false);
     setCacheBuster(Date.now());
     setActiveIndex((prev) => (prev === projects.length - 1 ? 0 : prev + 1));
   };
 
   const handleRefresh = () => {
     setIsLoading(true);
+    setHasError(false);
     setCacheBuster(Date.now());
   };
 
@@ -221,10 +229,34 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
               src={iframeSrc}
               title={activeProject.title}
               className="w-full h-full border-0"
-              onLoad={() => setIsLoading(false)}
+              onLoad={() => {
+                setIsLoading(false);
+                setHasError(false);
+              }}
+              onError={() => {
+                setIsLoading(false);
+                setHasError(true);
+              }}
               loading="lazy"
               sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
             />
+            
+            {hasError && (
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-mono-950/90 backdrop-blur-sm gap-3 text-center px-6">
+                <p className="text-sm sm:text-base text-mono-300">
+                  This preview is blocked by the app&apos;s frame settings. Open it in a new tab instead.
+                </p>
+                <a
+                  href={activeProject.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-mono-800 text-mono-100 border border-mono-700 hover:bg-mono-700 transition-colors"
+                >
+                  Open {activeProject.title}
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              </div>
+            )}
 
             {/* Overlay gradient at bottom for fade effect */}
             <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-mono-950/80 to-transparent pointer-events-none" />
@@ -236,7 +268,12 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
           {projects.map((project, index) => (
             <button
               key={project.url}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => {
+                setIsLoading(true);
+                setHasError(false);
+                setCacheBuster(Date.now());
+                setActiveIndex(index);
+              }}
               className={cn(
                 "w-2 h-2 rounded-full transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-2 focus-visible:ring-offset-mono-950",
                 index === activeIndex 
