@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
         from: 'Portfolio Contact <onboarding@resend.dev>', // Use your verified domain later
         to: ['deign86@gmail.com'], // Your email address
         reply_to: email, // So you can reply directly to the sender
-        subject: `Portfolio Contact from ${escapeHtml(name)}`,
+        subject: `Portfolio Contact from ${name.trim().replace(/[\r\n]/g, '')}`,
         html: `
           <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
             <h2 style="color: #1a1a1a; margin-bottom: 24px;">New Contact Form Submission</h2>
