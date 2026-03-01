@@ -87,7 +87,10 @@ export async function GET(req: NextRequest) {
       headers: {
         'content-type': contentType,
         'cache-control': 'no-store',
-        // allow-same-origin lets embedded apps load their own module scripts while the domain allowlist and frame-ancestors keep isolation boundaries.
+        // allow-same-origin grants the embedded document the same origin as this proxy,
+        // so it can access the parent's DOM, cookies, and localStorage.
+        // The domain allowlist and frame-ancestors restrict who can be proxied/framed,
+        // but do NOT prevent same-origin access once allow-same-origin is set.
         'content-security-policy': "sandbox allow-scripts allow-forms allow-popups allow-same-origin; frame-ancestors 'self'",
       },
     });
@@ -101,7 +104,10 @@ export async function GET(req: NextRequest) {
     headers: {
       'content-type': contentType,
       'cache-control': 'no-store',
-      // allow-same-origin lets embedded apps load their own module scripts while the domain allowlist and frame-ancestors keep isolation boundaries.
+      // allow-same-origin grants the embedded document the same origin as this proxy,
+      // so it can access the parent's DOM, cookies, and localStorage.
+      // The domain allowlist and frame-ancestors restrict who can be proxied/framed,
+      // but do NOT prevent same-origin access once allow-same-origin is set.
       'content-security-policy': "sandbox allow-scripts allow-forms allow-popups allow-same-origin; frame-ancestors 'self'",
     },
   });
