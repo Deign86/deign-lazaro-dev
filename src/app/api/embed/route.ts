@@ -64,7 +64,7 @@ export async function GET(req: NextRequest) {
       headers: {
         'content-type': contentType,
         'cache-control': 'no-store',
-        'content-security-policy': 'frame-ancestors *',
+        'content-security-policy': "sandbox; frame-ancestors 'self'",
       },
     });
   }
@@ -77,7 +77,7 @@ export async function GET(req: NextRequest) {
     headers: {
       'content-type': contentType,
       'cache-control': 'no-store',
-      'content-security-policy': 'frame-ancestors *',
+      'content-security-policy': "sandbox; frame-ancestors 'self'",
     },
   });
 }
