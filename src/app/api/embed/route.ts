@@ -105,7 +105,7 @@ export async function GET(req: NextRequest) {
   }
 
   const html = await upstream.text();
-  const appOrigin = `${req.nextUrl.protocol}//${req.nextUrl.host}`;
+  const appOrigin = req.nextUrl.origin;
   const patchedHtml = rewriteSameOriginUrls(injectBaseTag(html, targetUrl.origin), targetUrl.origin, appOrigin);
 
   return new Response(patchedHtml, {
