@@ -2,13 +2,13 @@
 
 A modern, animated portfolio website built with Next.js 16, React 19, and TypeScript, featuring dynamic GitHub project integration and stunning UI/UX animations.
 
-## 🚀 Live Demo
+## Live Demo
 
 **Production**: [https://deign-lazaro-dev.vercel.app](https://deign-lazaro-dev.vercel.app)
 
 **Repository**: [https://github.com/Deign86/deign-lazaro-dev](https://github.com/Deign86/deign-lazaro-dev)
 
-## ✨ Features
+## Features
 
 - **Dynamic GitHub Integration**: Automatically fetches and displays your latest GitHub projects
 - **Smooth Animations**: Custom animations powered by Framer Motion
@@ -20,7 +20,7 @@ A modern, animated portfolio website built with Next.js 16, React 19, and TypeSc
 - **ISR (Incremental Static Regeneration)**: Fresh GitHub data every hour
 - **Responsive Design**: Optimized for all screen sizes
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework**: [Next.js 16](https://nextjs.org) (App Router)
 - **UI Library**: [React 19](https://react.dev)
@@ -30,7 +30,7 @@ A modern, animated portfolio website built with Next.js 16, React 19, and TypeSc
 - **Deployment**: [Vercel](https://vercel.com)
 - **API Integration**: GitHub REST API
 
-## 📦 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -69,7 +69,7 @@ bun dev
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-## 🎨 Project Structure
+## Project Structure
 
 ```
 deign-lazaro-dev/
@@ -97,7 +97,7 @@ deign-lazaro-dev/
 └── public/                   # Static assets
 ```
 
-## 🎯 Key Features Explained
+## Key Features Explained
 
 ### GitHub Integration
 
@@ -125,7 +125,7 @@ Monochromatic (black & white) design with:
 - Consistent spacing and typography
 - Custom Tailwind utilities
 
-## 🚀 Deployment
+## Deployment
 
 This project is configured for automatic deployment on Vercel:
 
@@ -139,7 +139,7 @@ This project is configured for automatic deployment on Vercel:
 vercel --prod
 ```
 
-## 📝 Configuration
+## Configuration
 
 ### GitHub API
 
@@ -158,7 +158,7 @@ Adjust the revalidation time in `src/app/page.tsx`:
 export const revalidate = 3600; // seconds (1 hour)
 ```
 
-## 🎨 Customization
+## Customization
 
 ### Colors
 
@@ -175,22 +175,22 @@ Edit CSS variables in `src/app/globals.css`:
 
 Modify animation parameters in component files or create new ones in `src/components/ui/`.
 
-## 📚 Learn More
+## Learn More
 
 - [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API
 - [React Documentation](https://react.dev) - Learn React
 - [Tailwind CSS](https://tailwindcss.com/docs) - Utility-first CSS framework
 - [Framer Motion](https://www.framer.com/motion/) - Animation library
 
-## 🤝 Contributing
+## Contributing
 
 This is a personal portfolio project, but suggestions and feedback are welcome!
 
-## 📄 License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## 👤 Author
+## Author
 
 **Deign Lazaro**
 
@@ -199,4 +199,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-Built with ❤️ using Next.js, React, and TypeScript
+Built with Next.js, React, and TypeScript
