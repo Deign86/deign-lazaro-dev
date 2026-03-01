@@ -51,7 +51,11 @@ export async function GET() {
     );
   } finally {
     if (browser) {
-      await browser.close();
+      try {
+        await browser.close();
+      } catch (closeError) {
+        console.error('Error closing browser after PDF generation:', closeError);
+      }
     }
   }
 }
