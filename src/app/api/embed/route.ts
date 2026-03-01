@@ -87,11 +87,8 @@ export async function GET(req: NextRequest) {
       headers: {
         'content-type': contentType,
         'cache-control': 'no-store',
-        // allow-same-origin is intentionally omitted: the CSP sandbox and the iframe sandbox
-        // attribute are intersected by the browser, so the embedded content never gains
-        // same-origin privileges even though the iframe grants allow-same-origin.
-        // When opened directly in a tab (no iframe), omitting allow-same-origin still forces an opaque origin even with scripts/forms/popups allowed.
-        'content-security-policy': "sandbox allow-scripts allow-forms allow-popups; frame-ancestors 'self'",
+        // allow-same-origin lets embedded apps load their own module scripts while the domain allowlist and frame-ancestors keep isolation boundaries.
+        'content-security-policy': "sandbox allow-scripts allow-forms allow-popups allow-same-origin; frame-ancestors 'self'",
       },
     });
   }
@@ -104,11 +101,8 @@ export async function GET(req: NextRequest) {
     headers: {
       'content-type': contentType,
       'cache-control': 'no-store',
-      // allow-same-origin is intentionally omitted: the CSP sandbox and the iframe sandbox
-      // attribute are intersected by the browser, so the embedded content never gains
-      // same-origin privileges even though the iframe grants allow-same-origin.
-      // When opened directly in a tab (no iframe), omitting allow-same-origin still forces an opaque origin even with scripts/forms/popups allowed.
-      'content-security-policy': "sandbox allow-scripts allow-forms allow-popups; frame-ancestors 'self'",
+      // allow-same-origin lets embedded apps load their own module scripts while the domain allowlist and frame-ancestors keep isolation boundaries.
+      'content-security-policy': "sandbox allow-scripts allow-forms allow-popups allow-same-origin; frame-ancestors 'self'",
     },
   });
 }
