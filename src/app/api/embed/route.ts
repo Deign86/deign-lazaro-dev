@@ -100,6 +100,7 @@ export async function GET(req: NextRequest) {
         'content-type': contentType,
         'cache-control': 'no-store',
         'content-security-policy': "sandbox allow-scripts allow-forms allow-popups; frame-ancestors 'self'",
+        'access-control-allow-origin': '*',
       },
     });
   }
