@@ -66,7 +66,8 @@ export async function GET(req: NextRequest) {
     },
   });
   if (!upstream.ok) {
-    console.error(`Failed to fetch ${targetUrl.toString()}: ${upstream.status} ${upstream.statusText}`);
+    const safeTargetDescriptor = `${targetUrl.hostname}${targetUrl.pathname}`;
+    console.error(`Failed to fetch ${safeTargetDescriptor}: ${upstream.status} ${upstream.statusText}`);
     return new Response(`Failed to load target: ${upstream.status} ${upstream.statusText}`, { status: upstream.status });
   }
 
