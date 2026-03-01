@@ -67,7 +67,7 @@ export async function GET(req: NextRequest) {
         // allow-same-origin is intentionally omitted: the CSP sandbox and the iframe sandbox
         // attribute are intersected by the browser, so the embedded content never gains
         // same-origin privileges even though the iframe grants allow-same-origin.
-        // When opened directly in a tab (no iframe), the bare sandbox still isolates the origin.
+        // When opened directly in a tab (no iframe), omitting allow-same-origin still forces an opaque origin even with scripts/forms/popups allowed.
         'content-security-policy': "sandbox allow-scripts allow-forms allow-popups; frame-ancestors 'self'",
       },
     });
@@ -84,7 +84,7 @@ export async function GET(req: NextRequest) {
       // allow-same-origin is intentionally omitted: the CSP sandbox and the iframe sandbox
       // attribute are intersected by the browser, so the embedded content never gains
       // same-origin privileges even though the iframe grants allow-same-origin.
-      // When opened directly in a tab (no iframe), the bare sandbox still isolates the origin.
+      // When opened directly in a tab (no iframe), omitting allow-same-origin still forces an opaque origin even with scripts/forms/popups allowed.
       'content-security-policy': "sandbox allow-scripts allow-forms allow-popups; frame-ancestors 'self'",
     },
   });
