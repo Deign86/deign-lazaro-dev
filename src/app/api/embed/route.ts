@@ -15,16 +15,41 @@ function isAllowedHost(hostname: string) {
   );
 }
 
-// Rewrite absolute same-origin src/href attributes to go through the proxy.
+// Rewrite same-origin src/href attributes to go through the proxy.
 // Without allow-same-origin in the sandbox the page has an opaque origin, so
-// absolute same-origin asset URLs would otherwise fail to load.
-// appOrigin is used to build absolute proxy URLs (base tag would redirect root-relative paths to targetOrigin).
+// absolute and root-relative same-origin asset URLs would otherwise fail to load
+// or bypass the proxy. appOrigin is used to build absolute proxy URLs (base tag
+// would otherwise redirect root-relative paths to targetOrigin).
 function rewriteSameOriginUrls(html: string, targetOrigin: string, appOrigin: string): string {
   const escapedOrigin = targetOrigin.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return html.replace(
-    new RegExp(`((?:src|href)=["'])${escapedOrigin}(/[^"'\\s>]*)`, 'gi'),
-    (_, attr, path) => `${attr}${appOrigin}/api/embed?url=${encodeURIComponent(`${targetOrigin}${path}`)}`
+
+  // Rewrite absolute same-origin URLs like src="https://target/...".
+  const absolutePattern = new RegExp(
+    `((?:src|href)=["'])${escapedOrigin}(/[^"'\\s>]*)`,
+    'gi'
   );
+
+  // Rewrite root-relative URLs like src="/path" which, due to the injected base
+  // tag, would resolve to targetOrigin. Avoid protocol-relative URLs (//host/...).
+  const rootRelativePattern = /((?:src|href)=["'])\/(?!\/)([^"'\\s>]*)/gi;
+
+  return html
+    .replace(
+      absolutePattern,
+      (_match, attr: string, path: string) =>
+        `${attr}${appOrigin}/api/embed?url=${encodeURIComponent(
+          `${targetOrigin}${path}`
+        )}`
+    )
+    .replace(
+      rootRelativePattern,
+      (_match, attr: string, pathRest: string) => {
+        const fullPath = `/${pathRest}`;
+        return `${attr}${appOrigin}/api/embed?url=${encodeURIComponent(
+          `${targetOrigin}${fullPath}`
+        )}`;
+      }
+    );
 }
 
 // Patch HTML to keep relative assets working when proxied
