@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
             
             <div style="background-color: #f5f5f5; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
               <p style="margin: 0 0 12px 0;"><strong>Name:</strong> ${escapeHtml(name)}</p>
-              <p style="margin: 0 0 12px 0;"><strong>Email:</strong> <a href="mailto:${encodeURI(email)}" style="color: #0066cc;">${escapeHtml(email)}</a></p>
+              <p style="margin: 0 0 12px 0;"><strong>Email:</strong> <a href="mailto:${encodeURIComponent(email)}" style="color: #0066cc;">${escapeHtml(email)}</a></p>
             </div>
             
             <div style="background-color: #ffffff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px;">

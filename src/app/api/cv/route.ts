@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import puppeteer from 'puppeteer';
+import puppeteer, { type Browser } from 'puppeteer';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 
 export async function GET() {
-  let browser;
+  let browser: Browser | undefined;
   try {
     // Read the HTML file
     const htmlPath = join(process.cwd(), 'public', 'cv.html');
