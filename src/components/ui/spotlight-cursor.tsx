@@ -182,7 +182,7 @@ const useSpotlightEffect = (config: SpotlightConfig) => {
       window.removeEventListener('mouseleave', handleMouseLeave);
       stopDrawLoop();
     };
-  }, [config.radius, config.brightness, config.color]);
+  }, [config.radius, config.brightness, config.color, config.smoothing]);
 
   return canvasRef;
 };

@@ -10,6 +10,16 @@ interface ContactFormData {
   message: string;
 }
 
+// Escape HTML special characters to prevent XSS in email body
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 // Validation constants (must match client-side)
 const VALIDATION = {
   name: {
@@ -45,7 +55,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    if (name.length > VALIDATION.name.maxLength) {
+    if (name.trim().length > VALIDATION.name.maxLength) {
       return NextResponse.json(
         { error: `Name cannot exceed ${VALIDATION.name.maxLength} characters` },
         { status: 400 }
@@ -53,7 +63,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate email length and format
-    if (email.length > VALIDATION.email.maxLength) {
+    if (email.trim().length > VALIDATION.email.maxLength) {
       return NextResponse.json(
         { error: `Email cannot exceed ${VALIDATION.email.maxLength} characters` },
         { status: 400 }
@@ -74,7 +84,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    if (message.length > VALIDATION.message.maxLength) {
+    if (message.trim().length > VALIDATION.message.maxLength) {
       return NextResponse.json(
         { error: `Message cannot exceed ${VALIDATION.message.maxLength} characters` },
         { status: 400 }
@@ -103,19 +113,19 @@ export async function POST(request: NextRequest) {
         from: 'Portfolio Contact <onboarding@resend.dev>', // Use your verified domain later
         to: ['deign86@gmail.com'], // Your email address
         reply_to: email, // So you can reply directly to the sender
-        subject: `Portfolio Contact from ${name}`,
+        subject: `Portfolio Contact from ${escapeHtml(name)}`,
         html: `
           <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
             <h2 style="color: #1a1a1a; margin-bottom: 24px;">New Contact Form Submission</h2>
             
             <div style="background-color: #f5f5f5; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-              <p style="margin: 0 0 12px 0;"><strong>Name:</strong> ${name}</p>
-              <p style="margin: 0 0 12px 0;"><strong>Email:</strong> <a href="mailto:${email}" style="color: #0066cc;">${email}</a></p>
+              <p style="margin: 0 0 12px 0;"><strong>Name:</strong> ${escapeHtml(name)}</p>
+              <p style="margin: 0 0 12px 0;"><strong>Email:</strong> <a href="mailto:${encodeURI(email)}" style="color: #0066cc;">${escapeHtml(email)}</a></p>
             </div>
             
             <div style="background-color: #ffffff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px;">
               <h3 style="color: #333; margin: 0 0 12px 0;">Message:</h3>
-              <p style="color: #555; line-height: 1.6; white-space: pre-wrap; margin: 0;">${message}</p>
+              <p style="color: #555; line-height: 1.6; white-space: pre-wrap; margin: 0;">${escapeHtml(message)}</p>
             </div>
             
             <p style="color: #888; font-size: 12px; margin-top: 24px;">

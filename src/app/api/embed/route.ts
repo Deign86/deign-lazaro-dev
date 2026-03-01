@@ -17,7 +17,13 @@ function isAllowedHost(hostname: string) {
 
 // Patch HTML to keep relative assets working when proxied
 function injectBaseTag(html: string, targetOrigin: string) {
-  const baseTag = `<base href="${targetOrigin}/">`;
+  // Escape special HTML characters in the origin to prevent attribute breakout
+  const safeOrigin = targetOrigin
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  const baseTag = `<base href="${safeOrigin}/">`;
 
   // Remove CSP meta tags that may block framing
   const cleanedHtml = html.replace(
