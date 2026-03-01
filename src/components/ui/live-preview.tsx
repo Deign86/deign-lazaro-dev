@@ -37,12 +37,24 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
 
   const activeProject = projects[activeIndex];
   
-  // Build iframe URL with cache-busting parameter
-  const buildIframeSrc = (projectUrl: string) => {
-    const targetUrl = `${projectUrl}${projectUrl.includes('?') ? '&' : '?'}_cb=${cacheBuster}`;
+  // Build iframe URL: direct for Flutter apps, proxied for everything else
+  // Flutter/Dart apps use fetch() and module scripts to load WASM/JS assets.
+  // When served through the proxy with allow-same-origin the iframe's origin
+  // becomes the portfolio domain, turning those asset requests into cross-origin
+  // fetches that fail without CORS headers on the static Vercel deployment.
+  // Embed Flutter apps directly so they keep their own origin.
+  const buildIframeSrc = (project: LivePreviewProject) => {
+    if (
+      project.tags?.some((tag) =>
+        ['flutter', 'dart'].includes(tag.toLowerCase())
+      )
+    ) {
+      return project.url;
+    }
+    const targetUrl = `${project.url}${project.url.includes('?') ? '&' : '?'}_cb=${cacheBuster}`;
     return `/api/embed?url=${encodeURIComponent(targetUrl)}`;
   };
-  const iframeSrc = buildIframeSrc(activeProject.url);
+  const iframeSrc = buildIframeSrc(activeProject);
 
   const handlePrev = () => {
     setIsLoading(true);
