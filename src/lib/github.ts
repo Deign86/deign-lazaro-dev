@@ -83,6 +83,10 @@ const LIVE_DEPLOYMENTS: Record<string, { url: string; tags: string[] }> = {
     url: 'https://zhi-wei-zai.vercel.app',
     tags: ['HTML', 'Tailwind', 'Firebase'],
   },
+  'gamecon-system': {
+    url: 'https://gamecon-system.vercel.app',
+    tags: ['Vite', 'React', 'Firebase'],
+  },
 };
 
 // Categorize repos based on language and topics
@@ -127,6 +131,7 @@ const CUSTOM_DESCRIPTIONS: Record<string, string> = {
   'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'Full-stack digital classroom management system for PLV CEIT Building with real-time scheduling and room assignment features.',
   'V-Serve-ARTA-Feedback-Analytics': 'Centralized platform for collecting, analyzing, and reporting feedback on government service transactions through the ARTA Client Satisfaction Measurement initiative.',
   'zhi-wei-zai': 'A modern restaurant website for Zhi Wei Zai featuring menu browsing, shopping cart, user authentication, and reservations. Built with HTML/CSS and Firebase backend.',
+  'gamecon-system': 'Operations dashboard for IT GameCon 2026 with live headcounts, staffing shifts, tasking, and budget/incident tracking built as a Firebase-backed PWA.',
 };
 
 // Custom display names for repos
@@ -138,17 +143,20 @@ const CUSTOM_DISPLAY_NAMES: Record<string, string> = {
   'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'Digital Classroom PLV',
   'zhi-wei-zai': 'Zhi Wei Zai',
   'V-Serve-ARTA-Feedback-Analytics': 'V-Serve ARTA Analytics',
+  'gamecon-system': 'GameCon System',
 };
 
 // Custom demo URLs to override GitHub homepage field (fixes typos in repo settings)
 const CUSTOM_DEMO_URLS: Record<string, string> = {
   'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'https://digital-classroom-reservation-for-plv.vercel.app',
+  'gamecon-system': 'https://gamecon-system.vercel.app',
 };
 
 // Custom category overrides for repos that are miscategorized by auto-detection
 const CUSTOM_CATEGORIES: Record<string, ProcessedRepo['category']> = {
   'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'fullstack',
   'zhi-wei-zai': 'fullstack',
+  'gamecon-system': 'fullstack',
 };
 
 // Old/legacy projects that should ALWAYS appear at the END of lists
@@ -200,6 +208,23 @@ function getDescription(repo: GitHubRepo): string {
   return 'A project built with ' + (repo.language || 'code') + '.';
 }
 
+// Build basic tags for deployment cards when custom tags are not provided
+function getRepoTags(repo: ProcessedRepo): string[] {
+  const tags = new Set<string>();
+  
+  if (repo.language && repo.language !== 'Unknown') {
+    tags.add(repo.language);
+  }
+  
+  repo.topics.slice(0, 3).forEach(topic => {
+    if (topic.trim()) {
+      tags.add(topic);
+    }
+  });
+  
+  return Array.from(tags);
+}
+
 // Process raw GitHub repo data
 export function processRepo(repo: GitHubRepo): ProcessedRepo {
   return {
@@ -225,18 +250,19 @@ export function getLiveDeployments(repos: ProcessedRepo[]): DeploymentInfo[] {
   
   for (const repo of repos) {
     const deploymentConfig = LIVE_DEPLOYMENTS[repo.name];
-    if (deploymentConfig) {
-      deployments.push({
-        name: repo.name,
-        title: repo.displayName,
-        url: deploymentConfig.url,
-        description: repo.description,
-        tags: deploymentConfig.tags,
-        updatedAt: repo.updatedAt,
-        createdAt: repo.createdAt,
-        isOldProject: OLD_PROJECTS.has(repo.name),
-      });
-    }
+    const url = deploymentConfig?.url || repo.demoUrl;
+    if (!url) continue;
+    
+    deployments.push({
+      name: repo.name,
+      title: repo.displayName,
+      url,
+      description: repo.description,
+      tags: deploymentConfig?.tags || getRepoTags(repo),
+      updatedAt: repo.updatedAt,
+      createdAt: repo.createdAt,
+      isOldProject: OLD_PROJECTS.has(repo.name),
+    });
   }
   
   // Sort: old projects at the end, then by updatedAt (most recent first)
