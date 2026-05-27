@@ -450,8 +450,27 @@ export function extractTechStack(repos: GitHubRepo[]): {
   if (!frontend.includes('HTML')) frontend.push('HTML');
   if (!frontend.includes('CSS')) frontend.push('CSS');
   
-  // Add Firebase (commonly used in your projects)
-  if (!backend.includes('Firebase')) backend.push('Firebase');
+  // Infer frameworks from project descriptions and known patterns
+  const hasNextJS = repos.some(r => 
+    r.description?.toLowerCase().includes('next.js') || 
+    r.description?.toLowerCase().includes('nextjs') ||
+    r.name.toLowerCase().includes('portfolio')
+  );
+  const hasReact = hasNextJS || repos.some(r => r.description?.toLowerCase().includes('react'));
+  const hasTailwind = repos.some(r => r.description?.toLowerCase().includes('tailwind'));
+  const hasFastAPI = repos.some(r => r.description?.toLowerCase().includes('fastapi'));
+  const hasDjango = repos.some(r => r.description?.toLowerCase().includes('django'));
+  const hasFirebase = repos.some(r => r.description?.toLowerCase().includes('firebase'));
+  const hasFlutter = repos.some(r => r.description?.toLowerCase().includes('flutter'));
+  
+  // Add inferred frameworks
+  if (hasNextJS && !frontend.includes('Next.js')) frontend.push('Next.js');
+  if (hasReact && !frontend.includes('React')) frontend.push('React');
+  if (hasTailwind && !frontend.includes('Tailwind CSS')) frontend.push('Tailwind CSS');
+  if (hasFastAPI && !backend.includes('FastAPI')) backend.push('FastAPI');
+  if (hasDjango && !backend.includes('Django')) backend.push('Django');
+  if (hasFirebase && !backend.includes('Firebase')) backend.push('Firebase');
+  if (hasFlutter && !mobile.includes('Flutter')) mobile.push('Flutter');
   
   // Add inferred tools
   if (!tools.includes('Git')) tools.push('Git');
