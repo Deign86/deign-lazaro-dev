@@ -56,3 +56,8 @@ next-env.d.ts
 # temp assets
 public/*.tmp.png
 public/NotifyIconGeneratedAumid_*.png
+
+# graphify temp files
+graphify-out/.graphify_chunk_*.txt
+graphify-out/.graphify_semantic_new.json
+graphify-out/.graphify_python
