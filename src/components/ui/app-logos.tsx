@@ -189,6 +189,40 @@ const appLogos: AppLogo[] = [
     ),
   },
   {
+    id: "huggingface",
+    name: "Hugging Face",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <rect x="2" y="4" width="20" height="16" rx="4" />
+        <circle cx="8" cy="11" r="1.5" fill="currentColor" stroke="none" />
+        <circle cx="16" cy="11" r="1.5" fill="currentColor" stroke="none" />
+        <path d="M7 15c1.5 2 3.5 2.5 5 2.5s3.5-.5 5-2.5" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    id: "deepseek",
+    name: "DeepSeek",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="h-8 w-8">
+        <path d="M3 13c0-4 1.5-7 4-9S11 2 14 2s4.5 1 6 3c1.5 2 2 4.5 2 7 0 2-.5 4-1.5 5-.3.3-.7.5-1 .5l-1.5-1h-10l-1.5 1c-.3 0-.7-.2-1-.5-1-1-1.5-3-1.5-5z" />
+        <circle cx="10" cy="11" r="1" fill="white" />
+      </svg>
+    ),
+  },
+  {
+    id: "hermes",
+    name: "Hermes Agent",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="12" y1="6" x2="12" y2="22" />
+        <path d="M5 4l7 3 7-3" />
+        <path d="M9 14c2-1 4-1 6 0" />
+        <path d="M9 18c2-1 4-1 6 0" />
+      </svg>
+    ),
+  },
+  {
     id: "postgresql",
     name: "PostgreSQL",
     icon: (
