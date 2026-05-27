@@ -64,10 +64,15 @@ const CUSTOM_PRODUCTION_URLS: Record<string, string> = {
 
 // Projects to exclude from the deployments list (like this portfolio itself)
 const EXCLUDED_PROJECTS = new Set([
-  'deign-lazaro-dev',
   'backend',
   'comlec-assignment-for-kisch',
-  'mathpulse-ai',
+  'deign-lazaro-dev',
+  'des-encryption',
+  'des-encryption-app',
+  'des-simulation',
+  'mathpulse-api',
+  'mathpulse-ai-prototype',
+  'rcbc-debt-tracker',
 ]);
 
 // Featured projects that should ALWAYS appear FIRST in lists
@@ -81,10 +86,11 @@ const OLD_PROJECTS = new Set([
   'zhi-wei-zai',
 ]);
 
-// Format project name for display
+// Format project name for display (case-insensitive lookup)
 function formatProjectName(name: string): string {
-  if (PROJECT_DISPLAY_NAMES[name]) {
-    return PROJECT_DISPLAY_NAMES[name];
+  const normalizedName = name.toLowerCase();
+  if (PROJECT_DISPLAY_NAMES[normalizedName]) {
+    return PROJECT_DISPLAY_NAMES[normalizedName];
   }
   
   return name
@@ -129,8 +135,8 @@ export async function fetchVercelProjects(): Promise<LiveDeployment[]> {
     const deployments: LiveDeployment[] = [];
     
     for (const project of projects) {
-      // Skip excluded projects
-      if (EXCLUDED_PROJECTS.has(project.name)) {
+      // Skip excluded projects (case-insensitive)
+      if (EXCLUDED_PROJECTS.has(project.name.toLowerCase())) {
         continue;
       }
       
@@ -192,14 +198,14 @@ export async function fetchVercelProjects(): Promise<LiveDeployment[]> {
     
     // Sort: featured first, old projects last, then by updatedAt (most recent first)
     return deployments.sort((a, b) => {
-      // Featured projects always come first
-      const aIsFeatured = FEATURED_PROJECTS.has(a.projectName);
-      const bIsFeatured = FEATURED_PROJECTS.has(b.projectName);
+      // Featured projects always come first (case-insensitive)
+      const aIsFeatured = FEATURED_PROJECTS.has(a.projectName.toLowerCase());
+      const bIsFeatured = FEATURED_PROJECTS.has(b.projectName.toLowerCase());
       if (aIsFeatured && !bIsFeatured) return -1;
       if (!aIsFeatured && bIsFeatured) return 1;
       
-      const aIsOld = OLD_PROJECTS.has(a.projectName);
-      const bIsOld = OLD_PROJECTS.has(b.projectName);
+      const aIsOld = OLD_PROJECTS.has(a.projectName.toLowerCase());
+      const bIsOld = OLD_PROJECTS.has(b.projectName.toLowerCase());
       
       if (aIsOld && !bIsOld) return 1;
       if (!aIsOld && bIsOld) return -1;
@@ -214,9 +220,10 @@ export async function fetchVercelProjects(): Promise<LiveDeployment[]> {
 
 // Get the best production domain from aliases (prefer short, clean URLs)
 function getProductionDomain(projectName: string, domains: string[]): string | null {
-  // Check for custom production URL override first
-  if (CUSTOM_PRODUCTION_URLS[projectName]) {
-    return CUSTOM_PRODUCTION_URLS[projectName];
+  // Check for custom production URL override first (case-insensitive)
+  const normalizedName = projectName.toLowerCase();
+  if (CUSTOM_PRODUCTION_URLS[normalizedName]) {
+    return CUSTOM_PRODUCTION_URLS[normalizedName];
   }
   
   if (!domains || domains.length === 0) {

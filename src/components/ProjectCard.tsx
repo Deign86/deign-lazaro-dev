@@ -60,6 +60,8 @@ export function ProjectCard({ repo }: ProjectCardProps) {
     other: 'border-l-mono-300',
   };
 
+  const borderColor = categoryColors[repo.category] || 'border-l-mono-400';
+
   return (
     <motion.div
       ref={cardRef}
@@ -71,7 +73,7 @@ export function ProjectCard({ repo }: ProjectCardProps) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
-      className="group relative cursor-pointer"
+      className="group relative cursor-pointer h-full"
     >
       {/* Spotlight effect layer */}
       <div
@@ -83,7 +85,7 @@ export function ProjectCard({ repo }: ProjectCardProps) {
       />
       
       <div
-        className={`relative bg-mono-900 border border-mono-800 rounded-2xl p-6 md:p-8 h-full transition-all duration-500 hover:border-mono-600 hover:shadow-2xl hover:shadow-mono-950/50 border-l-4 ${categoryColors[repo.category]}`}
+        className={`relative bg-mono-900 border border-mono-800 rounded-2xl p-6 md:p-8 h-full transition-all duration-500 hover:border-mono-600 hover:shadow-2xl hover:shadow-mono-950/50 border-l-4 ${borderColor}`}
         style={{ transform: 'translateZ(20px)' }}
       >
         {/* Header */}

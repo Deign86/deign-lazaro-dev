@@ -192,38 +192,21 @@ const appLogos: AppLogo[] = [
     id: "huggingface",
     name: "Hugging Face",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-8 w-8">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#FFD21E"/>
-        <circle cx="8.5" cy="10.5" r="1.5" fill="#6B3FA0"/>
-        <circle cx="15.5" cy="10.5" r="1.5" fill="#6B3FA0"/>
-        <path d="M12 18c-2.28 0-4.22-1.66-5-4h10c-.78 2.34-2.72 4-5 4z" fill="#6B3FA0"/>
-        <path d="M7 10.5c0-.55.45-1 1-1s1 .45 1 1" stroke="#6B3FA0" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-        <path d="M15 10.5c0-.55.45-1 1-1s1 .45 1 1" stroke="#6B3FA0" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-      </svg>
+      <Image src="/logos/huggingface.png" alt="Hugging Face" width={32} height={32} className="h-8 w-8" />
     ),
   },
   {
     id: "deepseek",
     name: "DeepSeek",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-8 w-8">
-        <path d="M3.5 12.5c0-4.5 2.5-8.5 6-10.5 1.5-.8 3.2-1.2 5-1.2 3.5 0 6.5 2 8 5 .5 1 .8 2.1.8 3.2 0 1.5-.3 2.8-.8 4-.5 1.2-1.2 2.2-2.1 3-.8.8-1.8 1.4-2.9 1.8-1.2.4-2.5.6-3.8.6-1.5 0-2.8-.2-4-.7-1-.4-1.8-1-2.5-1.7-.5-.5-.9-1.1-1.2-1.8-.2-.5-.3-1-.3-1.5v-1.2z" fill="#4D6BFE"/>
-        <circle cx="10" cy="9" r="2" fill="white"/>
-        <circle cx="10" cy="9" r="1" fill="#4D6BFE"/>
-        <path d="M7 12.5c0 0 1.5 2 4.5 2s4.5-2 4.5-2" stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-      </svg>
+      <Image src="/logos/deepseek.png" alt="DeepSeek" width={32} height={32} className="h-8 w-8" unoptimized />
     ),
   },
   {
     id: "hermes",
     name: "Hermes Agent",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="12" y1="6" x2="12" y2="22" />
-        <path d="M5 4l7 3 7-3" />
-        <path d="M9 14c2-1 4-1 6 0" />
-        <path d="M9 18c2-1 4-1 6 0" />
-      </svg>
+      <Image src="/logos/hermes.png" alt="Hermes Agent" width={32} height={32} className="h-8 w-8" unoptimized />
     ),
   },
   {

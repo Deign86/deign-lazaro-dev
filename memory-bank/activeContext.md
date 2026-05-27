@@ -23,6 +23,7 @@ This file tracks the project's current status, including recent changes, current
 * [2026-05-27 10:13:38] - 🔧 Code refactoring: Removed RCBC Debt Tracker references from github.ts, vercel.ts, and Deployments.tsx - no RCBC strings remain in source
 * [2026-05-27 10:15:53] - 🚀 Feature completed: Added FEATURED_PROJECTS mechanism (`FEATURED_PROJECTS` set) to pin MathPulse AI first in all sort functions across github.ts and vercel.ts
 * [2026-05-27 10:21:45] - 🚀 Feature completed: Added Hugging Face, DeepSeek, and Hermes Agent logos to the spinning tools carousel in app-logos.tsx
+* [2026-05-27 20:04:31] - 🐛 Bug fix: Fixed card sizing by adding `h-full` to `StaggerItem` wrapper and `ProjectCard` outer `motion.div` to ensure uniform card heights in grid layout
 
 ## Open Questions/Issues
 

@@ -61,13 +61,13 @@ export interface DeploymentInfo {
   isOldProject?: boolean; // For projects that should always be at the end
 }
 
-// Live deployments configuration - maps repo names to their Vercel URLs
+// Live deployments configuration - maps repo names (lowercase) to their URLs
 const LIVE_DEPLOYMENTS: Record<string, { url: string; tags: string[] }> = {
-  'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': {
+  'digital-classroom-assignment-for-plv-ceit-bldg--with-backend-': {
     url: 'https://digital-classroom-reservation-for-plv.vercel.app',
     tags: ['Next.js', 'TypeScript', 'Firebase'],
   },
-  'V-Serve-ARTA-Feedback-Analytics': {
+  'v-serve-arta-feedback-analytics': {
     url: 'https://v-serve-arta-feedback.vercel.app',
     tags: ['Flutter', 'Dart', 'Firebase'],
   },
@@ -87,9 +87,10 @@ const LIVE_DEPLOYMENTS: Record<string, { url: string; tags: string[] }> = {
 
 // Categorize repos based on language and topics
 function categorizeRepo(repo: GitHubRepo): ProcessedRepo['category'] {
-  // Check for manual category override first
-  if (CUSTOM_CATEGORIES[repo.name]) {
-    return CUSTOM_CATEGORIES[repo.name];
+  // Check for manual category override first (case-insensitive)
+  const normalizedName = repo.name.toLowerCase();
+  if (CUSTOM_CATEGORIES[normalizedName]) {
+    return CUSTOM_CATEGORIES[normalizedName];
   }
   
   const lang = repo.language?.toLowerCase() || '';
@@ -118,37 +119,35 @@ function categorizeRepo(repo: GitHubRepo): ProcessedRepo['category'] {
   return 'other';
 }
 
-// Custom descriptions for repos that need better context
+// Custom descriptions for repos that need better context (keys are lowercase)
 const CUSTOM_DESCRIPTIONS: Record<string, string> = {
   'cinesense': 'An intelligent movie recommendation system built with Django, featuring ML-powered recommendations, IMDB/Letterboxd integrations, and a beautiful dark-themed UI.',
-  'mathpulse-api': 'MathPulse AI Backend - FastAPI-powered ML educational API for personalized math learning analytics.',
   'mathpulse-ai': 'An AI-powered mathematics learning platform designed to help teachers monitor student progress and provide personalized intervention strategies.',
-  'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'Full-stack digital classroom management system for PLV CEIT Building with real-time scheduling and room assignment features.',
-  'V-Serve-ARTA-Feedback-Analytics': 'Centralized platform for collecting, analyzing, and reporting feedback on government service transactions through the ARTA Client Satisfaction Measurement initiative.',
+  'digital-classroom-assignment-for-plv-ceit-bldg--with-backend-': 'Full-stack digital classroom management system for PLV CEIT Building with real-time scheduling and room assignment features.',
+  'v-serve-arta-feedback-analytics': 'Centralized platform for collecting, analyzing, and reporting feedback on government service transactions through the ARTA Client Satisfaction Measurement initiative.',
   'zhi-wei-zai': 'A modern restaurant website for Zhi Wei Zai featuring menu browsing, shopping cart, user authentication, and reservations. Built with HTML/CSS and Firebase backend.',
   'gamecon-system': 'Operations dashboard for IT GameCon 2026 with live headcounts, staffing shifts, tasking, and budget/incident tracking built as a Firebase-backed PWA.',
 };
 
-// Custom display names for repos
+// Custom display names for repos (keys are lowercase)
 const CUSTOM_DISPLAY_NAMES: Record<string, string> = {
   'cinesense': 'CineSense',
-  'mathpulse-api': 'MathPulse API',
   'mathpulse-ai': 'MathPulse AI',
-  'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'Digital Classroom PLV',
+  'digital-classroom-assignment-for-plv-ceit-bldg--with-backend-': 'Digital Classroom PLV',
   'zhi-wei-zai': 'Zhi Wei Zai',
-  'V-Serve-ARTA-Feedback-Analytics': 'V-Serve ARTA Analytics',
+  'v-serve-arta-feedback-analytics': 'V-Serve ARTA Analytics',
   'gamecon-system': 'GameCon System',
 };
 
-// Custom demo URLs to override GitHub homepage field (fixes typos in repo settings)
+// Custom demo URLs to override GitHub homepage field (keys are lowercase)
 const CUSTOM_DEMO_URLS: Record<string, string> = {
-  'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'https://digital-classroom-reservation-for-plv.vercel.app',
+  'digital-classroom-assignment-for-plv-ceit-bldg--with-backend-': 'https://digital-classroom-reservation-for-plv.vercel.app',
   'gamecon-system': 'https://gamecon-system.vercel.app',
 };
 
-// Custom category overrides for repos that are miscategorized by auto-detection
+// Custom category overrides for repos that are miscategorized by auto-detection (keys are lowercase)
 const CUSTOM_CATEGORIES: Record<string, ProcessedRepo['category']> = {
-  'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'fullstack',
+  'digital-classroom-assignment-for-plv-ceit-bldg--with-backend-': 'fullstack',
   'zhi-wei-zai': 'fullstack',
   'gamecon-system': 'fullstack',
 };
@@ -168,7 +167,11 @@ const OLD_PROJECTS = new Set([
 // Repos to exclude from the portfolio
 const EXCLUDED_REPOS = [
   'comlec-assignment-for-kisch',
+  'deign-lazaro-dev',
   'des-encryption',
+  'des-simulation',
+  'mathpulse-api',
+  'mathpulse-ai-prototype',
   'rcbc-debt-tracker',
 ];
 
@@ -185,9 +188,10 @@ function removeEmojis(text: string): string {
 
 // Format repo name for display
 function formatRepoName(name: string): string {
-  // Check for custom display name first
-  if (CUSTOM_DISPLAY_NAMES[name]) {
-    return CUSTOM_DISPLAY_NAMES[name];
+  // Check for custom display name first (case-insensitive)
+  const normalizedName = name.toLowerCase();
+  if (CUSTOM_DISPLAY_NAMES[normalizedName]) {
+    return CUSTOM_DISPLAY_NAMES[normalizedName];
   }
   
   return name
@@ -200,7 +204,8 @@ function formatRepoName(name: string): string {
 
 // Get description with custom override and emoji removal
 function getDescription(repo: GitHubRepo): string {
-  const customDesc = CUSTOM_DESCRIPTIONS[repo.name];
+  const normalizedName = repo.name.toLowerCase();
+  const customDesc = CUSTOM_DESCRIPTIONS[normalizedName];
   if (customDesc) return customDesc;
   
   if (repo.description) {
@@ -229,13 +234,14 @@ function getRepoTags(repo: ProcessedRepo): string[] {
 
 // Process raw GitHub repo data
 export function processRepo(repo: GitHubRepo): ProcessedRepo {
+  const normalizedName = repo.name.toLowerCase();
   return {
     id: repo.id,
     name: repo.name,
     displayName: formatRepoName(repo.name),
     description: getDescription(repo),
     url: repo.html_url,
-    demoUrl: CUSTOM_DEMO_URLS[repo.name] || repo.homepage || null,
+    demoUrl: CUSTOM_DEMO_URLS[normalizedName] || repo.homepage || null,
     language: repo.language || 'Unknown',
     stars: repo.stargazers_count,
     forks: repo.forks_count,
@@ -263,15 +269,15 @@ export function getLiveDeployments(repos: ProcessedRepo[]): DeploymentInfo[] {
       tags: deploymentConfig?.tags || getRepoTags(repo),
       updatedAt: repo.updatedAt,
       createdAt: repo.createdAt,
-      isOldProject: OLD_PROJECTS.has(repo.name),
+      isOldProject: OLD_PROJECTS.has(repo.name.toLowerCase()),
     });
   }
   
   // Sort: featured first, old projects last, then by updatedAt (most recent first)
   return deployments.sort((a, b) => {
-    // Featured projects always come first
-    const aIsFeatured = FEATURED_PROJECTS.has(a.name);
-    const bIsFeatured = FEATURED_PROJECTS.has(b.name);
+    // Featured projects always come first (case-insensitive)
+    const aIsFeatured = FEATURED_PROJECTS.has(a.name.toLowerCase());
+    const bIsFeatured = FEATURED_PROJECTS.has(b.name.toLowerCase());
     if (aIsFeatured && !bIsFeatured) return -1;
     if (!aIsFeatured && bIsFeatured) return 1;
     
@@ -293,6 +299,7 @@ export function mergeDeploymentsWithRepos(
   repos: ProcessedRepo[]
 ): DeploymentInfo[] {
   const repoMap = new Map(repos.map(r => [r.name.toLowerCase(), r]));
+  const processedRepos = new Set<string>();
   
   const deployments: DeploymentInfo[] = vercelDeployments.map(deployment => {
     // Try to find matching GitHub repo
@@ -303,27 +310,53 @@ export function mergeDeploymentsWithRepos(
         deployment.projectName.toLowerCase().includes(r.name.toLowerCase().slice(0, 10))
       );
     
+    // Track which repos we've processed
+    if (matchingRepo) processedRepos.add(matchingRepo.name.toLowerCase());
+    
     // Get tags from custom config if exists, otherwise infer from framework
-    const customConfig = LIVE_DEPLOYMENTS[matchingRepo?.name || ''];
+    const customConfig = LIVE_DEPLOYMENTS[matchingRepo?.name?.toLowerCase() || ''];
     const tags = customConfig?.tags || getFrameworkTags(deployment.framework);
+    
+    // Use custom URL if available (e.g., Hugging Face for MathPulse AI)
+    const url = customConfig?.url || deployment.url;
     
     return {
       name: matchingRepo?.name || deployment.projectName,
       title: matchingRepo?.displayName || deployment.displayName,
-      url: deployment.url,
+      url,
       description: matchingRepo?.description || `A ${deployment.framework || 'web'} project deployed on Vercel.`,
       tags,
       updatedAt: deployment.updatedAt,
       createdAt: deployment.createdAt,
-      isOldProject: OLD_PROJECTS.has(deployment.projectName),
+      isOldProject: OLD_PROJECTS.has(deployment.projectName.toLowerCase()),
     };
   });
   
+  // Add repos that have LIVE_DEPLOYMENTS config but weren't in Vercel deployments
+  for (const repo of repos) {
+    const normalizedName = repo.name.toLowerCase();
+    if (processedRepos.has(normalizedName)) continue;
+    
+    const deploymentConfig = LIVE_DEPLOYMENTS[normalizedName];
+    if (!deploymentConfig) continue;
+    
+    deployments.push({
+      name: repo.name,
+      title: repo.displayName,
+      url: deploymentConfig.url,
+      description: repo.description,
+      tags: deploymentConfig.tags,
+      updatedAt: repo.updatedAt,
+      createdAt: repo.createdAt,
+      isOldProject: OLD_PROJECTS.has(normalizedName),
+    });
+  }
+  
   // Sort: featured first, old projects last, then by updatedAt (most recent first)
   return deployments.sort((a, b) => {
-    // Featured projects always come first
-    const aIsFeatured = FEATURED_PROJECTS.has(a.name);
-    const bIsFeatured = FEATURED_PROJECTS.has(b.name);
+    // Featured projects always come first (case-insensitive)
+    const aIsFeatured = FEATURED_PROJECTS.has(a.name.toLowerCase());
+    const bIsFeatured = FEATURED_PROJECTS.has(b.name.toLowerCase());
     if (aIsFeatured && !bIsFeatured) return -1;
     if (!aIsFeatured && bIsFeatured) return 1;
     
@@ -450,23 +483,24 @@ export async function fetchGitHubRepos(username: string): Promise<GitHubRepo[]> 
     if (!res.ok) return [];
     const repos: GitHubRepo[] = await res.json();
     
-    // Filter out forks, archived repos, and excluded repos
+    // Filter out forks, archived repos, and excluded repos (case-insensitive)
+    const excludedLower = EXCLUDED_REPOS.map(r => r.toLowerCase());
     const filtered = repos.filter(repo => 
       !repo.fork && 
       !repo.archived && 
-      !EXCLUDED_REPOS.includes(repo.name)
+      !excludedLower.includes(repo.name.toLowerCase())
     );
     
     // Sort: featured first, old projects last, everything else by updated date (most recent first)
     return filtered.sort((a, b) => {
-      // Featured projects always come first
-      const aIsFeatured = FEATURED_PROJECTS.has(a.name);
-      const bIsFeatured = FEATURED_PROJECTS.has(b.name);
+      // Featured projects always come first (case-insensitive)
+      const aIsFeatured = FEATURED_PROJECTS.has(a.name.toLowerCase());
+      const bIsFeatured = FEATURED_PROJECTS.has(b.name.toLowerCase());
       if (aIsFeatured && !bIsFeatured) return -1;
       if (!aIsFeatured && bIsFeatured) return 1;
       
-      const aIsOld = OLD_PROJECTS.has(a.name);
-      const bIsOld = OLD_PROJECTS.has(b.name);
+      const aIsOld = OLD_PROJECTS.has(a.name.toLowerCase());
+      const bIsOld = OLD_PROJECTS.has(b.name.toLowerCase());
       
       // Old projects always go to the end
       if (aIsOld && !bIsOld) return 1;

@@ -8,17 +8,17 @@ import { WordReveal } from './ui/text-reveal';
 import { LivePreview, type LivePreviewProject } from './ui/live-preview';
 import type { DeploymentInfo } from '@/lib/github';
 
-// Icon mapping for different project types
+// Icon mapping for different project types (keys are lowercase)
 const ICON_MAP: Record<string, React.ReactNode> = {
-  'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': <Building2 className="size-4 text-mono-300" />,
-  'V-Serve-ARTA-Feedback-Analytics': <ClipboardCheck className="size-4 text-mono-300" />,
+  'digital-classroom-assignment-for-plv-ceit-bldg--with-backend-': <Building2 className="size-4 text-mono-300" />,
+  'v-serve-arta-feedback-analytics': <ClipboardCheck className="size-4 text-mono-300" />,
   'mathpulse-ai': <Brain className="size-4 text-mono-300" />,
   'zhi-wei-zai': <Utensils className="size-4 text-mono-300" />,
 };
 
 const ICON_MAP_LARGE: Record<string, React.ReactNode> = {
-  'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': <Building2 className="size-5 text-mono-300" />,
-  'V-Serve-ARTA-Feedback-Analytics': <ClipboardCheck className="size-5 text-mono-300" />,
+  'digital-classroom-assignment-for-plv-ceit-bldg--with-backend-': <Building2 className="size-5 text-mono-300" />,
+  'v-serve-arta-feedback-analytics': <ClipboardCheck className="size-5 text-mono-300" />,
   'mathpulse-ai': <Brain className="size-5 text-mono-300" />,
   'zhi-wei-zai': <Utensils className="size-5 text-mono-300" />,
 };
@@ -67,7 +67,7 @@ export function Deployments({ deployments }: DeploymentsProps) {
     repoName: truncateRepoName(d.name),
     lastCommit: `Updated ${formatRelativeTime(d.updatedAt)}`,
     date: formatDate(d.updatedAt),
-    icon: ICON_MAP[d.name] || <Globe className="size-4 text-mono-300" />,
+    icon: ICON_MAP[d.name.toLowerCase()] || <Globe className="size-4 text-mono-300" />,
   }));
 
   // Transform deployment data for LivePreview
@@ -75,7 +75,7 @@ export function Deployments({ deployments }: DeploymentsProps) {
     title: d.title,
     url: d.url,
     description: d.description,
-    icon: ICON_MAP_LARGE[d.name] || <Globe className="size-5 text-mono-300" />,
+    icon: ICON_MAP_LARGE[d.name.toLowerCase()] || <Globe className="size-5 text-mono-300" />,
     tags: d.tags,
   }));
 
