@@ -80,7 +80,7 @@ const LIVE_DEPLOYMENTS: Record<string, { url: string; tags: string[] }> = {
     tags: ['HTML', 'Tailwind', 'Firebase'],
   },
   'gamecon-system': {
-    url: 'https://gamecon-system.vercel.app',
+    url: 'https://playverse-ops.vercel.app/',
     tags: ['Vite', 'React', 'Firebase'],
   },
 };
@@ -142,7 +142,7 @@ const CUSTOM_DISPLAY_NAMES: Record<string, string> = {
 // Custom demo URLs to override GitHub homepage field (keys are lowercase)
 const CUSTOM_DEMO_URLS: Record<string, string> = {
   'digital-classroom-assignment-for-plv-ceit-bldg--with-backend-': 'https://digital-classroom-reservation-for-plv.vercel.app',
-  'gamecon-system': 'https://gamecon-system.vercel.app',
+  'gamecon-system': 'https://playverse-ops.vercel.app/',
 };
 
 // Custom category overrides for repos that are miscategorized by auto-detection (keys are lowercase)
