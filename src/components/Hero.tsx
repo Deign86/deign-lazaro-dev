@@ -116,9 +116,9 @@ export function Hero() {
           className="mt-8 text-lg md:text-xl text-mono-400 max-w-2xl mx-auto leading-relaxed"
           style={{ willChange: 'opacity, transform' }}
         >
-          Building fully-deployed web apps, agentic coding tools & AI automation systems.{' '}
+          Building production-ready web apps, AI automation & agentic tools.{' '}
           <br className="hidden md:block" />
-          From concept to production—clean code, real-world impact.
+          From concept to deployment, clean code with real impact.
         </motion.div>
 
         {/* CTA Button */}
