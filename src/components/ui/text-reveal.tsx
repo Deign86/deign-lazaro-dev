@@ -68,6 +68,7 @@ export function BlurredTextReveal({
           key={`${char}-${index}`}
           variants={letterVariants}
           className="inline-block"
+          aria-hidden="true"
         >
           {char === ' ' ? '\u00A0' : char}
         </motion.span>
