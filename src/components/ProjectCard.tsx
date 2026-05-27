@@ -53,11 +53,11 @@ export function ProjectCard({ repo }: ProjectCardProps) {
   };
 
   const categoryColors = {
-    frontend: 'border-l-mono-400',
-    backend: 'border-l-mono-600',
+    frontend: 'border-l-mono-800',
+    backend: 'border-l-mono-800',
     fullstack: 'border-l-mono-800',
-    mobile: 'border-l-mono-500',
-    other: 'border-l-mono-300',
+    mobile: 'border-l-mono-800',
+    other: 'border-l-mono-800',
   };
 
   const borderColor = categoryColors[repo.category] || 'border-l-mono-400';
