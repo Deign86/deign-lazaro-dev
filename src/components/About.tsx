@@ -92,7 +92,7 @@ export function About({ techStack, liveDeployCount }: { techStack: TechStackProp
             </p>
             <p className="mt-6 text-lg text-mono-400 leading-relaxed text-justify">
               I specialize in Python, TypeScript, and modern frameworks like Next.js, Django, and FastAPI—with growing expertise 
-              in AI/ML integration using OpenAI, Claude, and Azure AI services.
+               in AI/ML integration using Hermes Agent, open-source AI tooling, and the OpenAI/Claude APIs.
             </p>
 
             {/* Stats with staggered animation */}

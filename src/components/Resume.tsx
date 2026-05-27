@@ -49,7 +49,7 @@ const projects: TimelineItem[] = [
     period: 'Ongoing',
     description: [
       'Building automation tools with Python and AI integrations',
-      'Working with Claude, OpenAI, and Azure AI services',
+      'Working with Claude, OpenAI, Hermes Agent, and open-source AI tooling',
     ],
   },
   {
@@ -74,7 +74,7 @@ const skillCategories: SkillCategory[] = [
   },
   {
     name: 'AI & ML',
-    skills: ['OpenAI API', 'Claude API', 'LangChain', 'Azure AI', 'Hugging Face'],
+    skills: ['OpenAI API', 'Claude API', 'LangChain', 'Hermes Agent', 'Hugging Face'],
   },
   {
     name: 'Tools',
