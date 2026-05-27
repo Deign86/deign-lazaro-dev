@@ -5,6 +5,7 @@
 
 import Image from "next/image";
 import AutoScroll from "embla-carousel-auto-scroll";
+import { useState, useCallback } from "react";
 
 import {
   Carousel,
@@ -373,6 +374,16 @@ const AppLogos = ({
   heading = "Tools I Work With",
   className,
 }: AppLogosProps) => {
+  const [isPaused, setIsPaused] = useState(false);
+
+  const handleMouseEnter = useCallback(() => {
+    setIsPaused(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsPaused(false);
+  }, []);
+
   return (
     <section className={`py-24 ${className || ""}`}>
       <div className="container mx-auto flex flex-col items-center text-center px-4">
@@ -384,13 +395,22 @@ const AppLogos = ({
         </p>
       </div>
       <div className="pt-10 md:pt-16">
-        <div className="relative mx-auto max-w-4xl overflow-hidden">
+        <div 
+          className="relative mx-auto max-w-4xl overflow-hidden"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           {/* Gradient fade edges */}
           <div className="absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-background to-transparent pointer-events-none"></div>
           <div className="absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-background to-transparent pointer-events-none"></div>
           <Carousel
             opts={{ loop: true, align: "start" }}
-            plugins={[AutoScroll({ playOnInit: true, speed: 0.8, stopOnInteraction: false })]}
+            plugins={[AutoScroll({ 
+              playOnInit: true, 
+              speed: 0.8, 
+              stopOnInteraction: true,
+              active: !isPaused
+            })]}
             className="w-full"
           >
             <CarouselContent className="-ml-2">
