@@ -133,12 +133,12 @@ export function About({ techStack, liveDeployCount }: { techStack: TechStackProp
                       {category.name}
                     </span>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-3">
                     {category.items.map((tech) => (
                       <StaggerItem key={tech} direction="up" blur={true} scale={true}>
                         <motion.span
                           whileHover={{ scale: 1.05, y: -2 }}
-                          className="px-4 py-2 bg-mono-800 text-mono-300 rounded-full text-sm font-medium cursor-pointer transition-colors hover:bg-mono-700 select-none"
+                          className="inline-block px-4 py-2 bg-mono-800 text-mono-300 rounded-full text-sm font-medium cursor-pointer transition-colors hover:bg-mono-700 select-none"
                         >
                           {tech}
                         </motion.span>
