@@ -175,15 +175,23 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
               >
                 <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </a>
-              <a
-                href={activeProject.url}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => {
+                  if (iframeRef.current) {
+                    if (iframeRef.current.requestFullscreen) {
+                      iframeRef.current.requestFullscreen();
+                    } else if ((iframeRef.current as any).webkitRequestFullscreen) {
+                      (iframeRef.current as any).webkitRequestFullscreen();
+                    } else if ((iframeRef.current as any).msRequestFullscreen) {
+                      (iframeRef.current as any).msRequestFullscreen();
+                    }
+                  }
+                }}
                 className="hidden sm:block p-1.5 rounded hover:bg-mono-800 transition-colors text-mono-500 hover:text-mono-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-1 focus-visible:ring-offset-mono-900"
                 aria-label="Fullscreen"
               >
                 <Maximize2 className="w-4 h-4" />
-              </a>
+              </button>
             </div>
           </div>
 
