@@ -52,7 +52,6 @@ const PROJECT_DISPLAY_NAMES: Record<string, string> = {
   'plv-ceit-classroom': 'Digital Classroom PLV',
   'digital-classroom-reservation-for-plv': 'Digital Classroom PLV',
   'v-serve-arta-feedback': 'V-Serve ARTA Analytics',
-  'rcbc-debt-tracker': 'RCBC Debt Tracker',
   'mathpulse-ai': 'MathPulse AI',
   'zhi-wei-zai': 'Zhi Wei Zai',
   'deign-lazaro-dev': 'Portfolio',
@@ -68,6 +67,13 @@ const EXCLUDED_PROJECTS = new Set([
   'deign-lazaro-dev',
   'backend',
   'comlec-assignment-for-kisch',
+  'mathpulse-ai',
+]);
+
+// Featured projects that should ALWAYS appear FIRST in lists
+// These are pinned to the top regardless of timestamp
+const FEATURED_PROJECTS = new Set([
+  'mathpulse-ai',
 ]);
 
 // Old/legacy projects that should appear at the end
@@ -184,8 +190,14 @@ export async function fetchVercelProjects(): Promise<LiveDeployment[]> {
       }
     }
     
-    // Sort: old projects at the end, then by updatedAt (most recent first)
+    // Sort: featured first, old projects last, then by updatedAt (most recent first)
     return deployments.sort((a, b) => {
+      // Featured projects always come first
+      const aIsFeatured = FEATURED_PROJECTS.has(a.projectName);
+      const bIsFeatured = FEATURED_PROJECTS.has(b.projectName);
+      if (aIsFeatured && !bIsFeatured) return -1;
+      if (!aIsFeatured && bIsFeatured) return 1;
+      
       const aIsOld = OLD_PROJECTS.has(a.projectName);
       const bIsOld = OLD_PROJECTS.has(b.projectName);
       

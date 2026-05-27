@@ -71,12 +71,8 @@ const LIVE_DEPLOYMENTS: Record<string, { url: string; tags: string[] }> = {
     url: 'https://v-serve-arta-feedback.vercel.app',
     tags: ['Flutter', 'Dart', 'Firebase'],
   },
-  'rcbc-debt-tracker': {
-    url: 'https://rcbc-debt-tracker.vercel.app',
-    tags: ['React', 'PWA', 'Tailwind'],
-  },
   'mathpulse-ai': {
-    url: 'https://mathpulse-ai.vercel.app',
+    url: 'https://huggingface.co/spaces/Deign86/MathPulse-AI',
     tags: ['Next.js', 'TypeScript', 'FastAPI'],
   },
   'zhi-wei-zai': {
@@ -125,7 +121,6 @@ function categorizeRepo(repo: GitHubRepo): ProcessedRepo['category'] {
 // Custom descriptions for repos that need better context
 const CUSTOM_DESCRIPTIONS: Record<string, string> = {
   'cinesense': 'An intelligent movie recommendation system built with Django, featuring ML-powered recommendations, IMDB/Letterboxd integrations, and a beautiful dark-themed UI.',
-  'rcbc-debt-tracker': 'Mobile-first PWA for tracking RCBC credit card debt repayment with an interactive payment simulator and progress visualization.',
   'mathpulse-api': 'MathPulse AI Backend - FastAPI-powered ML educational API for personalized math learning analytics.',
   'mathpulse-ai': 'An AI-powered mathematics learning platform designed to help teachers monitor student progress and provide personalized intervention strategies.',
   'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'Full-stack digital classroom management system for PLV CEIT Building with real-time scheduling and room assignment features.',
@@ -137,7 +132,6 @@ const CUSTOM_DESCRIPTIONS: Record<string, string> = {
 // Custom display names for repos
 const CUSTOM_DISPLAY_NAMES: Record<string, string> = {
   'cinesense': 'CineSense',
-  'rcbc-debt-tracker': 'RCBC Debt Tracker',
   'mathpulse-api': 'MathPulse API',
   'mathpulse-ai': 'MathPulse AI',
   'Digital-Classroom-Assignment-for-PLV-CEIT-Bldg--with-backend-': 'Digital Classroom PLV',
@@ -159,6 +153,12 @@ const CUSTOM_CATEGORIES: Record<string, ProcessedRepo['category']> = {
   'gamecon-system': 'fullstack',
 };
 
+// Featured projects that should ALWAYS appear FIRST in lists
+// These are pinned to the top regardless of timestamp
+const FEATURED_PROJECTS = new Set([
+  'mathpulse-ai',
+]);
+
 // Old/legacy projects that should ALWAYS appear at the END of lists
 // These are kept for portfolio history but are less relevant
 const OLD_PROJECTS = new Set([
@@ -168,6 +168,7 @@ const OLD_PROJECTS = new Set([
 // Repos to exclude from the portfolio
 const EXCLUDED_REPOS = [
   'comlec-assignment-for-kisch',
+  'des-encryption',
 ];
 
 // Remove emojis from text
@@ -265,13 +266,18 @@ export function getLiveDeployments(repos: ProcessedRepo[]): DeploymentInfo[] {
     });
   }
   
-  // Sort: old projects at the end, then by updatedAt (most recent first)
+  // Sort: featured first, old projects last, then by updatedAt (most recent first)
   return deployments.sort((a, b) => {
+    // Featured projects always come first
+    const aIsFeatured = FEATURED_PROJECTS.has(a.name);
+    const bIsFeatured = FEATURED_PROJECTS.has(b.name);
+    if (aIsFeatured && !bIsFeatured) return -1;
+    if (!aIsFeatured && bIsFeatured) return 1;
+    
     // Old projects always go to the end
     if (a.isOldProject && !b.isOldProject) return 1;
     if (!a.isOldProject && b.isOldProject) return -1;
     
-    // For non-old projects, sort by updatedAt (most recent first)
     return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
   });
 }
@@ -312,8 +318,14 @@ export function mergeDeploymentsWithRepos(
     };
   });
   
-  // Sort: old projects at the end, then by updatedAt (most recent first)
+  // Sort: featured first, old projects last, then by updatedAt (most recent first)
   return deployments.sort((a, b) => {
+    // Featured projects always come first
+    const aIsFeatured = FEATURED_PROJECTS.has(a.name);
+    const bIsFeatured = FEATURED_PROJECTS.has(b.name);
+    if (aIsFeatured && !bIsFeatured) return -1;
+    if (!aIsFeatured && bIsFeatured) return 1;
+    
     if (a.isOldProject && !b.isOldProject) return 1;
     if (!a.isOldProject && b.isOldProject) return -1;
     return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
@@ -444,8 +456,14 @@ export async function fetchGitHubRepos(username: string): Promise<GitHubRepo[]> 
       !EXCLUDED_REPOS.includes(repo.name)
     );
     
-    // Sort: OLD_PROJECTS always at the end, everything else by updated date (most recent first)
+    // Sort: featured first, old projects last, everything else by updated date (most recent first)
     return filtered.sort((a, b) => {
+      // Featured projects always come first
+      const aIsFeatured = FEATURED_PROJECTS.has(a.name);
+      const bIsFeatured = FEATURED_PROJECTS.has(b.name);
+      if (aIsFeatured && !bIsFeatured) return -1;
+      if (!aIsFeatured && bIsFeatured) return 1;
+      
       const aIsOld = OLD_PROJECTS.has(a.name);
       const bIsOld = OLD_PROJECTS.has(b.name);
       
