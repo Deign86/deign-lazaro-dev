@@ -169,6 +169,7 @@ const OLD_PROJECTS = new Set([
 const EXCLUDED_REPOS = [
   'comlec-assignment-for-kisch',
   'des-encryption',
+  'rcbc-debt-tracker',
 ];
 
 // Remove emojis from text
