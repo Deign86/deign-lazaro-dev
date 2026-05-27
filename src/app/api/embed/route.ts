@@ -6,6 +6,7 @@ const ALLOWED_HOST_SUFFIXES = [
   'firebaseapp.com',
   'netlify.app',
   'github.io',
+  'hf.space',
 ];
 
 // Basic allowlist check to prevent open proxy abuse
