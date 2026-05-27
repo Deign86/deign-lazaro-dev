@@ -3,9 +3,11 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
+import { ArrowRight } from 'lucide-react';
 import { SpotlightCursor } from './ui/spotlight-cursor';
 import { BlurredTextReveal } from './ui/text-reveal';
 import { EtherealShadowVideo } from './ui/ethereal-shadow-video';
+import { GlassButton } from './ui/apple-tahoe-liquid-glass-button';
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -128,23 +130,14 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="mt-12 pointer-events-auto"
         >
-          <a
-            href="#projects"
-            className="group relative inline-flex items-center gap-3 px-8 py-4 bg-mono-50 text-mono-950 rounded-full font-medium text-lg overflow-hidden transition-transform duration-300 hover:scale-105 cursor-pointer"
+          <GlassButton
+            size="lg"
+            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+            contentClassName="flex items-center gap-3"
           >
-            <span className="relative z-10">View Selected Builds</span>
-            <svg
-              className="relative z-10 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-            
-            {/* Hover effect */}
-            <span className="absolute inset-0 bg-mono-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-0" />
-          </a>
+            <span>View Selected Builds</span>
+            <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+          </GlassButton>
         </motion.div>
       </motion.div>
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Mail, Phone, ChevronDown, X } from 'lucide-react';
 import { ScrollReveal } from './ui/scroll-reveal';
 import { WordReveal } from './ui/text-reveal';
@@ -94,6 +94,20 @@ export function Contact() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
+  // Listen for "hire-me" event from Navbar to auto-show the form
+  useEffect(() => {
+    const handleHireMe = () => {
+      setShowForm(true);
+      // Scroll to form after a brief delay for animation
+      setTimeout(() => {
+        formContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+    };
+
+    window.addEventListener('hire-me', handleHireMe);
+    return () => window.removeEventListener('hire-me', handleHireMe);
+  }, []);
+
   const handleShowForm = () => {
     setShowForm(true);
     // Scroll to form container after a brief delay for animation
@@ -134,9 +148,8 @@ export function Contact() {
 
         <ScrollReveal direction="up" blur={true} delay={0.3}>
           <p className="mt-8 text-lg md:text-xl text-mono-400 max-w-xl mx-auto">
-            Open to internships, freelance projects, and full-time opportunities. 
-            Whether it&apos;s building an AI-powered solution or a full-stack web app, 
-            I&apos;d love to hear about your ideas.
+            Currently looking for internships and freelance work. 
+            Have a project in mind or just want to chat? Drop me a message.
           </p>
         </ScrollReveal>
 

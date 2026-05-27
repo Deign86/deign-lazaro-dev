@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, User, MessageSquare, Send, Loader2, CheckCircle2, XCircle } from 'lucide-react';
 import { useState } from 'react';
+import { GlassButton } from './apple-tahoe-liquid-glass-button';
 
 interface ContactFormProps {
   onClose?: () => void;
@@ -243,7 +244,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
                   ? 'border-red-400 focus-visible:ring-red-400'
                   : 'border-mono-800 focus-visible:ring-mono-50'
               }`}
-              placeholder="John Doe"
+              placeholder="e.g. Alex"
             />
           </div>
           {fieldErrors.name && touched.name && (
@@ -288,7 +289,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
                   ? 'border-red-400 focus-visible:ring-red-400'
                   : 'border-mono-800 focus-visible:ring-mono-50'
               }`}
-              placeholder="john@example.com"
+              placeholder="you@company.com"
             />
           </div>
           {fieldErrors.email && touched.email && (
@@ -345,7 +346,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
                   ? 'border-red-400 focus-visible:ring-red-400'
                   : 'border-mono-800 focus-visible:ring-mono-50'
               }`}
-              placeholder="Tell me about your project or idea..."
+              placeholder="What do you have in mind?"
             />
           </div>
           {fieldErrors.message && touched.message && (
@@ -391,12 +392,11 @@ export function ContactForm({ onClose }: ContactFormProps) {
         </div>
 
         {/* Submit Button */}
-        <motion.button
+        <GlassButton
           type="submit"
           disabled={status === 'sending' || status === 'success'}
-          whileHover={status === 'idle' || status === 'error' ? { scale: 1.02 } : {}}
-          whileTap={status === 'idle' || status === 'error' ? { scale: 0.98 } : {}}
-          className="w-full relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-mono-50 text-mono-950 rounded-xl font-medium text-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-mono-50/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-2 focus-visible:ring-offset-mono-950"
+          className="w-full"
+          contentClassName="flex items-center justify-center gap-2"
         >
           {status === 'sending' ? (
             <>
@@ -414,8 +414,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
               <span>Send Message</span>
             </>
           )}
-          <span className="absolute inset-0 bg-mono-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-0" />
-        </motion.button>
+        </GlassButton>
       </form>
     </motion.div>
   );

@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { GlassButton } from './ui/apple-tahoe-liquid-glass-button';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -97,6 +98,24 @@ export function Navbar() {
 
             {/* Right side actions */}
             <div className="flex items-center gap-3">
+              {/* Hire Me CTA */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                className="hidden sm:block"
+              >
+                <GlassButton
+                  size="sm"
+                  onClick={() => {
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                    window.dispatchEvent(new CustomEvent('hire-me'));
+                  }}
+                >
+                  Hire Me
+                </GlassButton>
+              </motion.div>
+
               {/* GitHub CTA */}
               <motion.a
                 href="https://github.com/Deign86"
@@ -180,6 +199,28 @@ export function Navbar() {
                   </motion.li>
                 ))}
               </ul>
+
+              {/* Mobile Hire Me button */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.25 }}
+                className="mt-4 px-4"
+              >
+                <GlassButton
+                  size="default"
+                  className="w-full"
+                  onClick={() => {
+                    handleMobileLinkClick();
+                    setTimeout(() => {
+                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                      window.dispatchEvent(new CustomEvent('hire-me'));
+                    }, 100);
+                  }}
+                >
+                  Hire Me
+                </GlassButton>
+              </motion.div>
               
               {/* Mobile GitHub link */}
               <motion.div
