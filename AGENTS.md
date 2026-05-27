@@ -50,3 +50,33 @@ This project is indexed by GitNexus as **deign-lazaro-dev** (801 symbols, 1178 r
 | Index, status, clean, wiki CLI commands | `.claude/skills/gitnexus/gitnexus-cli/SKILL.md` |
 
 <!-- gitnexus:end -->
+
+<!-- agentmemory:start -->
+# AgentMemory — Persistent Cross-Session Memory
+
+agentmemory MCP is configured for this repo. Server runs on localhost:3111.
+
+## Available Tools
+
+| Tool | Use for |
+|------|---------|
+| `memory_save` | Save important findings, decisions, patterns to long-term memory |
+| `memory_recall` | Search past session observations for relevant context |
+| `memory_search` | Hybrid semantic+keyword search with progressive disclosure |
+| `memory_action_create` | Create tracked work items with dependencies |
+| `memory_diagnose` | Run health checks on memory subsystems |
+
+## Configuration
+
+- **Project**: deign-lazaro-dev (C:\Users\Deign\Downloads\deign-lazaro-dev)
+- **Working Features**: Basic memory operations (save, recall, search)
+- **Disabled Features**: LLM-backed features (compress, reflect, slots) — no supported provider with credits
+
+## Usage Rules
+
+- **ALWAYS save important findings** to agentmemory after debugging or discovering non-obvious patterns
+- Use `memory_recall` before starting work to check for relevant past context
+- Tag memories with relevant concepts for better searchability
+- Use `type` field: architecture, fact, workflow, bug, preference
+
+<!-- agentmemory:end -->
