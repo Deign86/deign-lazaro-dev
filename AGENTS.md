@@ -1,5 +1,37 @@
 # Agent Instructions
 
+<!-- context7:start -->
+# Context7 — Documentation-First Development
+
+**MANDATORY RULE**: Always invoke Context7 MCP before working with ANY library, framework, or repo.
+
+## When to Use Context7
+
+- Before reading, modifying, or creating code for any library/repo
+- Before using any API, SDK, or framework feature
+- Before making assumptions about how something works
+
+## How to Use Context7
+
+1. **Resolve library ID first**: `context7_resolve_library_id` with the library name
+2. **Query documentation**: `context7_query_docs` with the resolved ID and specific question
+3. **Verify against docs**: Check APIs, file paths, config schemas, and patterns
+4. **Use Context7 version**: If docs show something different from your plan, use the docs version
+
+## Applies To
+
+- Any GitHub repo (Hermes, OpenCode, React, Python libs, etc.)
+- Any framework (Next.js, FastAPI, Flask, etc.)
+- Any language (Python, JavaScript, TypeScript, etc.)
+- Any tool or service (Docker, Kubernetes, Firebase, etc.)
+- Any API integration (OpenAI, Anthropic, OpenRouter, xAI, etc.)
+
+## Why
+
+Libraries and APIs evolve frequently. Context7 keeps you updated with the latest patterns instead of guessing or using outdated knowledge.
+
+<!-- context7:end -->
+
 <!-- lean-ctx -->
 ## lean-ctx
 

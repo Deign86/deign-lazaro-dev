@@ -24,6 +24,11 @@ This file tracks the project's progress using a task list format.
 * [2026-05-28 00:12:00] - ✅ Completed: Added tech stack inference from project descriptions
 * [2026-05-28 00:12:00] - ✅ Completed: Fixed tech stack tag spacing
 * [2026-05-28 02:29:10] - ✅ Completed: Configured agentmemory MCP for deign-lazaro-dev with basic memory operations (save/recall/search). LLM-backed features disabled due to no supported provider with credits.
+* [2026-05-28 18:34:09] - ✅ Completed: Fixed broken CV download by removing Puppeteer PDF generation (failed on Vercel) and replacing with static cv.html file. Button now opens in new tab and triggers download.
+* [2026-05-28 19:13:47] - ✅ Completed: Updated CV download button to generate PDF client-side using html2pdf.js. Button now opens CV in new tab and downloads PDF simultaneously.
+* [2026-05-28 19:18:25] - ✅ Completed: Fixed blank PDF generation by using iframe approach instead of temporary div for proper style rendering with html2pdf.js
+* [2026-05-28 19:50:53] - ✅ Completed: Switched CV download from html2pdf.js to browser print functionality for pixel-perfect PDF generation
+* [2026-05-28 19:59:15] - ✅ Completed: Simplified CV download to serve static PDF file directly instead of client-side generation
 
 ## Current Tasks
 

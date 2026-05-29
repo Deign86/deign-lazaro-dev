@@ -34,6 +34,14 @@ This file tracks the project's current status, including recent changes, current
 * [2026-05-28 00:12:00] - 🚀 Feature: Added tech stack inference from project descriptions (Next.js, React, Tailwind, FastAPI, Django, Firebase, Flutter)
 * [2026-05-28 00:12:00] - 🐛 Bug fix: Fixed tech stack tag spacing - increased gap from 2 to 3, added inline-block
 * [2026-05-28 02:29:10] - 🚀 Feature: Configured agentmemory MCP for deign-lazaro-dev with basic memory operations (save/recall/search). LLM-backed features disabled - agentmemory doesn't support OpenAI-compatible providers for LLM yet.
+* [2026-05-28 18:14:27] - 🐛 Bug fix: Fixed turbopack.root to use absolute path (via `path.resolve(__dirname)`) to silence Next.js warning about relative path
+* [2026-05-28 18:34:09] - 🐛 Bug fix: Fixed broken CV download by removing Puppeteer PDF generation (failed on Vercel) and replacing with static cv.html file. Button now opens in new tab and triggers download.
+* [2026-05-28 19:13:47] - 🚀 Feature completed: Updated CV download button to generate PDF client-side using html2pdf.js. Button now opens CV in new tab and downloads PDF simultaneously.
+* [2026-05-28 19:18:25] - 🐛 Bug fix: Fixed blank PDF generation by using iframe approach instead of temporary div for proper style rendering with html2pdf.js
+* [2026-05-28 19:50:53] - 🐛 Bug fix: Switched CV download from html2pdf.js to browser print functionality for pixel-perfect PDF generation
+* [2026-05-28 19:53:10] - 📋 Important decision: Added permanent Context7 MCP rule to AGENTS.md - must always verify library docs before working with any library or framework
+* [2026-05-28 19:55:03] - 📋 Important decision: Added Context7 MCP rule to global AGENTS.md for all projects
+* [2026-05-28 19:59:15] - 🐛 Bug fix: Simplified CV download to serve static PDF file directly instead of client-side generation
 
 ## Open Questions/Issues
 
