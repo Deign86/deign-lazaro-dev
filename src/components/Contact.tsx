@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
-import { Mail, Phone, ChevronDown, X } from 'lucide-react';
+import { Mail, ChevronDown, X } from 'lucide-react';
 import { ScrollReveal } from './ui/scroll-reveal';
 import { WordReveal } from './ui/text-reveal';
 import { ContactForm } from './ui/contact-form';
@@ -10,40 +10,26 @@ import { ContactForm } from './ui/contact-form';
 // Social/Contact links data
 const contactOptions = [
   {
-    name: 'Email',
-    value: 'deign86@gmail.com',
-    href: 'mailto:deign86@gmail.com',
-    icon: Mail,
-    color: 'hover:bg-mono-700',
-  },
-  {
-    name: 'Phone',
+    name: 'Viber',
     value: '09624180920',
-    href: 'tel:+639624180920',
-    icon: Phone,
-    color: 'hover:bg-mono-700',
-  },
-  {
-    name: 'Facebook',
-    value: 'Deigny86',
-    href: 'https://www.facebook.com/Deigny86',
+    href: 'viber://chat?number=+639624180920',
     icon: () => (
       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 2.09.63 4.04 1.71 5.66L2.05 22l4.56-1.19c1.57.87 3.36 1.37 5.28 1.37h.01c5.46 0 9.91-4.45 9.91-9.91C21.81 6.45 17.36 2 12.04 2zm4.96 14.16c-.24.67-1.39 1.33-1.93 1.41-.51.08-1.16.11-1.88-.12-.43-.14-1-.35-1.72-.68-3.03-1.32-4.99-4.37-5.13-4.57-.14-.19-1.1-1.46-1.1-2.79 0-1.33.7-1.98.95-2.25.25-.27.55-.34.73-.34.18 0 .36.01.52.01.17 0 .39-.06.61.47.24.55.82 2 .89 2.14.07.15.12.32.02.51-.09.19-.14.31-.28.47-.14.17-.3.38-.43.51-.14.15-.29.31-.12.6.17.29.75 1.24 1.61 2.01 1.11.99 2.05 1.3 2.34 1.44.29.15.46.12.63-.07.18-.19.74-.87.94-1.17.2-.3.39-.25.66-.15.27.1 1.73.82 2.03.97.29.15.49.23.56.35.08.13.08.73-.17 1.41z"/>
+      </svg>
+    ),
+    color: 'hover:bg-purple-950/30 hover:text-purple-400',
+  },
+  {
+    name: 'LinkedIn',
+    value: 'Deign Grey Lazaro',
+    href: 'https://www.linkedin.com/in/deign-grey-lazaro-2976a41b6/',
+    icon: () => (
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
       </svg>
     ),
     color: 'hover:bg-blue-950/30 hover:text-blue-400',
-  },
-  {
-    name: 'Instagram',
-    value: '@deign86',
-    href: 'https://www.instagram.com/deign86/',
-    icon: () => (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-      </svg>
-    ),
-    color: 'hover:bg-pink-950/30 hover:text-pink-400',
   },
   {
     name: 'WhatsApp',
@@ -69,20 +55,11 @@ const socialLinks = [
     ),
   },
   {
-    name: 'Facebook',
-    href: 'https://www.facebook.com/Deigny86',
+    name: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/deign-grey-lazaro-2976a41b6/',
     icon: () => (
       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-      </svg>
-    ),
-  },
-  {
-    name: 'Instagram',
-    href: 'https://www.instagram.com/deign86/',
-    icon: () => (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
       </svg>
     ),
   },
@@ -241,7 +218,6 @@ export function Contact() {
                           <div className="pt-2 pb-3">
                             {contactOptions.map((option, index) => {
                               const IconComponent = option.icon;
-                              const isLucideIcon = IconComponent === Mail || IconComponent === Phone;
                               return (
                                 <motion.a
                                   key={option.name}
@@ -254,11 +230,7 @@ export function Contact() {
                                   className={`flex items-center gap-4 px-5 py-3.5 transition-colors cursor-pointer ${option.color}`}
                                 >
                                   <div className="flex items-center justify-center w-10 h-10 rounded-full bg-mono-800">
-                                    {isLucideIcon ? (
-                                      <IconComponent className="w-5 h-5 text-mono-400" />
-                                    ) : (
-                                      <IconComponent />
-                                    )}
+                                    <IconComponent />
                                   </div>
                                   <div className="flex flex-col items-start">
                                     <span className="text-sm font-medium text-mono-100">
@@ -326,39 +298,45 @@ export function Contact() {
             }}
             transition={{ duration: 0.2 }}
           >
-          {/* Email card */}
+          {/* Viber card */}
           <a
-            href="mailto:deign86@gmail.com"
-            className="group p-6 rounded-2xl bg-mono-900/50 border border-mono-800 hover:border-mono-600 transition-all duration-300 cursor-pointer"
+            href="viber://chat?number=+639624180920"
+            className="group p-6 rounded-2xl bg-mono-900/50 border border-mono-800 hover:border-purple-600 transition-all duration-300 cursor-pointer"
           >
             <div className="flex items-center gap-3 mb-3">
-              <div className="p-2 rounded-lg bg-mono-800">
-                <Mail className="w-5 h-5 text-mono-400" />
+              <div className="p-2 rounded-lg bg-mono-800 group-hover:bg-purple-950/30 transition-colors">
+                <svg className="w-5 h-5 text-mono-400 group-hover:text-purple-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 2.09.63 4.04 1.71 5.66L2.05 22l4.56-1.19c1.57.87 3.36 1.37 5.28 1.37h.01c5.46 0 9.91-4.45 9.91-9.91C21.81 6.45 17.36 2 12.04 2zm4.96 14.16c-.24.67-1.39 1.33-1.93 1.41-.51.08-1.16.11-1.88-.12-.43-.14-1-.35-1.72-.68-3.03-1.32-4.99-4.37-5.13-4.57-.14-.19-1.1-1.46-1.1-2.79 0-1.33.7-1.98.95-2.25.25-.27.55-.34.73-.34.18 0 .36.01.52.01.17 0 .39-.06.61.47.24.55.82 2 .89 2.14.07.15.12.32.02.51-.09.19-.14.31-.28.47-.14.17-.3.38-.43.51-.14.15-.29.31-.12.6.17.29.75 1.24 1.61 2.01 1.11.99 2.05 1.3 2.34 1.44.29.15.46.12.63-.07.18-.19.74-.87.94-1.17.2-.3.39-.25.66-.15.27.1 1.73.82 2.03.97.29.15.49.23.56.35.08.13.08.73-.17 1.41z"/>
+                </svg>
               </div>
               <span className="text-sm font-medium text-mono-400 uppercase tracking-wider">
-                Email
+                Viber
               </span>
             </div>
-            <p className="text-mono-100 font-medium group-hover:text-mono-300 transition-colors">
-              deign86@gmail.com
+            <p className="text-mono-100 font-medium group-hover:text-purple-400 transition-colors">
+              Message me
             </p>
           </a>
 
-          {/* Phone card */}
+          {/* LinkedIn card */}
           <a
-            href="tel:+639624180920"
-            className="group p-6 rounded-2xl bg-mono-900/50 border border-mono-800 hover:border-mono-600 transition-all duration-300 cursor-pointer"
+            href="https://www.linkedin.com/in/deign-grey-lazaro-2976a41b6/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group p-6 rounded-2xl bg-mono-900/50 border border-mono-800 hover:border-blue-600 transition-all duration-300 cursor-pointer"
           >
             <div className="flex items-center gap-3 mb-3">
-              <div className="p-2 rounded-lg bg-mono-800">
-                <Phone className="w-5 h-5 text-mono-400" />
+              <div className="p-2 rounded-lg bg-mono-800 group-hover:bg-blue-950/30 transition-colors">
+                <svg className="w-5 h-5 text-mono-400 group-hover:text-blue-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
               </div>
               <span className="text-sm font-medium text-mono-400 uppercase tracking-wider">
-                Phone
+                LinkedIn
               </span>
             </div>
-            <p className="text-mono-100 font-medium group-hover:text-mono-300 transition-colors">
-              +63 962 418 0920
+            <p className="text-mono-100 font-medium group-hover:text-blue-400 transition-colors">
+              Connect with me
             </p>
           </a>
 
