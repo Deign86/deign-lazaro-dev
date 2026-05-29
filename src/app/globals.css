@@ -231,3 +231,7 @@ body {
   background-size: 200% 200%;
   animation: gradient-shift 3s ease infinite;
 }
+
+/* Taste Skill typography utilities */
+.balance { text-wrap: balance; }
+.pretty { text-wrap: pretty; }

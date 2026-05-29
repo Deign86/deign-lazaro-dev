@@ -239,7 +239,7 @@ export function Resume() {
     <section
       ref={sectionRef}
       id="resume"
-      className="relative py-32 md:py-48 px-6 overflow-hidden"
+      className="relative py-32 md:py-48 pb-40 md:pb-56 px-6 overflow-hidden"
     >
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
@@ -259,7 +259,7 @@ export function Resume() {
             02 — Resume
           </span>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mt-4">
-            <h2 className="text-4xl md:text-6xl font-bold text-mono-50 tracking-tight">
+            <h2 className="text-4xl md:text-6xl font-bold text-mono-50 tracking-tight balance">
               My Journey
             </h2>
             

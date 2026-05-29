@@ -177,13 +177,17 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
               </a>
               <button
                 onClick={() => {
-                  if (iframeRef.current) {
-                    if (iframeRef.current.requestFullscreen) {
-                      iframeRef.current.requestFullscreen();
-                    } else if ((iframeRef.current as any).webkitRequestFullscreen) {
-                      (iframeRef.current as any).webkitRequestFullscreen();
-                    } else if ((iframeRef.current as any).msRequestFullscreen) {
-                      (iframeRef.current as any).msRequestFullscreen();
+                  const el = iframeRef.current as HTMLElement & {
+                    webkitRequestFullscreen?: () => Promise<void>;
+                    msRequestFullscreen?: () => Promise<void>;
+                  };
+                  if (el) {
+                    if (el.requestFullscreen) {
+                      el.requestFullscreen();
+                    } else if (el.webkitRequestFullscreen) {
+                      el.webkitRequestFullscreen();
+                    } else if (el.msRequestFullscreen) {
+                      el.msRequestFullscreen();
                     }
                   }
                 }}

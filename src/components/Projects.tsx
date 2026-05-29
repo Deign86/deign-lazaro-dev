@@ -40,7 +40,7 @@ export function Projects({ repos }: ProjectsProps) {
             <span className="text-mono-600 text-sm tracking-[0.3em] uppercase">
               03 — Work
             </span>
-            <h2 className="mt-4 text-4xl md:text-6xl font-bold text-mono-50 tracking-tight">
+            <h2 className="mt-4 text-4xl md:text-6xl font-bold text-mono-50 tracking-tight balance">
               <WordReveal text="Selected Builds" />
             </h2>
             <p className="mt-4 text-lg text-mono-400 max-w-xl">
@@ -50,9 +50,9 @@ export function Projects({ repos }: ProjectsProps) {
         </ScrollReveal>
 
         {/* Projects grid with staggered animations */}
-        <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" staggerDelay={0.1}>
-          {repos.map((repo) => (
-            <StaggerItem key={repo.id} direction="up" blur={true} scale={true} className="h-full">
+        <StaggerContainer className="grid md:grid-cols-2 gap-6 md:gap-8" staggerDelay={0.1}>
+          {repos.map((repo, index) => (
+            <StaggerItem key={repo.id} direction="up" blur={true} scale={true} className={index === 0 ? "md:col-span-2 h-full" : "h-full"}>
               <ProjectCard repo={repo} />
             </StaggerItem>
           ))}

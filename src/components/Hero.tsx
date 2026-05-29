@@ -27,7 +27,7 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden"
     >
       {/* Silk-like animated background - video-based for all devices */}
       {/* isolation-isolate ensures consistent layer compositing across Chromium browsers */}
@@ -115,7 +115,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.0 }}
-          className="mt-8 text-lg md:text-xl text-mono-400 max-w-2xl mx-auto leading-relaxed"
+          className="mt-8 text-lg md:text-xl text-mono-400 max-w-2xl mx-auto leading-relaxed balance"
           style={{ willChange: 'opacity, transform' }}
         >
           Building production-ready web apps, AI automation & agentic tools.{' '}

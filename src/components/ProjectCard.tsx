@@ -52,15 +52,9 @@ export function ProjectCard({ repo }: ProjectCardProps) {
     setIsHovered(true);
   };
 
-  const categoryColors = {
-    frontend: 'border-l-mono-800',
-    backend: 'border-l-mono-800',
-    fullstack: 'border-l-mono-800',
-    mobile: 'border-l-mono-800',
-    other: 'border-l-mono-800',
+  const handleCardClick = () => {
+    window.open(repo.url, '_blank', 'noopener,noreferrer');
   };
-
-  const borderColor = categoryColors[repo.category] || 'border-l-mono-400';
 
   return (
     <motion.div
@@ -73,6 +67,7 @@ export function ProjectCard({ repo }: ProjectCardProps) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
+      onClick={handleCardClick}
       className="group relative cursor-pointer h-full"
     >
       {/* Spotlight effect layer */}
@@ -85,32 +80,14 @@ export function ProjectCard({ repo }: ProjectCardProps) {
       />
       
       <div
-        className={`relative bg-mono-900 border border-mono-800 rounded-2xl p-6 md:p-8 h-full transition-all duration-500 hover:border-mono-600 hover:shadow-2xl hover:shadow-mono-950/50 border-l-4 ${borderColor}`}
+        className="relative bg-mono-900 border border-mono-800 rounded-2xl p-6 md:p-8 h-full transition-all duration-500 hover:border-mono-600 hover:shadow-2xl hover:shadow-mono-950/50"
         style={{ transform: 'translateZ(20px)' }}
       >
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center gap-3">
-            {/* Folder icon */}
-            <div className="w-10 h-10 rounded-lg bg-mono-800 flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-mono-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                />
-              </svg>
-            </div>
-            <span className="text-xs uppercase tracking-wider text-mono-500 font-medium">
-              {repo.category}
-            </span>
-          </div>
+          <span className="text-xs uppercase tracking-wider text-mono-500 font-medium">
+            {repo.category}
+          </span>
 
           {/* External links */}
           <div className="flex items-center gap-2">
@@ -162,13 +139,13 @@ export function ProjectCard({ repo }: ProjectCardProps) {
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-mono-800">
           {/* Tech tags */}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-3 py-1 bg-mono-800 text-mono-300 rounded-full text-xs font-medium">
+            <span className="px-3 py-1 bg-mono-800 text-mono-300 rounded-md text-xs font-medium">
               {repo.language}
             </span>
             {repo.topics.slice(0, 2).map((topic) => (
               <span
                 key={topic}
-                className="px-3 py-1 bg-mono-850 text-mono-400 rounded-full text-xs border border-mono-700"
+                className="px-3 py-1 bg-mono-850 text-mono-400 rounded-md text-xs border border-mono-700"
               >
                 {topic}
               </span>

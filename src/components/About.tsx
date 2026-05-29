@@ -27,7 +27,7 @@ export function About({ techStack, liveDeployCount }: { techStack: TechStackProp
     <section
       ref={ref}
       id="about"
-      className="relative py-32 md:py-48 px-6"
+      className="relative py-32 md:py-48 pb-40 md:pb-56 px-6"
     >
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
@@ -35,7 +35,7 @@ export function About({ techStack, liveDeployCount }: { techStack: TechStackProp
           <span className="text-mono-600 text-sm tracking-[0.3em] uppercase">
             01 — About
           </span>
-          <h2 className="mt-4 text-4xl md:text-6xl font-bold text-mono-50 tracking-tight">
+          <h2 className="mt-4 text-4xl md:text-6xl font-bold text-mono-50 tracking-tight balance">
             <WordReveal text="Who I Am" />
           </h2>
         </ScrollReveal>
@@ -81,16 +81,16 @@ export function About({ techStack, liveDeployCount }: { techStack: TechStackProp
               </motion.div>
               
               {/* First paragraph beside image */}
-              <p className="text-lg md:text-xl text-mono-300 leading-relaxed pt-2 text-justify">
+              <p className="text-lg md:text-xl text-mono-300 leading-relaxed pt-2 text-justify max-w-prose">
                 I&apos;m a 3rd-year BSIT student at Pamantasan ng Lungsod ng Valenzuela, passionate about building impactful software that solves real problems.
               </p>
             </div>
-            <p className="mt-6 text-lg text-mono-400 leading-relaxed text-justify">
+            <p className="mt-6 text-lg text-mono-400 leading-relaxed text-justify max-w-prose">
               From crafting elegant frontend experiences to architecting robust backend systems and integrating AI solutions, 
               I bring a full-stack perspective to every project. A consistent honor student with proven leadership experience 
               from years of student council participation.
             </p>
-            <p className="mt-6 text-lg text-mono-400 leading-relaxed text-justify">
+            <p className="mt-6 text-lg text-mono-400 leading-relaxed text-justify max-w-prose">
               I specialize in Python, TypeScript, and modern frameworks like Next.js, Django, and FastAPI—with growing expertise 
                in AI/ML integration using Hermes Agent, open-source AI tooling, and the OpenAI/Claude APIs.
             </p>
@@ -138,7 +138,7 @@ export function About({ techStack, liveDeployCount }: { techStack: TechStackProp
                       <StaggerItem key={tech} direction="up" blur={true} scale={true}>
                         <motion.span
                           whileHover={{ scale: 1.05, y: -2 }}
-                          className="inline-block px-4 py-2 bg-mono-800 text-mono-300 rounded-full text-sm font-medium cursor-pointer transition-colors hover:bg-mono-700 select-none"
+                          className="inline-block px-4 py-2 bg-mono-800 text-mono-300 rounded-md text-sm font-medium cursor-pointer transition-colors hover:bg-mono-700 select-none"
                         >
                           {tech}
                         </motion.span>
