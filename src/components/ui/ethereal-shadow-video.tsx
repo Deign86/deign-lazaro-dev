@@ -160,9 +160,15 @@ export function EtherealShadowVideo({
                     muted
                     playsInline
                     preload="auto"
-                    // @ts-expect-error - colorspace is a valid attribute for video color management
-                    colorspace="srgb"
-                    style={{
+      // @ts-expect-error - colorspace is a valid attribute for video color management
+      colorspace="srgb"
+      onError={() => {
+        // If both MP4 and WebM fail, stop trying
+        if (videoRef.current) {
+          videoRef.current.style.display = 'none';
+        }
+      }}
+      style={{
                         position: 'absolute',
                         top: '50%',
                         left: '50%',

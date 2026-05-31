@@ -81,8 +81,7 @@ video {
 }
 
 /* Normalize compositing for layered effects */
-[style*="position: absolute"],
-[class*="absolute"] {
+[style*="position: absolute"], [class*="absolute"] {
   /* Force layer creation for consistent rendering */
   -webkit-transform: translateZ(0);
   transform: translateZ(0);

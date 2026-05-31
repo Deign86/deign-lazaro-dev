@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// You'll need to install and configure Resend: npm install resend
-// Get your API key from https://resend.com
-// Add RESEND_API_KEY to your environment variables
+if (!process.env.RESEND_API_KEY) {
+  console.warn('RESEND_API_KEY is not configured — contact form will return 503 until environment variable is set');
+}
 
 interface ContactFormData {
   name: string;

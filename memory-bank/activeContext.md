@@ -6,8 +6,8 @@ This file tracks the project's current status, including recent changes, current
 * Completed initial portfolio-content investigation for project reordering, removals, deployment updates, bio copy updates, and carousel logo additions.
 
 ## Current Focus
-
 * Portfolio content updates are complete; verification and build checks are done.
+* Session auto-naming is controlled by `small_model` in opencode.json (line 468) + hidden built-in `agent=title`. The oh-my-openagent.json `title` agent (lines 193-209) overrides this — **NEVER modify it** as it will break session auto-renaming.
 
 ## Recent Changes
 
@@ -42,6 +42,7 @@ This file tracks the project's current status, including recent changes, current
 * [2026-05-28 19:53:10] - 📋 Important decision: Added permanent Context7 MCP rule to AGENTS.md - must always verify library docs before working with any library or framework
 * [2026-05-28 19:55:03] - 📋 Important decision: Added Context7 MCP rule to global AGENTS.md for all projects
 * [2026-05-28 19:59:15] - 🐛 Bug fix: Simplified CV download to serve static PDF file directly instead of client-side generation
+* [2026-05-31 16:21:14] - 🐛 Bug fix: Fixed 9 bugs from team-mode audit: SSRF in embed proxy (`redirect: 'error'`), base tag injection regex for head attributes, AbortController timeout on contact API, stale useEffect dependency on smoothing, mid-file `import React` violation, WebM fallback `onError` handler, missing abort cleanup, duplicate API fetch blocks, unused parameter cleanup.
 
 ## Open Questions/Issues
 

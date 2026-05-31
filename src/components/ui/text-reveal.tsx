@@ -2,7 +2,7 @@
 
 import { motion, Variants, useInView } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 interface TextRevealProps {
   text: string;
@@ -55,25 +55,25 @@ export function BlurredTextReveal({
   };
 
   return (
-    <motion.span
-      ref={ref}
-      variants={container}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-      className={cn('inline-block', className)}
-      aria-label={text}
-    >
-      {text.split('').map((char, index) => (
-        <motion.span
-          key={`${char}-${index}`}
-          variants={letterVariants}
-          className="inline-block"
-          aria-hidden="true"
-        >
-          {char === ' ' ? '\u00A0' : char}
-        </motion.span>
-      ))}
-    </motion.span>
+  <motion.span
+  ref={ref}
+  variants={container}
+  initial="hidden"
+  animate={isInView ? 'visible' : 'hidden'}
+  className={cn('inline-block', className)}
+  aria-label={text}
+  >
+  {text.split('').map((char, index) => (
+  <motion.span
+  key={`${char}-${index}`}
+  variants={letterVariants}
+  className="inline-block"
+  aria-hidden="true"
+  >
+  {char === ' ' ? '\u00A0' : char}
+  </motion.span>
+  ))}
+  </motion.span>
   );
 }
 
@@ -174,10 +174,10 @@ export function AnimatedGradientText({
 }: GradientTextProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.5 });
-  const [currentColors, setCurrentColors] = React.useState(colors);
-  const [count, setCount] = React.useState(0);
+  const [currentColors, setCurrentColors] = useState(colors);
+  const [count, setCount] = useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       const shuffled = [...colors].sort(() => Math.random() - 0.5);
       setCurrentColors(shuffled);
@@ -215,7 +215,6 @@ export function AnimatedGradientText({
   );
 }
 
-import React from 'react';
 
 // Typewriter effect
 interface TypewriterProps {
@@ -235,22 +234,17 @@ export function Typewriter({
 }: TypewriterProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.5 });
-  const [displayedText, setDisplayedText] = React.useState('');
-  const [started, setStarted] = React.useState(false);
+  const [displayedText, setDisplayedText] = useState('');
+  const [started, setStarted] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isInView) return;
-
-    const startTimeout = setTimeout(() => {
-      setStarted(true);
-    }, delay * 1000);
-
+    const startTimeout = setTimeout(() => { setStarted(true); }, delay * 1000);
     return () => clearTimeout(startTimeout);
   }, [isInView, delay]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!started) return;
-
     let currentIndex = 0;
     const interval = setInterval(() => {
       if (currentIndex <= text.length) {
@@ -260,7 +254,6 @@ export function Typewriter({
         clearInterval(interval);
       }
     }, speed);
-
     return () => clearInterval(interval);
   }, [started, text, speed]);
 

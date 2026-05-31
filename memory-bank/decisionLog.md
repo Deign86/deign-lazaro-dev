@@ -9,6 +9,7 @@ This file records architectural and implementation decisions using a list format
 * [2026-05-28 19:50:53] - Switched from html2pdf.js to browser print functionality for pixel-perfect PDF
 * [2026-05-28 19:53:10] - Added permanent Context7 MCP rule to AGENTS.md - must always verify library docs before working with any library or framework
 * [2026-05-28 19:59:15] - Simplified CV download to serve static PDF file directly
+* [2026-05-31 07:50:00] - CRITICAL: Never modify oh-my-openagent.json title agent (lines 193-209). It controls session auto-naming via a hidden built-in `agent=title` that uses `small_model`. Changing its model/fallbacks breaks session auto-renaming.
 
 ## Decision
 

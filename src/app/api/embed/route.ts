@@ -32,8 +32,9 @@ function injectBaseTag(html: string, targetOrigin: string) {
     ''
   );
 
-  if (cleanedHtml.includes('<head')) {
-    return cleanedHtml.replace('<head>', `<head>${baseTag}`);
+  const headMatch = cleanedHtml.match(/<head[^>]*>/i);
+  if (headMatch) {
+    return cleanedHtml.replace(headMatch[0], `${headMatch[0]}${baseTag}`);
   }
 
   return `${baseTag}${cleanedHtml}`;
@@ -58,9 +59,9 @@ export async function GET(req: NextRequest) {
 
   let upstream: Response;
   try {
-    upstream = await fetch(targetUrl.toString(), {
-      redirect: 'follow',
-      headers: {
+  upstream = await fetch(targetUrl.toString(), {
+    redirect: 'error',
+    headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; PortfolioEmbed/1.0; +https://deign-lazaro-dev.vercel.app)',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'en-US,en;q=0.9',
