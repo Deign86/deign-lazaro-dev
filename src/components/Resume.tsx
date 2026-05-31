@@ -265,8 +265,8 @@ export function Resume() {
             
 {/* Download CV button */}
 <motion.a
-  href="/Deign-Grey-O-Lazaro-CV.pdf"
-  download="Deign-Grey-O-Lazaro-CV.pdf"
+href="/Lazaro CV.pdf"
+      download="Lazaro CV.pdf"
               initial={{ opacity: 0, x: 20 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.3 }}
