@@ -99,7 +99,7 @@ export default function DisplayCards({ deployments }: DisplayCardsProps) {
   const mpIdentifier = 'mathpulse-ai';
   const MAX_CARDS = 5;
 
-  let displayDeployments = reversedDeployments.slice(0, MAX_CARDS);
+  const displayDeployments = reversedDeployments.slice(0, MAX_CARDS);
 
   const hasMathPulse = displayDeployments.some(
     (d) => d.repoName.toLowerCase().endsWith(mpIdentifier)
@@ -150,10 +150,15 @@ export default function DisplayCards({ deployments }: DisplayCardsProps) {
       className="grid [grid-template-areas:'stack'] place-items-center"
     >
       {displayDeployments.map((deployment, index) => {
+        // MathPulse always sits at the front of the diagonal cascade (max offset,
+        // bottom-right of the stack) and on top in z-order because it is the last
+        // DOM element. Other cards keep their natural index so they cascade
+        // up-and-left behind MathPulse — same way the rest of the stack is laid
+        // out, just with MathPulse taking the front-most slot.
         const styleIndex = isLastMathPulse
           ? index === displayDeployments.length - 1
-            ? 0
-            : index + 1
+            ? displayDeployments.length - 1
+            : index
           : index;
 
         return (
