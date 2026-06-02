@@ -43,6 +43,7 @@ This file tracks the project's current status, including recent changes, current
 * [2026-05-28 19:55:03] - 📋 Important decision: Added Context7 MCP rule to global AGENTS.md for all projects
 * [2026-05-28 19:59:15] - 🐛 Bug fix: Simplified CV download to serve static PDF file directly instead of client-side generation
 * [2026-05-31 16:21:14] - 🐛 Bug fix: Fixed 9 bugs from team-mode audit: SSRF in embed proxy (`redirect: 'error'`), base tag injection regex for head attributes, AbortController timeout on contact API, stale useEffect dependency on smoothing, mid-file `import React` violation, WebM fallback `onError` handler, missing abort cleanup, duplicate API fetch blocks, unused parameter cleanup.
+* [2026-06-02 17:28:55] - 🐛 Bug fix: Fixed display-cards stacking so MathPulse AI is always the topmost visual card. Added logic after reversing deployments to find mathpulse-ai by repoName (case-insensitive) and move it to index 0 of reversedDeployments, ensuring it renders first in the DOM stack and appears on top.
 
 ## Open Questions/Issues
 

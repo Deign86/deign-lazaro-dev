@@ -93,7 +93,16 @@ export default function DisplayCards({ deployments }: DisplayCardsProps) {
   // So we reverse the array so that the first item (most important) appears on top
   // and old projects (at the end of the array) appear at the bottom of the stack
   const reversedDeployments = [...deployments].reverse();
-  
+
+  // Ensure MathPulse AI is always the topmost card in the stack
+  const mathPulseIndex = reversedDeployments.findIndex(
+    (d) => d.repoName.toLowerCase() === 'mathpulse-ai'
+  );
+  if (mathPulseIndex > 0) {
+    const [mathPulse] = reversedDeployments.splice(mathPulseIndex, 1);
+    reversedDeployments.unshift(mathPulse);
+  }
+
   // Mobile-first card positions: smaller offsets on mobile, larger on sm+
   const cardStyles = [
     "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-full before:outline-1 before:rounded-xl before:outline-mono-800 before:h-full before:content-[''] before:bg-blend-overlay before:bg-mono-950/60 grayscale-[60%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0 before:pointer-events-none",

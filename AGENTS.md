@@ -112,3 +112,28 @@ agentmemory MCP is configured for this repo. Server runs on localhost:3111.
 - Use `type` field: architecture, fact, workflow, bug, preference
 
 <!-- agentmemory:end -->
+
+<!-- clipboard-image-analysis:start -->
+# Clipboard Image Analysis — Pasted Images
+
+**MANDATORY RULE**: When the user pastes images (via clipboard or attachment), always attempt to analyze them using the available image analysis tools.
+
+## When to Use
+
+- User pastes an image into the chat/conversation
+- User references "[Image N]" or attached screenshot
+- User says "look at this" with an image reference
+- Any visual context the user is providing that should influence decisions
+
+## How to Use
+
+1. **Try image analysis MCP first**: Use `1mcp_image_analysis_1mcp_read_image_via_vision_backend` with the image path
+2. **Fallback to `look_at` tool**: If the CLI cannot read clipboard images (model limitation), use the `look_at` tool by Omo as the fallback
+   - `look_at(file_path="<absolute path>", goal="<what to extract>")`
+   - Also accepts `image_data` for base64 encoded clipboard images
+3. **Never skip image analysis**: Even if you cannot see the image directly, use available tools. If all tools fail, inform the user that image input is not supported by this model and ask for text description.
+
+## Why
+
+Users often share screenshots of UI bugs, visual design references, error states, or deployment issues. These images contain critical context that cannot be conveyed through text alone.
+<!-- clipboard-image-analysis:end -->

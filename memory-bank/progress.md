@@ -29,6 +29,7 @@ This file tracks the project's progress using a task list format.
 * [2026-05-28 19:18:25] - ✅ Completed: Fixed blank PDF generation by using iframe approach instead of temporary div for proper style rendering with html2pdf.js
 * [2026-05-28 19:50:53] - ✅ Completed: Switched CV download from html2pdf.js to browser print functionality for pixel-perfect PDF generation
 * [2026-05-28 19:59:15] - ✅ Completed: Simplified CV download to serve static PDF file directly instead of client-side generation
+* [2026-06-02 17:28:55] - ✅ Completed: Fixed display-cards stacking so MathPulse AI is always the topmost visual card. Added post-reverse logic to find mathpulse-ai by repoName (case-insensitive) and move it to index 0 of reversedDeployments before slicing.
 
 ## Current Tasks
 
