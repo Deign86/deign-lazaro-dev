@@ -94,14 +94,43 @@ export default function DisplayCards({ deployments }: DisplayCardsProps) {
   // and old projects (at the end of the array) appear at the bottom of the stack
   const reversedDeployments = [...deployments].reverse();
 
-  // Ensure MathPulse AI is always the topmost card in the stack
-  const mathPulseIndex = reversedDeployments.findIndex(
-    (d) => d.repoName.toLowerCase() === 'mathpulse-ai'
+  // Always ensure MathPulse is in the displayed set and gets the topmost visual slot.
+  // repoName is "Deign86/mathpulse-ai" (from truncateRepoName), so we match on the suffix.
+  const mpIdentifier = 'mathpulse-ai';
+  const MAX_CARDS = 5;
+
+  let displayDeployments = reversedDeployments.slice(0, MAX_CARDS);
+
+  const hasMathPulse = displayDeployments.some(
+    (d) => d.repoName.toLowerCase().endsWith(mpIdentifier)
   );
-  if (mathPulseIndex > 0) {
-    const [mathPulse] = reversedDeployments.splice(mathPulseIndex, 1);
-    reversedDeployments.unshift(mathPulse);
+  if (!hasMathPulse && reversedDeployments.length > MAX_CARDS) {
+    // MathPulse was pushed out by slice(0,5) — swap it with the bottom displayed card
+    const mpSourceIndex = reversedDeployments.findIndex(
+      (d) => d.repoName.toLowerCase().endsWith(mpIdentifier)
+    );
+    if (mpSourceIndex !== -1) {
+      displayDeployments[MAX_CARDS - 1] = reversedDeployments[mpSourceIndex];
+    }
   }
+
+  // Move MathPulse to the END so it renders LAST in the DOM
+  // and therefore appears ON TOP visually in CSS grid stacking
+  const mpIdx = displayDeployments.findIndex(
+    (d) => d.repoName.toLowerCase().endsWith(mpIdentifier)
+  );
+  if (mpIdx !== -1) {
+    const [mathPulse] = displayDeployments.splice(mpIdx, 1);
+    displayDeployments.push(mathPulse);
+  }
+
+  // When MathPulse is last, give it cardStyles[0] (the topmost visual slot)
+  // and shift all other cards down one visual position
+  const isLastMathPulse =
+    displayDeployments.length > 0 &&
+    displayDeployments[displayDeployments.length - 1].repoName
+      .toLowerCase()
+      .endsWith(mpIdentifier);
 
   // Mobile-first card positions: smaller offsets on mobile, larger on sm+
   const cardStyles = [
@@ -120,18 +149,26 @@ export default function DisplayCards({ deployments }: DisplayCardsProps) {
       transition={{ duration: 0.6, delay: 0.2 }}
       className="grid [grid-template-areas:'stack'] place-items-center"
     >
-      {reversedDeployments.slice(0, 5).map((deployment, index) => (
-        <DeploymentCard
-          key={deployment.url}
-          className={cardStyles[index] || cardStyles[cardStyles.length - 1]}
-          title={deployment.title}
-          url={deployment.url}
-          repoName={deployment.repoName}
-          lastCommit={deployment.lastCommit}
-          date={deployment.date}
-          icon={deployment.icon}
-        />
-      ))}
+      {displayDeployments.map((deployment, index) => {
+        const styleIndex = isLastMathPulse
+          ? index === displayDeployments.length - 1
+            ? 0
+            : index + 1
+          : index;
+
+        return (
+          <DeploymentCard
+            key={deployment.url}
+            className={cardStyles[styleIndex] || cardStyles[cardStyles.length - 1]}
+            title={deployment.title}
+            url={deployment.url}
+            repoName={deployment.repoName}
+            lastCommit={deployment.lastCommit}
+            date={deployment.date}
+            icon={deployment.icon}
+          />
+        );
+      })}
     </motion.div>
   );
 }
