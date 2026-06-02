@@ -72,7 +72,7 @@ const LIVE_DEPLOYMENTS: Record<string, { url: string; tags: string[] }> = {
     tags: ['Flutter', 'Dart', 'Firebase'],
   },
   'mathpulse-ai': {
-    url: 'https://deign86-mathpulse-ai.static.hf.space',
+    url: 'https://deign86-mathpulse-ai.static.hf.space/index.html',
     tags: ['Next.js', 'TypeScript', 'FastAPI'],
   },
   'zhi-wei-zai': {
@@ -82,6 +82,10 @@ const LIVE_DEPLOYMENTS: Record<string, { url: string; tags: string[] }> = {
   'gamecon-system': {
     url: 'https://playverse-ops.vercel.app/',
     tags: ['Vite', 'React', 'Firebase'],
+  },
+  'cinesense': {
+    url: 'https://github.com/Deign86/cinesense',
+    tags: ['Python', 'Django', 'Machine Learning'],
   },
 };
 

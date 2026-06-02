@@ -51,7 +51,13 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
     ) {
       return project.url;
     }
-    const targetUrl = `${project.url}${project.url.includes('?') ? '&' : '?'}_cb=${cacheBuster}`;
+    // Ensure HuggingFace spaces always use /index.html to avoid 302 redirects
+    // that the embed proxy blocks with redirect: 'error'
+    let baseUrl = project.url;
+    if (baseUrl.includes('.hf.space') && !baseUrl.includes('/index.html')) {
+      baseUrl = baseUrl.replace(/\/?$/, '/index.html');
+    }
+    const targetUrl = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}_cb=${cacheBuster}`;
     return `/api/embed?url=${encodeURIComponent(targetUrl)}`;
   };
   const iframeSrc = buildIframeSrc(activeProject);
