@@ -11,6 +11,9 @@ This file tracks the project's current status, including recent changes, current
 
 ## Recent Changes
 
+* [2026-06-02 18:59:25] - 🐛 Bug fix: MathPulse now at front of diagonal cascade (max offset = bottom-right of stack), overlapping GameCon System directly. Previously was at cardStyles[0] (no offset, top-left) which made it look like a separate card ABOVE the diagonal stack rather than IN it. Commit 64de753.
+* [2026-06-02 18:59:25] - 🐛 Bug fix: MathPulse iframe now loads successfully via /api/embed proxy (HF static space URL with /index.html appended). Commit 19e00b4.
+* [2026-06-02 18:59:25] - 🚀 Feature: Added CineSense to LIVE_DEPLOYMENTS in github.ts so it appears in the Deployments grid. Commit 19e00b4.
 * [2026-05-27 10:06:14] - Ran subagent research for Azure, Vercel, MathPulse, RCBC, deployment, and logo references.
 * [2026-05-27 10:06:14] - Identified exact source files and line references for the planned portfolio changes.
 * [2026-05-27 10:06:14] - Initialized Memory Bank for this project.
@@ -44,6 +47,8 @@ This file tracks the project's current status, including recent changes, current
 * [2026-05-28 19:59:15] - 🐛 Bug fix: Simplified CV download to serve static PDF file directly instead of client-side generation
 * [2026-05-31 16:21:14] - 🐛 Bug fix: Fixed 9 bugs from team-mode audit: SSRF in embed proxy (`redirect: 'error'`), base tag injection regex for head attributes, AbortController timeout on contact API, stale useEffect dependency on smoothing, mid-file `import React` violation, WebM fallback `onError` handler, missing abort cleanup, duplicate API fetch blocks, unused parameter cleanup.
 * [2026-06-02 17:28:55] - 🐛 Bug fix: Fixed display-cards stacking so MathPulse AI is always the topmost visual card. Added logic after reversing deployments to find mathpulse-ai by repoName (case-insensitive) and move it to index 0 of reversedDeployments, ensuring it renders first in the DOM stack and appears on top.
+* [2026-06-02 17:39:26] - 🐛 Bug fix: Fixed MathPulse AI iframe not loading. Root cause: HuggingFace `.static.hf.space` root URL returns 302 → `/index.html` but embed proxy (`/api/embed/route.ts:63`) uses `redirect: 'error'`, causing fetch to fail with 502. Fix: appended `/index.html` to URL in `LIVE_DEPLOYMENTS` at `src/lib/github.ts:75`.
+* [2026-06-02 18:39:45] - 📋 Important decision: Switched 1mcp image_analysis tool from opengateway/mimo-v2.5 (unreliable) to NVIDIA NIM with nvidia/nemotron-nano-12b-v2-vl. Pipeline now 100% reliable (21/21 HTTP 200, 0 errors, ~3.3s median latency). Created start-1mcp-now.bat temporary launcher to recover 1mcp after zombie process. Model quality caveat: nemotron is smaller/faster but hallucination-prone; switch to meta/llama-3.2-90b-vision-instruct for accuracy-critical work.
 
 ## Open Questions/Issues
 

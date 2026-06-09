@@ -53,3 +53,41 @@ This file records architectural and implementation decisions using a list format
 * Added Context7 MCP rule to AGENTS.md as permanent instruction for all future work
 * Added Context7 MCP rule to global AGENTS.md (~/.config/opencode/AGENTS.md) for all projects
 * Final simplification: button links directly to static PDF file (`/Deign-Grey-O-Lazaro-CV.pdf`) with download attribute
+
+---
+
+### Decision Record
+[2026-06-02 18:39:45] - Switched 1mcp image_analysis tool from opengateway/mimo-v2.5 (unreliable) to NVIDIA NIM with nvidia/nemotron-nano-12b-v2-vl. Pipeline now 100% reliable (21/21 HTTP 200, 0 errors, ~3.3s median latency). Created start-1mcp-now.bat temporary launcher to recover 1mcp after zombie process. Model quality caveat: nemotron is smaller/faster but hallucination-prone; switch to meta/llama-3.2-90b-vision-instruct for accuracy-critical work.
+
+**Decision Background:**
+The 1mcp image_analysis MCP tool was originally wired through opengateway.gitlawb.com with model `mimo-v2.5`. In production use it became unreliable — frequent timeouts, sporadic 5xx, and inconsistent response quality. Investigation revealed 1mcp itself had been down (stale node.exe PID 18188 holding port 3050 with no listener), and even when recovered, mimo-v2.5 was the wrong tool. The user wanted a stable, drop-in replacement using the same NVIDIA NIM endpoint already used by opencode/hermes.
+
+**Available Options:**
+- Option 1: Keep opengateway + mimo-v2.5
+  - Pros: No config change, no new dependency
+  - Cons: Continues failing; the mimo-v2.5 path is the original "finicky" behavior the user wanted to escape
+- Option 2: Switch to NVIDIA NIM with nvidia/cosmos-reason2-8b
+  - Pros: Reasoning-tuned vision model
+  - Cons: Account `j66zVWx5Vlr31wRrNvJfRqYcykDMKQDaVvwIKvfyZvU` is not entitled — 404 on every call
+- Option 3: Switch to NVIDIA NIM with nvidia/nemotron-nano-12b-v2-vl
+  - Pros: 12B VLM, fast (~3.3s median), works on the account, 100% reliability proven in 21-call stress test
+  - Cons: Smaller model — shows hallucination on fine detail (2/5 runs of `Notebook Front.jpg` invented content)
+- Option 4: Switch to NVIDIA NIM with meta/llama-3.2-90b-vision-instruct
+  - Pros: 90B, much more grounded, fewer hallucinations
+  - Cons: Slower (expect ~6-8s per call), higher cost
+
+**Final Decision:**
+Option 3 (nemotron-nano-12b-v2-vl) as default, with Option 4 documented as the swap path when accuracy matters more than speed. The user's stated goal was reliability first ("make it stable"), and nemotron hits that goal with the best latency on the working models.
+
+**Implementation Plan:**
+- Step 1: Edit `C:\Users\Deign\AppData\Roaming\1mcp\mcp.json` image_analysis.env block — set `OPENAI_API_KEY="${NVIDIA_API_KEY}"` (env substitution, not hardcoded), `OPENAI_BASE_URL="https://integrate.api.nvidia.com/v1"`, `OPENAI_MODEL="nvidia/nemotron-nano-12b-v2-vl"`. ✅
+- Step 2: Kill stale 1mcp zombie (PID 18168 / 18188) and restart via launcher on port 3050. ✅
+- Step 3: Verify env propagation by calling `1mcp_image_analysis_1mcp_get_config_info` — confirmed baseUrl/model/apiKey reflect the new values. ✅
+- Step 4: Reliability test: 10 sequential + 5 parallel image_analysis calls, 100% HTTP 200, ~3.3s median. ✅
+- Validation Method: Aggregate `C:\Users\Deign\AppData\Roaming\1mcp\logs\manual-launch.log` for `[POST] /mcp completed` lines, count statusCode=200 vs others, observe duration distribution.
+
+**Risks and Mitigation:**
+- Risk 1: nemotron hallucination on small details → Mitigation: documented swap to meta/llama-3.2-90b-vision-instruct via single-line edit to `OPENAI_MODEL`; no other config change needed.
+- Risk 2: Stale 1mcp zombie reappears after reboot (port 3050 held by dead node.exe) → Mitigation: `start-1mcp-now.bat` launcher kills any existing process on port 3050 first, then restarts; canonical `start-1mcp.bat` (uses `run_hidden.vbs`) is the proper long-term path.
+- Risk 3: 60s `requestTimeout` in `serverDefaults` too tight for slow NIM calls → Mitigation: monitor 8.3s tail latency in log; bump to 120000 if timeouts appear.
+- Risk 4: Opengateway API key was hardcoded in old config; if user reverts, key may have rotated → Mitigation: documented revert diff in session notes; user must obtain fresh `ogw_live_*` key.
