@@ -84,7 +84,7 @@ const LIVE_DEPLOYMENTS: Record<string, { url: string; tags: string[] }> = {
     tags: ['Vite', 'React', 'Firebase'],
   },
   'cinesense': {
-    url: 'https://github.com/Deign86/cinesense',
+    url: 'https://cinesense-dusky.vercel.app/',
     tags: ['Python', 'Django', 'Machine Learning'],
   },
 };
