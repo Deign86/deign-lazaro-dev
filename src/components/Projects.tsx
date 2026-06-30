@@ -13,6 +13,12 @@ interface ProjectsProps {
 
 export function Projects({ repos }: ProjectsProps) {
   const sectionRef = useRef<HTMLElement>(null);
+  const workIndex = repos.slice(0, 5).map((repo, index) => ({
+    id: repo.id,
+    number: String(index + 1).padStart(2, '0'),
+    name: repo.displayName,
+    language: repo.language,
+  }));
   
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -25,38 +31,77 @@ export function Projects({ repos }: ProjectsProps) {
     <section
       ref={sectionRef}
       id="projects"
-      className="relative py-32 md:py-48 px-6 overflow-hidden"
+      className="relative overflow-hidden px-6 py-28 md:py-40"
     >
       {/* Parallax background element */}
       <motion.div
         style={{ y: backgroundY }}
-        className="absolute right-0 top-1/4 w-[500px] h-[500px] rounded-full border border-mono-800 opacity-20 pointer-events-none"
+        className="pointer-events-none absolute right-0 top-1/4 h-[520px] w-[38vw] min-w-[280px] border-y border-l border-mono-800 opacity-20"
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section header with text reveal */}
         <ScrollReveal direction="up" blur={true} delay={0}>
-          <div className="mb-20">
-            <span className="text-mono-600 text-sm tracking-[0.3em] uppercase">
-              03 — Work
+          <div className="mb-16 grid gap-8 border-t border-mono-800 pt-8 lg:grid-cols-[0.45fr_1fr]">
+            <span className="text-sm uppercase tracking-[0.3em] text-mono-600">
+              05 / Work
             </span>
-            <h2 className="mt-4 text-4xl md:text-6xl font-bold text-mono-50 tracking-tight balance">
-              <WordReveal text="Selected Builds" />
-            </h2>
-            <p className="mt-4 text-lg text-mono-400 max-w-xl">
-              A collection of projects I&apos;ve built, from full-stack applications to experiments with new technologies.
-            </p>
+            <div>
+              <h2 className="text-5xl font-bold tracking-tight text-mono-50 md:text-7xl">
+                <WordReveal text="Selected builds" />
+              </h2>
+              <p className="mt-5 max-w-2xl text-lg leading-relaxed text-mono-400">
+                Production apps, automation experiments, and repository work arranged as a living build index.
+              </p>
+            </div>
           </div>
         </ScrollReveal>
 
-        {/* Projects grid with staggered animations */}
-        <StaggerContainer className="grid md:grid-cols-2 gap-6 md:gap-8" staggerDelay={0.1}>
-          {repos.map((repo, index) => (
-            <StaggerItem key={repo.id} direction="up" blur={true} scale={true} className={index === 0 ? "md:col-span-2 h-full" : "h-full"}>
-              <ProjectCard repo={repo} />
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+        <div className="grid gap-12 lg:grid-cols-[0.34fr_1fr]">
+          <ScrollReveal direction="left" blur={true} delay={0.1}>
+            <aside className="sticky top-28 hidden lg:block">
+              <p className="mb-6 text-xs uppercase tracking-[0.3em] text-mono-500">Work index</p>
+              <div className="border-y border-mono-800">
+                {workIndex.map((item) => (
+                  <a
+                    key={item.id}
+                    href={`#project-${item.id}`}
+                    className="group grid grid-cols-[3rem_1fr] gap-3 border-b border-mono-850 py-4 last:border-b-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
+                  >
+                    <span className="text-xs tabular-nums text-mono-600 group-hover:text-mono-100">
+                      {item.number}
+                    </span>
+                    <span>
+                      <span className="block text-sm font-medium text-mono-300 transition-colors group-hover:text-mono-50">
+                        {item.name}
+                      </span>
+                      <span className="mt-1 block text-[10px] uppercase tracking-[0.24em] text-mono-600">
+                        {item.language}
+                      </span>
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </aside>
+          </ScrollReveal>
+
+          {/* Projects grid with staggered animations */}
+          <StaggerContainer className="grid gap-5 md:grid-cols-2 md:gap-6" staggerDelay={0.1}>
+            {repos.map((repo, index) => (
+              <StaggerItem
+                key={repo.id}
+                direction="up"
+                blur={true}
+                scale={true}
+                className={index === 0 ? "h-full md:col-span-2" : "h-full"}
+              >
+                <div id={`project-${repo.id}`} className="scroll-mt-28">
+                  <ProjectCard repo={repo} />
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
 
         {/* View all link */}
         <ScrollReveal direction="up" blur={true} delay={0.3}>

@@ -1,4 +1,4 @@
-import { Hero, About, Resume, Projects, Deployments, Contact, Navbar, AppLogos } from '@/components';
+import { Hero, About, Resume, Projects, Deployments, Contact, Navbar, AppLogos, KineticFrame } from '@/components';
 import { fetchGitHubRepos, processRepo, extractTechStack, getLiveDeployments, mergeDeploymentsWithRepos } from '@/lib/github';
 import { fetchVercelProjects } from '@/lib/vercel';
 
@@ -20,7 +20,8 @@ export default async function Home() {
     : getLiveDeployments(repos);
 
   return (
-    <div className="relative min-h-screen bg-background text-foreground">
+    <div className="site-shell relative min-h-screen bg-background text-foreground">
+      <KineticFrame />
       {/* Noise overlay for texture */}
       <div className="noise-overlay" />
       

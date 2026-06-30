@@ -97,7 +97,7 @@ export function Deployments({ deployments }: DeploymentsProps) {
           <div>
             <ScrollReveal direction="left" blur={true} delay={0}>
               <span className="text-mono-500 text-sm tracking-[0.3em] uppercase">
-                Live Projects
+                04 / Live
               </span>
               <h2 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-bold text-mono-50 tracking-tight leading-tight">
                 <WordReveal text="Deployed &" />

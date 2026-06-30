@@ -108,7 +108,7 @@ export function Contact() {
         {/* Section header */}
         <ScrollReveal direction="up" blur={true} delay={0}>
           <span className="text-mono-600 text-sm tracking-[0.3em] uppercase">
-            04 — Contact
+            06 / Contact
           </span>
         </ScrollReveal>
 

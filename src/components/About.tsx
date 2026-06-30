@@ -23,46 +23,73 @@ export function About({ techStack, liveDeployCount }: { techStack: TechStackProp
     { name: 'Tools', items: techStack.tools, icon: '◪' },
   ].filter(cat => cat.items.length > 0);
 
+  const signalStrip = [
+    { value: 'BSIT', label: '3rd year' },
+    { value: 'PLV', label: 'Valenzuela' },
+    { value: `${liveDeployCount}`, label: 'live deploys' },
+    { value: 'AI', label: 'automation' },
+  ];
+
   return (
     <section
       ref={ref}
       id="about"
-      className="relative py-32 md:py-48 pb-40 md:pb-56 px-6"
+      className="relative px-6 py-28 md:py-40"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="mx-auto max-w-7xl">
         {/* Section header */}
         <ScrollReveal direction="up" blur={true} delay={0}>
-          <span className="text-mono-600 text-sm tracking-[0.3em] uppercase">
-            01 — About
-          </span>
-          <h2 className="mt-4 text-4xl md:text-6xl font-bold text-mono-50 tracking-tight balance">
-            <WordReveal text="Who I Am" />
-          </h2>
+          <div className="grid gap-8 border-t border-mono-800 pt-8 lg:grid-cols-[0.45fr_1fr]">
+            <span className="text-sm uppercase tracking-[0.3em] text-mono-600">
+              02 / Profile
+            </span>
+            <div>
+              <h2 className="text-5xl font-bold tracking-tight text-mono-50 md:text-7xl">
+                <WordReveal text="Builder profile" />
+              </h2>
+              <p className="mt-5 max-w-2xl text-lg leading-relaxed text-mono-400">
+                A full-stack student builder working at the edge of product, automation, and practical AI tooling.
+              </p>
+            </div>
+          </div>
         </ScrollReveal>
 
-        <div className="grid md:grid-cols-2 gap-16 md:gap-24 mt-20">
+        <ScrollReveal direction="up" blur={true} delay={0.1}>
+          <div className="mt-12 grid border-y border-mono-800 sm:grid-cols-4">
+            {signalStrip.map((item) => (
+              <div key={item.label} className="flex items-end justify-between gap-4 border-mono-800 py-5 sm:border-r sm:px-5 last:border-r-0">
+                <span className="text-4xl font-bold text-mono-100 md:text-5xl">{item.value}</span>
+                <span className="max-w-[7rem] text-right text-[10px] uppercase tracking-[0.28em] text-mono-500">
+                  {item.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </ScrollReveal>
+
+        <div className="mt-20 grid gap-16 md:gap-24 lg:grid-cols-[0.9fr_1.1fr]">
           {/* Profile Picture + Bio */}
           <ScrollReveal direction="left" blur={true} delay={0.2}>
             {/* Profile Picture + First paragraph in horizontal layout */}
-            <div className="flex items-start gap-6 md:gap-8 mb-8">
+            <div className="mb-8 flex items-start gap-6 md:gap-8">
               {/* Profile Picture */}
               <motion.div
-                className="relative group cursor-pointer flex-shrink-0"
+                className="group relative flex-shrink-0 cursor-pointer"
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
               >
                 {/* Outer rotating ring on hover */}
                 <motion.div 
-                  className="absolute -inset-3 rounded-full border border-mono-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  className="absolute -inset-3 rounded-[2rem] border border-mono-600 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
                 />
                 
                 {/* Static decorative ring */}
-                <div className="absolute -inset-1.5 rounded-full border border-mono-700" />
+                <div className="absolute -inset-1.5 rounded-[1.55rem] border border-mono-700" />
                 
-                {/* Image container - circular for symmetry */}
-                <div className="relative w-32 h-32 md:w-40 md:h-40 overflow-hidden rounded-full shadow-xl shadow-mono-950/30">
+                {/* Image container */}
+                <div className="relative h-36 w-28 overflow-hidden rounded-[1.4rem] shadow-xl shadow-mono-950/30 md:h-48 md:w-36">
                   <Image
                     src="/profile.jpg"
                     alt="Deign Lazaro"
@@ -76,21 +103,21 @@ export function About({ techStack, liveDeployCount }: { techStack: TechStackProp
                   <div className="absolute inset-0 bg-gradient-to-t from-mono-950/10 via-transparent to-transparent" />
                   
                   {/* Inner border */}
-                  <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-white/20" />
+                  <div className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/20" />
                 </div>
               </motion.div>
               
               {/* First paragraph beside image */}
-              <p className="text-lg md:text-xl text-mono-300 leading-relaxed pt-2 text-justify max-w-prose">
+              <p className="max-w-prose pt-2 text-lg leading-relaxed text-mono-300 md:text-xl">
                 I&apos;m a 3rd-year BSIT student at Pamantasan ng Lungsod ng Valenzuela, passionate about building impactful software that solves real problems.
               </p>
             </div>
-            <p className="mt-6 text-lg text-mono-400 leading-relaxed text-justify max-w-prose">
+            <p className="mt-6 max-w-prose text-lg leading-relaxed text-mono-400">
               From crafting elegant frontend experiences to architecting robust backend systems and integrating AI solutions, 
               I bring a full-stack perspective to every project. A consistent honor student with proven leadership experience 
               from years of student council participation.
             </p>
-            <p className="mt-6 text-lg text-mono-400 leading-relaxed text-justify max-w-prose">
+            <p className="mt-6 max-w-prose text-lg leading-relaxed text-mono-400">
               I specialize in Python, TypeScript, and modern frameworks like Next.js, Django, and FastAPI—with growing expertise 
                in AI/ML integration using Hermes Agent, open-source AI tooling, and the OpenAI/Claude APIs.
             </p>
@@ -120,8 +147,8 @@ export function About({ techStack, liveDeployCount }: { techStack: TechStackProp
 
           {/* Tech Stack Cloud with stagger */}
           <ScrollReveal direction="right" blur={true} delay={0.3}>
-            <div className="space-y-8">
-              <h3 className="text-sm tracking-[0.3em] uppercase text-mono-400">
+            <div className="space-y-8 border-l border-mono-800 pl-6 md:pl-10">
+              <h3 className="text-sm uppercase tracking-[0.3em] text-mono-400">
                 Tech Stack
               </h3>
 

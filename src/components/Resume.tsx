@@ -256,7 +256,7 @@ export function Resume() {
           className="mb-16"
         >
           <span className="text-mono-600 text-sm tracking-[0.3em] uppercase">
-            02 — Resume
+            03 / Archive
           </span>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mt-4">
             <h2 className="text-4xl md:text-6xl font-bold text-mono-50 tracking-tight balance">

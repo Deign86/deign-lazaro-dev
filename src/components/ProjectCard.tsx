@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { useRef, useState, MouseEvent } from 'react';
+import { useRef, useState, MouseEvent, KeyboardEvent } from 'react';
 import type { ProcessedRepo } from '@/lib/github';
 
 interface ProjectCardProps {
@@ -56,8 +56,15 @@ export function ProjectCard({ repo }: ProjectCardProps) {
     window.open(repo.url, '_blank', 'noopener,noreferrer');
   };
 
+  const handleCardKeyDown = (e: KeyboardEvent<HTMLElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleCardClick();
+    }
+  };
+
   return (
-    <motion.div
+    <motion.article
       ref={cardRef}
       style={{
         rotateX,
@@ -68,25 +75,31 @@ export function ProjectCard({ repo }: ProjectCardProps) {
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
       onClick={handleCardClick}
-      className="group relative cursor-pointer h-full"
+      onKeyDown={handleCardKeyDown}
+      role="link"
+      tabIndex={0}
+      aria-label={`Open ${repo.displayName} on GitHub`}
+      className="group relative h-full cursor-pointer rounded-[1.5rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
     >
       {/* Spotlight effect layer */}
       <div
-        className="pointer-events-none absolute -inset-px rounded-2xl transition-opacity duration-500 z-0"
+        className="pointer-events-none absolute -inset-px z-0 rounded-[1.5rem] transition-opacity duration-500"
         style={{
           opacity: isHovered ? 1 : 0,
-          background: `radial-gradient(400px circle at ${spotlightPosition.x}px ${spotlightPosition.y}px, rgba(255, 255, 255, 0.06), transparent 40%)`,
+          background: `radial-gradient(460px circle at ${spotlightPosition.x}px ${spotlightPosition.y}px, rgba(255, 255, 255, 0.08), transparent 44%)`,
         }}
       />
       
       <div
-        className="relative bg-mono-900 border border-mono-800 rounded-2xl p-6 md:p-8 h-full transition-all duration-500 hover:border-mono-600 hover:shadow-2xl hover:shadow-mono-950/50"
+        className="relative h-full overflow-hidden rounded-[1.5rem] border border-mono-800 bg-mono-950/70 p-6 transition-all duration-500 hover:border-mono-500 hover:bg-mono-900/80 hover:shadow-2xl hover:shadow-mono-950/50 md:p-8"
         style={{ transform: 'translateZ(20px)' }}
       >
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-mono-300/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
-          <span className="text-xs uppercase tracking-wider text-mono-500 font-medium">
-            {repo.category}
+          <span className="text-[10px] uppercase tracking-[0.32em] text-mono-500">
+            Repository / {repo.category}
           </span>
 
           {/* External links */}
@@ -97,7 +110,7 @@ export function ProjectCard({ repo }: ProjectCardProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="p-2 rounded-lg text-mono-400 hover:text-mono-100 hover:bg-mono-800 transition-colors"
+                className="rounded-lg p-2 text-mono-400 transition-colors hover:bg-mono-800 hover:text-mono-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
                 aria-label="View live demo"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -115,7 +128,7 @@ export function ProjectCard({ repo }: ProjectCardProps) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="p-2 rounded-lg text-mono-400 hover:text-mono-100 hover:bg-mono-800 transition-colors"
+              className="rounded-lg p-2 text-mono-400 transition-colors hover:bg-mono-800 hover:text-mono-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
               aria-label="View on GitHub"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -126,26 +139,26 @@ export function ProjectCard({ repo }: ProjectCardProps) {
         </div>
 
         {/* Title */}
-        <h3 className="text-xl md:text-2xl font-bold text-mono-100 mb-3 group-hover:text-mono-200 transition-colors">
+        <h3 className="mb-4 max-w-2xl text-2xl font-bold tracking-tight text-mono-100 transition-colors group-hover:text-mono-50 md:text-4xl">
           {repo.displayName}
         </h3>
 
         {/* Description */}
-        <p className="text-mono-400 text-sm md:text-base leading-relaxed mb-6 line-clamp-3">
+        <p className="mb-8 max-w-2xl text-sm leading-relaxed text-mono-400 md:text-base">
           {repo.description}
         </p>
 
         {/* Footer */}
-        <div className="flex items-center justify-between mt-auto pt-4 border-t border-mono-800">
+        <div className="mt-auto flex items-center justify-between border-t border-mono-800 pt-4">
           {/* Tech tags */}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-3 py-1 bg-mono-800 text-mono-300 rounded-md text-xs font-medium">
+            <span className="rounded-md bg-mono-800 px-3 py-1 text-xs font-medium text-mono-300">
               {repo.language}
             </span>
             {repo.topics.slice(0, 2).map((topic) => (
               <span
                 key={topic}
-                className="px-3 py-1 bg-mono-850 text-mono-400 rounded-md text-xs border border-mono-700"
+                className="rounded-md border border-mono-700 bg-mono-850 px-3 py-1 text-xs text-mono-400"
               >
                 {topic}
               </span>
@@ -164,8 +177,8 @@ export function ProjectCard({ repo }: ProjectCardProps) {
         </div>
 
         {/* Hover gradient overlay */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-transparent to-transparent group-hover:from-mono-800/50 group-hover:to-mono-900/30 transition-all duration-500 pointer-events-none" />
+        <div className="pointer-events-none absolute inset-0 rounded-[1.5rem] bg-gradient-to-br from-transparent to-transparent transition-all duration-500 group-hover:from-mono-800/40 group-hover:to-mono-950/40" />
       </div>
-    </motion.div>
+    </motion.article>
   );
 }

@@ -7,3 +7,4 @@ export { Contact } from './Contact';
 export { Navbar } from './Navbar';
 export { Deployments } from './Deployments';
 export { AppLogos } from './ui/app-logos';
+export { KineticFrame } from './KineticFrame';

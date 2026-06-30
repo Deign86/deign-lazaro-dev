@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:source": "node scripts/check-redesign-source.mjs",
     "generate:ethereal": "npx tsx scripts/capture-ethereal-video.ts"
   },
   "dependencies": {
