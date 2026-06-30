@@ -75,7 +75,7 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.15 }}
               className="max-w-md text-xl leading-relaxed text-mono-300 md:text-2xl"
             >
-              I build dark, sharp, deployable software where product craft and AI automation meet.
+              I build sharp, deployable software where product craft and AI automation meet.
             </motion.p>
 
             <div className="grid gap-3">
