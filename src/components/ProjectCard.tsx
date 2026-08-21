@@ -2,13 +2,15 @@
 
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useRef, useState, MouseEvent, KeyboardEvent } from 'react';
-import type { ProcessedRepo } from '@/lib/github';
+import type { PinnedProject } from '@/data/projects';
 
 interface ProjectCardProps {
-  repo: ProcessedRepo;
+  project: PinnedProject;
 }
 
-export function ProjectCard({ repo }: ProjectCardProps) {
+export function ProjectCard({ project }: ProjectCardProps) {
+  const githubUrl = project.githubRepo ? `https://github.com/${project.githubRepo}` : undefined;
+  const primaryUrl = project.liveUrlCandidates[0];
   const cardRef = useRef<HTMLDivElement>(null);
   const [spotlightPosition, setSpotlightPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -53,7 +55,7 @@ export function ProjectCard({ repo }: ProjectCardProps) {
   };
 
   const handleCardClick = () => {
-    window.open(repo.url, '_blank', 'noopener,noreferrer');
+    window.open(githubUrl || primaryUrl, '_blank', 'noopener,noreferrer');
   };
 
   const handleCardKeyDown = (e: KeyboardEvent<HTMLElement>) => {
@@ -78,7 +80,7 @@ export function ProjectCard({ repo }: ProjectCardProps) {
       onKeyDown={handleCardKeyDown}
       role="link"
       tabIndex={0}
-      aria-label={`Open ${repo.displayName} on GitHub`}
+      aria-label={`Open ${project.title}`}
       className="group relative h-full cursor-pointer rounded-[1.5rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
     >
       {/* Spotlight effect layer */}
@@ -99,14 +101,14 @@ export function ProjectCard({ repo }: ProjectCardProps) {
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <span className="text-[10px] uppercase tracking-[0.32em] text-mono-500">
-            Repository / {repo.category}
+            Featured project / {project.tags[0] || 'Web'}
           </span>
 
           {/* External links */}
           <div className="flex items-center gap-2">
-            {repo.demoUrl && (
+            {primaryUrl && (
               <a
-                href={repo.demoUrl}
+                href={primaryUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
@@ -124,7 +126,7 @@ export function ProjectCard({ repo }: ProjectCardProps) {
               </a>
             )}
             <a
-              href={repo.url}
+              href={githubUrl || primaryUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
@@ -140,12 +142,12 @@ export function ProjectCard({ repo }: ProjectCardProps) {
 
         {/* Title */}
         <h3 className="mb-4 max-w-2xl text-2xl font-bold tracking-tight text-mono-100 transition-colors group-hover:text-mono-50 md:text-4xl">
-          {repo.displayName}
+          {project.title}
         </h3>
 
         {/* Description */}
         <p className="mb-8 max-w-2xl text-sm leading-relaxed text-mono-400 md:text-base">
-          {repo.description}
+          {project.description}
         </p>
 
         {/* Footer */}
@@ -153,9 +155,9 @@ export function ProjectCard({ repo }: ProjectCardProps) {
           {/* Tech tags */}
           <div className="flex items-center gap-2 flex-wrap">
             <span className="rounded-md bg-mono-800 px-3 py-1 text-xs font-medium text-mono-300">
-              {repo.language}
+              {project.tags[0] || 'Web'}
             </span>
-            {repo.topics.slice(0, 2).map((topic) => (
+            {project.tags.slice(1, 3).map((topic) => (
               <span
                 key={topic}
                 className="rounded-md border border-mono-700 bg-mono-850 px-3 py-1 text-xs text-mono-400"
@@ -165,15 +167,6 @@ export function ProjectCard({ repo }: ProjectCardProps) {
             ))}
           </div>
 
-          {/* Stars */}
-          {repo.stars > 0 && (
-            <div className="flex items-center gap-1 text-mono-500">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-              </svg>
-              <span className="text-sm">{repo.stars}</span>
-            </div>
-          )}
         </div>
 
         {/* Hover gradient overlay */}

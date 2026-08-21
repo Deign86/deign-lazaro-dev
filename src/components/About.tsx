@@ -24,7 +24,7 @@ export function About({ techStack, liveDeployCount }: { techStack: TechStackProp
   ].filter(cat => cat.items.length > 0);
 
   const signalStrip = [
-    { value: 'BSIT', label: '3rd year' },
+    { value: 'BSIT', label: '4th year' },
     { value: 'PLV', label: 'Valenzuela' },
     { value: `${liveDeployCount}`, label: 'live deploys' },
     { value: 'AI', label: 'automation' },
@@ -109,7 +109,7 @@ export function About({ techStack, liveDeployCount }: { techStack: TechStackProp
               
               {/* First paragraph beside image */}
               <p className="max-w-prose pt-2 text-lg leading-relaxed text-mono-300 md:text-xl">
-                I&apos;m a 3rd-year BSIT student at Pamantasan ng Lungsod ng Valenzuela, passionate about building impactful software that solves real problems.
+                I&apos;m a 4th-year BSIT student at Pamantasan ng Lungsod ng Valenzuela, passionate about building impactful software that solves real problems.
               </p>
             </div>
             <p className="mt-6 max-w-prose text-lg leading-relaxed text-mono-400">

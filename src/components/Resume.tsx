@@ -23,7 +23,7 @@ const education: TimelineItem[] = [
     title: 'Bachelor of Science in Information Technology',
     organization: 'Pamantasan ng Lungsod ng Valenzuela',
     location: 'Valenzuela City, Philippines',
-    period: '2023 – Present (3rd Year)',
+    period: '2023 – Present (4th Year)',
     highlights: ['Full-Stack Development', 'AI & Machine Learning', 'Software Engineering'],
   },
   {

@@ -3,21 +3,17 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { ProjectCard } from './ProjectCard';
-import type { ProcessedRepo } from '@/lib/github';
+import { PINNED_PROJECTS } from '@/data/projects';
 import { ScrollReveal, StaggerContainer, StaggerItem } from './ui/scroll-reveal';
 import { WordReveal } from './ui/text-reveal';
 
-interface ProjectsProps {
-  repos: ProcessedRepo[];
-}
-
-export function Projects({ repos }: ProjectsProps) {
+export function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
-  const workIndex = repos.slice(0, 5).map((repo, index) => ({
-    id: repo.id,
-    number: String(index + 1).padStart(2, '0'),
-    name: repo.displayName,
-    language: repo.language,
+  const workIndex = PINNED_PROJECTS.map((project) => ({
+    id: project.id,
+    number: String(project.order).padStart(2, '0'),
+    name: project.title,
+    language: project.tags[0] || 'Web',
   }));
   
   const { scrollYProgress } = useScroll({
@@ -87,16 +83,16 @@ export function Projects({ repos }: ProjectsProps) {
 
           {/* Projects grid with staggered animations */}
           <StaggerContainer className="grid gap-5 md:grid-cols-2 md:gap-6" staggerDelay={0.1}>
-            {repos.map((repo, index) => (
+            {PINNED_PROJECTS.map((project, index) => (
               <StaggerItem
-                key={repo.id}
+                key={project.id}
                 direction="up"
                 blur={true}
                 scale={true}
                 className={index === 0 ? "h-full md:col-span-2" : "h-full"}
               >
-                <div id={`project-${repo.id}`} className="scroll-mt-28">
-                  <ProjectCard repo={repo} />
+                <div id={`project-${project.id}`} className="scroll-mt-28">
+                  <ProjectCard project={project} />
                 </div>
               </StaggerItem>
             ))}

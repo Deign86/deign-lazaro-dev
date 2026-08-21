@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { 
@@ -14,8 +14,10 @@ import {
 } from 'lucide-react';
 
 export interface LivePreviewProject {
+  id: string;
   title: string;
   url: string;
+  thumbnail?: string;
   description?: string;
   icon?: React.ReactNode;
   tags?: string[];
@@ -31,11 +33,35 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [isResolving, setIsResolving] = useState(true);
+  const [resolvedUrl, setResolvedUrl] = useState<string | null>(null);
   const [cacheBuster, setCacheBuster] = useState(() => Date.now());
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const activeProject = projects[activeIndex];
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/live-preview?id=${encodeURIComponent(activeProject.id)}`)
+      .then((response) => response.json())
+      .then((data: { url?: string | null }) => {
+        if (!cancelled) {
+          setResolvedUrl(data.url || null);
+          setIsResolving(false);
+          setIsLoading(!data.url);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setResolvedUrl(null);
+          setIsResolving(false);
+          setIsLoading(false);
+        }
+      });
+
+    return () => { cancelled = true; };
+  }, [activeProject.id]);
   
   // Build iframe URL: direct for Flutter apps, proxied for everything else
   // Flutter/Dart apps use fetch() and module scripts to load WASM/JS assets.
@@ -60,7 +86,7 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
     const targetUrl = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}_cb=${cacheBuster}`;
     return `/api/embed?url=${encodeURIComponent(targetUrl)}`;
   };
-  const iframeSrc = buildIframeSrc(activeProject);
+  const iframeSrc = resolvedUrl ? buildIframeSrc({ ...activeProject, url: resolvedUrl }) : null;
 
   const handlePrev = () => {
     setIsLoading(true);
@@ -144,17 +170,17 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
             {/* URL Bar */}
             <div className="flex-1 mx-2 sm:mx-4 max-w-xl">
               <a 
-                href={activeProject.url}
+                href={resolvedUrl || activeProject.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-mono-950 rounded-lg border border-mono-800 hover:bg-mono-900 hover:border-mono-700 transition-colors cursor-pointer group"
-                title={activeProject.url.replace('https://', '')}
+                title={(resolvedUrl || activeProject.url).replace('https://', '')}
               >
                 <Globe className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-mono-600 flex-shrink-0 group-hover:text-mono-400 transition-colors" />
                 <span className="text-[10px] sm:text-xs text-mono-400 truncate font-mono group-hover:text-mono-300 transition-colors">
                   {/* Extract domain and show cleaner URL */}
                   {(() => {
-                    const url = activeProject.url.replace('https://', '');
+                    const url = (resolvedUrl || activeProject.url).replace('https://', '');
                     // For Vercel apps, show just the subdomain.vercel.app
                     if (url.includes('.vercel.app')) {
                       const subdomain = url.split('.vercel.app')[0];
@@ -173,7 +199,7 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
             {/* Actions */}
             <div className="flex items-center gap-1 sm:gap-2">
               <a
-                href={activeProject.url}
+                href={resolvedUrl || activeProject.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1 sm:p-1.5 rounded hover:bg-mono-800 transition-colors text-mono-500 hover:text-mono-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-1 focus-visible:ring-offset-mono-900"
@@ -253,23 +279,33 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
               )}
             </AnimatePresence>
 
-            {/* Actual Iframe */}
-            <iframe
-              ref={iframeRef}
-              src={iframeSrc}
-              title={activeProject.title}
-              className="w-full h-full border-0"
-              onLoad={() => {
-                setIsLoading(false);
-                setHasError(false);
-              }}
-              onError={() => {
-                setIsLoading(false);
-                setHasError(true);
-              }}
-              loading="lazy"
-              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-            />
+            {/* Never mount an iframe until a server-side health check succeeds. */}
+            {iframeSrc && !hasError && !isResolving ? (
+              <iframe
+                ref={iframeRef}
+                src={iframeSrc}
+                title={activeProject.title}
+                className="w-full h-full border-0"
+                onLoad={() => {
+                  setIsLoading(false);
+                  setHasError(false);
+                }}
+                onError={() => {
+                  setIsLoading(false);
+                  setHasError(true);
+                }}
+                loading="lazy"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+              />
+            ) : !isLoading && (
+              <div className="absolute inset-0 z-20 flex items-center justify-center bg-mono-950">
+                {activeProject.thumbnail ? (
+                  <img src={activeProject.thumbnail} alt={`${activeProject.title} preview`} className="h-full w-full object-cover opacity-80" />
+                ) : (
+                  <p className="text-sm text-mono-400">Preview unavailable</p>
+                )}
+              </div>
+            )}
             
             {hasError && (
               <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-mono-950/90 backdrop-blur-sm gap-3 text-center px-6">
@@ -277,7 +313,7 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
                   This preview is blocked by the app&apos;s frame settings. Open it in a new tab instead.
                 </p>
                 <a
-                  href={activeProject.url}
+                  href={resolvedUrl || activeProject.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-mono-800 text-mono-100 border border-mono-700 hover:bg-mono-700 transition-colors"
@@ -300,6 +336,7 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
               key={project.url}
               onClick={() => {
                 setIsLoading(true);
+                setIsResolving(true);
                 setHasError(false);
                 setCacheBuster(Date.now());
                 setActiveIndex(index);
@@ -337,7 +374,7 @@ export function LivePreview({ projects, className }: LivePreviewProps) {
             </div>
           </div>
           <a
-            href={activeProject.url}
+            href={resolvedUrl || activeProject.url}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm font-medium text-mono-300 bg-mono-800 rounded-lg border border-mono-700 hover:bg-mono-700 hover:text-mono-100 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 focus-visible:ring-offset-2 focus-visible:ring-offset-mono-950 flex-shrink-0 w-full sm:w-auto"

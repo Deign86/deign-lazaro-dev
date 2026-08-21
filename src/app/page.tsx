@@ -1,41 +1,27 @@
 import { Hero, About, Resume, Projects, Deployments, Contact, Navbar, AppLogos, KineticFrame } from '@/components';
-import { fetchGitHubRepos, processRepo, extractTechStack, getLiveDeployments, mergeDeploymentsWithRepos } from '@/lib/github';
-import { fetchVercelProjects } from '@/lib/vercel';
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 3600;
 
-export default async function Home() {
-  // Fetch GitHub and Vercel data in parallel at build/request time
-  const [rawRepos, vercelDeployments] = await Promise.all([
-    fetchGitHubRepos('Deign86'),
-    fetchVercelProjects(),
-  ]);
-  
-  const repos = rawRepos.map(processRepo);
-  const techStack = extractTechStack(rawRepos);
-  
-  // Use Vercel API deployments if available, otherwise fallback to hardcoded config
-  const liveDeployments = vercelDeployments.length > 0
-    ? mergeDeploymentsWithRepos(vercelDeployments, repos)
-    : getLiveDeployments(repos);
+export default function Home() {
+  const techStack = {
+    frontend: ['TypeScript', 'JavaScript', 'React', 'Next.js', 'Tailwind CSS', 'HTML', 'CSS'],
+    backend: ['Python', 'FastAPI', 'Django', 'Firebase'],
+    mobile: ['Dart', 'Flutter'],
+    tools: ['Git', 'Vercel'],
+  };
 
   return (
     <div className="site-shell relative min-h-screen bg-background text-foreground">
       <KineticFrame />
-      {/* Noise overlay for texture */}
       <div className="noise-overlay" />
-      
-      {/* Navigation */}
       <Navbar />
-      
-      {/* Main content */}
       <main id="main-content">
         <Hero />
-        <About techStack={techStack} liveDeployCount={liveDeployments.length} />
+        <About techStack={techStack} liveDeployCount={6} />
         <AppLogos />
         <Resume />
-        <Deployments deployments={liveDeployments} />
-        <Projects repos={repos} />
+        <Deployments />
+        <Projects />
         <Contact />
       </main>
     </div>
