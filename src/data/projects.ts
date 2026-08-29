@@ -89,6 +89,7 @@ export const PINNED_PROJECTS: PinnedProject[] = [
     tags: ['HTML', 'CSS'],
     githubRepo: 'Deign86/apg-website',
     liveUrlCandidates: [
+      'https://apg-website-alpha-gamma.vercel.app',
       'https://apg-website.vercel.app',
       'https://apg-website-git-main-deign86.vercel.app',
     ],

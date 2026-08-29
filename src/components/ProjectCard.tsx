@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useRef, useState, MouseEvent, KeyboardEvent } from 'react';
 import type { PinnedProject } from '@/data/projects';
+import { ExternalLink, Github } from 'lucide-react';
 
 interface ProjectCardProps {
   project: PinnedProject;
@@ -15,32 +16,24 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const [spotlightPosition, setSpotlightPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
-  // Mouse tracking for tilt effect
+  // Smooth mouse tilt effect
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
-  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+  const mouseXSpring = useSpring(x, { stiffness: 260, damping: 25 });
+  const mouseYSpring = useSpring(y, { stiffness: 260, damping: 25 });
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['8deg', '-8deg']);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-8deg', '8deg']);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['5deg', '-5deg']);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-5deg', '5deg']);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
-
     const rect = cardRef.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-
-    x.set(xPct);
-    y.set(yPct);
-    
-    // Spotlight position
+    x.set(mouseX / rect.width - 0.5);
+    y.set(mouseY / rect.height - 0.5);
     setSpotlightPosition({ x: mouseX, y: mouseY });
   };
 
@@ -55,7 +48,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   };
 
   const handleCardClick = () => {
-    window.open(githubUrl || primaryUrl, '_blank', 'noopener,noreferrer');
+    window.open(primaryUrl || githubUrl, '_blank', 'noopener,noreferrer');
   };
 
   const handleCardKeyDown = (e: KeyboardEvent<HTMLElement>) => {
@@ -81,96 +74,91 @@ export function ProjectCard({ project }: ProjectCardProps) {
       role="link"
       tabIndex={0}
       aria-label={`Open ${project.title}`}
-      className="group relative h-full cursor-pointer rounded-[1.5rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
+      className="group relative h-full cursor-pointer rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
     >
-      {/* Spotlight effect layer */}
+      {/* Dynamic Cursor Spotlight Layer */}
       <div
-        className="pointer-events-none absolute -inset-px z-0 rounded-[1.5rem] transition-opacity duration-500"
+        className="pointer-events-none absolute -inset-px z-0 rounded-3xl transition-opacity duration-500"
         style={{
           opacity: isHovered ? 1 : 0,
-          background: `radial-gradient(460px circle at ${spotlightPosition.x}px ${spotlightPosition.y}px, rgba(255, 255, 255, 0.08), transparent 44%)`,
+          background: `radial-gradient(400px circle at ${spotlightPosition.x}px ${spotlightPosition.y}px, rgba(255, 255, 255, 0.12), transparent 45%)`,
         }}
       />
-      
+
       <div
-        className="relative h-full overflow-hidden rounded-[1.5rem] border border-mono-800 bg-mono-950/70 p-6 transition-all duration-500 hover:border-mono-500 hover:bg-mono-900/80 hover:shadow-2xl hover:shadow-mono-950/50 md:p-8"
-        style={{ transform: 'translateZ(20px)' }}
+        className="relative flex h-full flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-mono-950/80 p-7 backdrop-blur-md shadow-2xl transition-all duration-500 hover:border-white/30 hover:bg-mono-900/80 md:p-8"
+        style={{ transform: 'translateZ(15px)' }}
       >
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-mono-300/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+        <div>
+          {/* Editorial Card Header */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-xs font-semibold text-mono-400">
+                #{String(project.order).padStart(2, '0')}
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.28em] text-mono-300 font-mono font-medium">
+                {project.tags[0] || 'Web Application'}
+              </span>
+            </div>
 
-        {/* Header */}
-        <div className="flex items-start justify-between mb-4">
-          <span className="text-[10px] uppercase tracking-[0.32em] text-mono-500">
-            Featured project / {project.tags[0] || 'Web'}
-          </span>
-
-          {/* External links */}
-          <div className="flex items-center gap-2">
-            {primaryUrl && (
-              <a
-                href={primaryUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="rounded-lg p-2 text-mono-400 transition-colors hover:bg-mono-800 hover:text-mono-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
-                aria-label="View live demo"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                  />
-                </svg>
-              </a>
-            )}
-            <a
-              href={githubUrl || primaryUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="rounded-lg p-2 text-mono-400 transition-colors hover:bg-mono-800 hover:text-mono-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
-              aria-label="View on GitHub"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-              </svg>
-            </a>
+            {/* Quick Action Links */}
+            <div className="flex items-center gap-2">
+              {primaryUrl && (
+                <a
+                  href={primaryUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="rounded-lg border border-white/10 bg-mono-900/80 p-2 text-mono-300 transition-colors hover:bg-mono-50 hover:text-mono-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
+                  aria-label="View live deployment"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              )}
+              {githubUrl && (
+                <a
+                  href={githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="rounded-lg border border-white/10 bg-mono-900/80 p-2 text-mono-300 transition-colors hover:bg-mono-50 hover:text-mono-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
+                  aria-label="View source on GitHub"
+                >
+                  <Github className="h-4 w-4" />
+                </a>
+              )}
+            </div>
           </div>
+
+          {/* Project Title */}
+          <h3 className="text-2xl font-bold tracking-tight text-mono-50 transition-colors group-hover:text-white md:text-3xl">
+            {project.title}
+          </h3>
+
+          {/* Project Description */}
+          <p className="mt-3 text-sm leading-relaxed text-mono-300 font-light md:text-base">
+            {project.description}
+          </p>
         </div>
 
-        {/* Title */}
-        <h3 className="mb-4 max-w-2xl text-2xl font-bold tracking-tight text-mono-100 transition-colors group-hover:text-mono-50 md:text-4xl">
-          {project.title}
-        </h3>
-
-        {/* Description */}
-        <p className="mb-8 max-w-2xl text-sm leading-relaxed text-mono-400 md:text-base">
-          {project.description}
-        </p>
-
-        {/* Footer */}
-        <div className="mt-auto flex items-center justify-between border-t border-mono-800 pt-4">
-          {/* Tech tags */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="rounded-md bg-mono-800 px-3 py-1 text-xs font-medium text-mono-300">
-              {project.tags[0] || 'Web'}
-            </span>
-            {project.tags.slice(1, 3).map((topic) => (
+        {/* Card Footer: Tech Tags & Status */}
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-5">
+          <div className="flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
               <span
-                key={topic}
-                className="rounded-md border border-mono-700 bg-mono-850 px-3 py-1 text-xs text-mono-400"
+                key={tag}
+                className="rounded-md border border-white/10 bg-mono-900/90 px-2.5 py-1 text-[11px] font-mono text-mono-200 font-medium"
               >
-                {topic}
+                {tag}
               </span>
             ))}
           </div>
 
+          <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.24em] text-mono-400 font-mono">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Deployed</span>
+          </div>
         </div>
-
-        {/* Hover gradient overlay */}
-        <div className="pointer-events-none absolute inset-0 rounded-[1.5rem] bg-gradient-to-br from-transparent to-transparent transition-all duration-500 group-hover:from-mono-800/40 group-hover:to-mono-950/40" />
       </div>
     </motion.article>
   );

@@ -1,6 +1,5 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { ProjectCard } from './ProjectCard';
 import { PINNED_PROJECTS } from '@/data/projects';
@@ -15,63 +14,53 @@ export function Projects() {
     name: project.title,
     language: project.tags[0] || 'Web',
   }));
-  
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  });
-
-  const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   return (
     <section
       ref={sectionRef}
       id="projects"
-      className="relative overflow-hidden px-6 py-28 md:py-40"
+      className="relative overflow-hidden px-6 py-28 md:py-36"
     >
-      {/* Parallax background element */}
-      <motion.div
-        style={{ y: backgroundY }}
-        className="pointer-events-none absolute right-0 top-1/4 h-[520px] w-[38vw] min-w-[280px] border-y border-l border-mono-800 opacity-20"
-      />
-
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section header with text reveal */}
+      <div className="relative z-10 mx-auto max-w-7xl">
+        {/* Section Header */}
         <ScrollReveal direction="up" blur={true} delay={0}>
-          <div className="mb-16 grid gap-8 border-t border-mono-800 pt-8 lg:grid-cols-[0.45fr_1fr]">
-            <span className="text-sm uppercase tracking-[0.3em] text-mono-600">
+          <div className="mb-10 grid gap-8 rounded-3xl border border-white/10 bg-mono-950/60 p-8 backdrop-blur-md shadow-2xl lg:grid-cols-[0.4fr_1fr]">
+            <span className="text-xs uppercase tracking-[0.34em] text-mono-400 font-mono">
               05 / Work
             </span>
             <div>
-              <h2 className="text-5xl font-bold tracking-tight text-mono-50 md:text-7xl">
-                <WordReveal text="Selected builds" />
+              <h2 className="text-4xl font-bold tracking-tight text-mono-50 md:text-6xl drop-shadow">
+                <WordReveal text="Selected Builds" />
               </h2>
-              <p className="mt-5 max-w-2xl text-lg leading-relaxed text-mono-400">
-                Production apps, automation experiments, and repository work arranged as a living build index.
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-mono-200 font-light md:text-lg">
+                Production web apps, intelligent automation platforms, and open-source tools crafted with meticulous frontend and backend architecture.
               </p>
             </div>
           </div>
         </ScrollReveal>
 
-        <div className="grid gap-12 lg:grid-cols-[0.34fr_1fr]">
+        <div className="grid gap-8 lg:grid-cols-[0.3fr_1fr]">
+          {/* Sticky Left Editorial Index */}
           <ScrollReveal direction="left" blur={true} delay={0.1}>
-            <aside className="sticky top-28 hidden lg:block">
-              <p className="mb-6 text-xs uppercase tracking-[0.3em] text-mono-500">Work index</p>
-              <div className="border-y border-mono-800">
+            <aside className="sticky top-28 hidden rounded-3xl border border-white/10 bg-mono-950/60 p-6 backdrop-blur-md shadow-2xl lg:block">
+              <p className="mb-4 text-[10px] uppercase tracking-[0.34em] text-mono-300 font-mono font-semibold">
+                Index Navigation
+              </p>
+              <div className="border-t border-white/10">
                 {workIndex.map((item) => (
                   <a
                     key={item.id}
                     href={`#project-${item.id}`}
-                    className="group grid grid-cols-[3rem_1fr] gap-3 border-b border-mono-850 py-4 last:border-b-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
+                    className="group grid grid-cols-[2.5rem_1fr] gap-2 border-b border-white/5 py-3.5 last:border-b-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
                   >
-                    <span className="text-xs tabular-nums text-mono-600 group-hover:text-mono-100">
+                    <span className="text-xs font-mono text-mono-400 transition-colors group-hover:text-mono-50">
                       {item.number}
                     </span>
                     <span>
-                      <span className="block text-sm font-medium text-mono-300 transition-colors group-hover:text-mono-50">
+                      <span className="block text-sm font-medium text-mono-200 transition-colors group-hover:text-mono-50">
                         {item.name}
                       </span>
-                      <span className="mt-1 block text-[10px] uppercase tracking-[0.24em] text-mono-600">
+                      <span className="mt-0.5 block text-[10px] uppercase tracking-[0.24em] text-mono-400 font-mono">
                         {item.language}
                       </span>
                     </span>
@@ -81,17 +70,17 @@ export function Projects() {
             </aside>
           </ScrollReveal>
 
-          {/* Projects grid with staggered animations */}
-          <StaggerContainer className="grid gap-5 md:grid-cols-2 md:gap-6" staggerDelay={0.1}>
+          {/* Editorial Project Showcase Stream */}
+          <StaggerContainer className="grid gap-6 md:grid-cols-2" staggerDelay={0.1}>
             {PINNED_PROJECTS.map((project, index) => (
               <StaggerItem
                 key={project.id}
                 direction="up"
                 blur={true}
                 scale={true}
-                className={index === 0 ? "h-full md:col-span-2" : "h-full"}
+                className={index === 0 ? 'h-full md:col-span-2' : 'h-full'}
               >
-                <div id={`project-${project.id}`} className="scroll-mt-28">
+                <div id={`project-${project.id}`} className="scroll-mt-28 h-full">
                   <ProjectCard project={project} />
                 </div>
               </StaggerItem>
@@ -99,18 +88,18 @@ export function Projects() {
           </StaggerContainer>
         </div>
 
-        {/* View all link */}
-        <ScrollReveal direction="up" blur={true} delay={0.3}>
+        {/* View all repositories on GitHub */}
+        <ScrollReveal direction="up" blur={true} delay={0.2}>
           <div className="mt-16 text-center">
             <a
               href="https://github.com/Deign86?tab=repositories"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 text-mono-400 hover:text-mono-100 transition-colors cursor-pointer"
+              className="group inline-flex items-center gap-3 rounded-full border border-white/15 bg-mono-950/60 px-8 py-3.5 text-xs uppercase tracking-[0.24em] font-mono text-mono-200 backdrop-blur-md shadow-xl transition-all hover:bg-mono-50 hover:text-mono-950 cursor-pointer"
             >
-              <span className="text-lg">View all repositories on GitHub</span>
+              <span>Explore All Repositories on GitHub</span>
               <svg
-                className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+                className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"

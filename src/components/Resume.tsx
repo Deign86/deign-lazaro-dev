@@ -1,8 +1,9 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { Download, Mail, MapPin, Calendar, GraduationCap, Code, ChevronRight, Lightbulb } from 'lucide-react';
+import { useState } from 'react';
+import { Download, Calendar, MapPin, GraduationCap, Code, ChevronRight, Lightbulb } from 'lucide-react';
+import { ScrollReveal } from './ui/scroll-reveal';
+import { WordReveal } from './ui/text-reveal';
 
 interface TimelineItem {
   title: string;
@@ -45,20 +46,20 @@ const education: TimelineItem[] = [
 const projects: TimelineItem[] = [
   {
     title: 'AI-Powered Automation Tools',
-    organization: 'Personal Projects',
+    organization: 'Personal & Open Source',
     period: 'Ongoing',
     description: [
-      'Building automation tools with Python and AI integrations',
-      'Working with Claude, OpenAI, Hermes Agent, and open-source AI tooling',
+      'Architecting automation workflows with Python and autonomous agent models',
+      'Integrating Claude, OpenAI, Hermes Agent, and custom tool calling',
     ],
   },
   {
     title: 'Full-Stack Web Applications',
-    organization: 'Academic & Personal',
+    organization: 'Production & Academic',
     period: 'Ongoing',
     description: [
-      'Developing web apps with Next.js, React, and modern frameworks',
-      'Creating mobile applications with Flutter',
+      'Building performant web apps with Next.js, React 19, and Tailwind CSS',
+      'Developing cross-platform mobile apps with Flutter and Firebase',
     ],
   },
 ];
@@ -69,291 +70,184 @@ const skillCategories: SkillCategory[] = [
     skills: ['Python', 'TypeScript', 'JavaScript', 'HTML', 'CSS', 'Dart', 'SQL'],
   },
   {
-    name: 'Frameworks',
-    skills: ['Django', 'Flask', 'FastAPI', 'Next.js', 'React', 'Tailwind CSS', 'Flutter'],
+    name: 'Frameworks & Libraries',
+    skills: ['FastAPI', 'Django', 'Next.js', 'React', 'Flask', 'Tailwind CSS', 'Flutter'],
   },
   {
-    name: 'AI & ML',
-    skills: ['OpenAI API', 'Claude API', 'LangChain', 'Hermes Agent', 'Hugging Face'],
+    name: 'AI, LLM & Tooling',
+    skills: ['Claude API', 'OpenAI API', 'Hermes Agent', 'LangChain', 'Hugging Face'],
   },
   {
-    name: 'Tools',
-    skills: ['Git', 'Docker', 'VS Code', 'Figma', 'Firebase'],
+    name: 'Infrastructure & Tools',
+    skills: ['Git', 'Docker', 'Vercel', 'Firebase', 'VS Code', 'Postman'],
   },
 ];
 
-function TimelineSection({ 
-  items, 
-  icon: Icon, 
-  title,
-  delay = 0 
-}: { 
-  items: TimelineItem[]; 
-  icon: typeof GraduationCap; 
-  title: string;
-  delay?: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay }}
-      className="relative"
-    >
-      {/* Section header */}
-      <div className="flex items-center gap-3 mb-8">
-        <div className="p-2 rounded-lg bg-mono-800 ring-1 ring-mono-700">
-          <Icon className="w-5 h-5 text-mono-400" />
-        </div>
-        <h3 className="text-xl font-semibold text-mono-100">{title}</h3>
-      </div>
-
-      {/* Timeline */}
-      <div className="relative pl-8 border-l-2 border-mono-800 space-y-8">
-        {items.map((item, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, x: -20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: delay + 0.1 * (index + 1) }}
-            className="relative group"
-          >
-            {/* Timeline dot */}
-            <div className="absolute -left-[25px] top-1.5 w-3 h-3 rounded-full bg-mono-700 ring-4 ring-background group-hover:bg-mono-500 transition-colors" />
-            
-            {/* Content card */}
-            <div className="p-5 rounded-xl bg-mono-900/50 border border-mono-800 hover:border-mono-700 transition-all duration-300 hover:shadow-lg hover:shadow-mono-950/50 cursor-default">
-              <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
-                <h4 className="text-lg font-medium text-mono-100">
-                  {item.title}
-                </h4>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-mono-400 bg-mono-800 rounded-full">
-                  <Calendar className="w-3 h-3" />
-                  {item.period}
-                </span>
-              </div>
-              
-              <p className="text-mono-400 font-medium mb-1">
-                {item.organization}
-              </p>
-              
-              {item.location && (
-                <p className="inline-flex items-center gap-1 text-sm text-mono-500 mb-3">
-                  <MapPin className="w-3 h-3" />
-                  {item.location}
-                </p>
-              )}
-              
-              {item.description && (
-                <ul className="mt-3 space-y-1.5">
-                  {item.description.map((desc, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-mono-400">
-                      <ChevronRight className="w-3.5 h-3.5 mt-0.5 text-mono-600 flex-shrink-0" />
-                      {desc}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              
-              {item.highlights && (
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {item.highlights.map((highlight, i) => (
-                    <span 
-                      key={i}
-                      className="text-xs px-2 py-1 bg-mono-800 text-mono-400 rounded"
-                    >
-                      {highlight}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </motion.div>
-  );
-}
-
-function SkillsGrid({ categories, delay = 0 }: { categories: SkillCategory[]; delay?: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay }}
-    >
-      {/* Section header */}
-      <div className="flex items-center gap-3 mb-8">
-        <div className="p-2 rounded-lg bg-mono-800 ring-1 ring-mono-700">
-          <Code className="w-5 h-5 text-mono-400" />
-        </div>
-        <h3 className="text-xl font-semibold text-mono-100">Skills</h3>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {categories.map((category, catIndex) => (
-          <motion.div
-            key={category.name}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.4, delay: delay + 0.1 * catIndex }}
-            className="p-5 rounded-xl bg-mono-900/50 border border-mono-800 hover:border-mono-700 transition-all duration-300"
-          >
-            <h4 className="text-sm font-medium text-mono-500 uppercase tracking-wider mb-4">
-              {category.name}
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {category.skills.map((skill, index) => (
-                <motion.span
-                  key={skill}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.3, delay: delay + 0.05 * index + 0.1 * catIndex }}
-                  className="px-3 py-1.5 text-sm font-medium bg-mono-800 text-mono-300 rounded-lg hover:bg-mono-700 transition-colors cursor-default"
-                >
-                  {skill}
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </motion.div>
-  );
-}
-
 export function Resume() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
   const [activeTab, setActiveTab] = useState<'education' | 'skills'>('education');
 
   return (
     <section
-      ref={sectionRef}
       id="resume"
-      className="relative py-32 md:py-48 pb-40 md:pb-56 px-6 overflow-hidden"
+      className="relative px-6 py-28 md:py-36"
     >
-      {/* Background decoration */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 -right-32 w-[500px] h-[500px] rounded-full bg-mono-900 opacity-30 blur-3xl" />
-        <div className="absolute bottom-1/4 -left-32 w-[400px] h-[400px] rounded-full bg-mono-900 opacity-40 blur-2xl" />
-      </div>
+      <div className="mx-auto max-w-7xl">
+        {/* Section Header */}
+        <ScrollReveal direction="up" blur={true} delay={0}>
+          <div className="grid gap-8 rounded-3xl border border-white/10 bg-mono-950/60 p-8 backdrop-blur-md shadow-2xl lg:grid-cols-[0.4fr_1fr]">
+            <span className="text-xs uppercase tracking-[0.34em] text-mono-400 font-mono">
+              03 / Archive
+            </span>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+              <div>
+                <h2 className="text-4xl font-bold tracking-tight text-mono-50 md:text-6xl drop-shadow">
+                  <WordReveal text="Background & Skills" />
+                </h2>
+                <p className="mt-4 max-w-2xl text-base leading-relaxed text-mono-200 font-light md:text-lg">
+                  A structured timeline of education, project leadership, and technical capability.
+                </p>
+              </div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
-        {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="mb-16"
-        >
-          <span className="text-mono-600 text-sm tracking-[0.3em] uppercase">
-            03 / Archive
-          </span>
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mt-4">
-            <h2 className="text-4xl md:text-6xl font-bold text-mono-50 tracking-tight balance">
-              My Journey
-            </h2>
-            
-{/* Download CV button */}
-<motion.a
-href="/Lazaro CV.pdf"
-      download="Lazaro CV.pdf"
-              initial={{ opacity: 0, x: 20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="inline-flex items-center gap-2 px-5 py-3 bg-mono-100 text-mono-950 rounded-full font-medium hover:bg-mono-200 transition-colors cursor-pointer group"
-            >
-              <Download className="w-4 h-4 group-hover:animate-bounce" />
-              Download CV
-            </motion.a>
+              {/* Download CV button */}
+              <a
+                href="/Lazaro CV.pdf"
+                download="Lazaro CV.pdf"
+                className="group inline-flex items-center gap-3 rounded-full border border-white/20 bg-mono-900/90 px-6 py-3 text-xs uppercase tracking-[0.2em] font-mono text-mono-100 backdrop-blur-md shadow-xl transition-all hover:bg-mono-50 hover:text-mono-950"
+              >
+                <Download className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
+                <span>Download CV</span>
+              </a>
+            </div>
           </div>
-        </motion.div>
+        </ScrollReveal>
 
-        {/* Tab navigation */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap gap-2 mb-12 p-1.5 bg-mono-900 rounded-xl w-fit"
-        >
+        {/* Tab Controls */}
+        <div className="mt-8 flex gap-3">
           {[
-            { id: 'education', label: 'Education', icon: GraduationCap },
-            { id: 'skills', label: 'Skills', icon: Code },
+            { id: 'education', label: 'Timeline & History', icon: GraduationCap },
+            { id: 'skills', label: 'Core Competencies', icon: Code },
           ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as typeof activeTab)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 cursor-pointer ${
+              className={`flex items-center gap-2 rounded-xl px-5 py-3 text-xs uppercase tracking-[0.2em] font-mono transition-all cursor-pointer shadow-lg ${
                 activeTab === tab.id
-                  ? 'bg-mono-800 text-mono-100 shadow-sm'
-                  : 'text-mono-500 hover:text-mono-300'
+                  ? 'bg-mono-50 text-mono-950 font-bold'
+                  : 'border border-white/10 bg-mono-950/60 text-mono-300 hover:text-mono-100 hover:bg-mono-900/70 backdrop-blur-md'
               }`}
             >
-              <tab.icon className="w-4 h-4" />
-              {tab.label}
+              <tab.icon className="h-3.5 w-3.5" />
+              <span>{tab.label}</span>
             </button>
           ))}
-        </motion.div>
-
-        {/* Content */}
-        <div className="min-h-[400px]">
-          {activeTab === 'education' && (
-            <motion.div
-              key="education"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3 }}
-              className="grid md:grid-cols-2 gap-12"
-            >
-              <TimelineSection items={education} icon={GraduationCap} title="Education" delay={0.1} />
-              <TimelineSection items={projects} icon={Lightbulb} title="Projects" delay={0.2} />
-            </motion.div>
-          )}
-
-          {activeTab === 'skills' && (
-            <motion.div
-              key="skills"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <SkillsGrid categories={skillCategories} delay={0.1} />
-            </motion.div>
-          )}
         </div>
 
-        {/* Contact CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-20 p-8 rounded-2xl bg-gradient-to-br from-mono-900 to-mono-950 border border-mono-800 text-center"
-        >
-          <h3 className="text-2xl font-bold text-mono-100 mb-3">
-            Interested in working together?
-          </h3>
-          <p className="text-mono-400 mb-6 max-w-md mx-auto">
-            I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
-          </p>
-          <a
-            href="#contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-mono-100 text-mono-950 rounded-full font-medium hover:bg-mono-200 transition-colors cursor-pointer"
-          >
-            <Mail className="w-4 h-4" />
-            Get in Touch
-          </a>
-        </motion.div>
+        {/* Tab Content */}
+        <div className="mt-8">
+          {activeTab === 'education' ? (
+            <div className="grid gap-8 lg:grid-cols-2">
+              {/* Education Column */}
+              <div className="space-y-4 rounded-3xl border border-white/10 bg-mono-950/60 p-8 backdrop-blur-md shadow-2xl">
+                <div className="flex items-center gap-3 text-xs font-mono uppercase tracking-[0.24em] text-mono-200 mb-6">
+                  <GraduationCap className="h-4 w-4 text-mono-100" />
+                  <span>Academic Trajectory</span>
+                </div>
+
+                <div className="space-y-6 border-l border-white/10 pl-6">
+                  {education.map((item, idx) => (
+                    <div key={idx} className="relative group">
+                      <div className="absolute -left-[31px] top-1.5 h-2.5 w-2.5 rounded-full bg-mono-400 ring-4 ring-mono-950 group-hover:bg-mono-50 transition-colors" />
+                      <div className="rounded-2xl border border-white/10 bg-mono-900/60 p-5 backdrop-blur-sm transition-colors hover:border-white/20">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <h4 className="text-base font-semibold text-mono-50">{item.title}</h4>
+                          <span className="inline-flex items-center gap-1 text-[11px] font-mono text-mono-300 bg-mono-950/80 px-2.5 py-1 rounded-md border border-white/10">
+                            <Calendar className="h-3 w-3" />
+                            {item.period}
+                          </span>
+                        </div>
+                        <p className="mt-1 text-sm text-mono-300">{item.organization}</p>
+                        {item.location && (
+                          <p className="mt-1 flex items-center gap-1 text-xs text-mono-400 font-mono">
+                            <MapPin className="h-3 w-3" />
+                            {item.location}
+                          </p>
+                        )}
+                        {item.highlights && (
+                          <div className="mt-3 flex flex-wrap gap-1.5">
+                            {item.highlights.map((h, i) => (
+                              <span key={i} className="rounded bg-mono-950/90 px-2.5 py-0.5 text-[11px] text-mono-300 font-mono border border-white/5">
+                                {h}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Projects Column */}
+              <div className="space-y-4 rounded-3xl border border-white/10 bg-mono-950/60 p-8 backdrop-blur-md shadow-2xl">
+                <div className="flex items-center gap-3 text-xs font-mono uppercase tracking-[0.24em] text-mono-200 mb-6">
+                  <Lightbulb className="h-4 w-4 text-mono-100" />
+                  <span>Initiatives & Focus</span>
+                </div>
+
+                <div className="space-y-6 border-l border-white/10 pl-6">
+                  {projects.map((item, idx) => (
+                    <div key={idx} className="relative group">
+                      <div className="absolute -left-[31px] top-1.5 h-2.5 w-2.5 rounded-full bg-mono-400 ring-4 ring-mono-950 group-hover:bg-mono-50 transition-colors" />
+                      <div className="rounded-2xl border border-white/10 bg-mono-900/60 p-5 backdrop-blur-sm transition-colors hover:border-white/20">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <h4 className="text-base font-semibold text-mono-50">{item.title}</h4>
+                          <span className="inline-flex items-center gap-1 text-[11px] font-mono text-mono-300 bg-mono-950/80 px-2.5 py-1 rounded-md border border-white/10">
+                            <Calendar className="h-3 w-3" />
+                            {item.period}
+                          </span>
+                        </div>
+                        <p className="mt-1 text-sm text-mono-300">{item.organization}</p>
+                        {item.description && (
+                          <ul className="mt-3 space-y-1.5">
+                            {item.description.map((d, i) => (
+                              <li key={i} className="flex items-start gap-2 text-xs text-mono-300">
+                                <ChevronRight className="h-3.5 w-3.5 text-mono-400 flex-shrink-0 mt-0.5" />
+                                <span>{d}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-2">
+              {skillCategories.map((cat) => (
+                <div
+                  key={cat.name}
+                  className="rounded-3xl border border-white/10 bg-mono-950/60 p-8 backdrop-blur-md shadow-2xl"
+                >
+                  <h4 className="text-xs font-mono uppercase tracking-[0.24em] text-mono-200 mb-4 font-semibold">
+                    {cat.name}
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {cat.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="rounded-lg border border-white/10 bg-mono-900/90 px-3 py-1.5 text-xs text-mono-200 font-medium transition-colors hover:border-white/30 hover:text-mono-50"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );

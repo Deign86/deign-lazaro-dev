@@ -56,10 +56,12 @@ next-env.d.ts
 # temp assets
 public/*.tmp.png
 public/NotifyIconGeneratedAumid_*.png
+public/liquid-metal-8k*.mp4
+tools/
+temp_upscale/
 
 # opencode session files
 .omo/
 
 # Windows null device
 nul
-

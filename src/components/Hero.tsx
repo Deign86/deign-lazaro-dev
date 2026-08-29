@@ -2,11 +2,7 @@
 
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
-import { SpotlightCursor } from './ui/spotlight-cursor';
-import { BlurredTextReveal } from './ui/text-reveal';
-import { EtherealShadowVideo } from './ui/ethereal-shadow-video';
+import { ArrowRight, ArrowDown } from 'lucide-react';
 import { GlassButton } from './ui/apple-tahoe-liquid-glass-button';
 
 const disciplines = [
@@ -31,150 +27,120 @@ export function Hero() {
     offset: ['start start', 'end start'],
   });
 
-  const contentY = useTransform(scrollYProgress, [0, 1], ['0px', reduceMotion ? '0px' : '96px']);
-  const markY = useTransform(scrollYProgress, [0, 1], ['0px', reduceMotion ? '0px' : '-72px']);
-  const opacity = useTransform(scrollYProgress, [0, 0.82], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, reduceMotion ? 1 : 0.94]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ['0px', reduceMotion ? '0px' : '90px']);
+  const opacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
 
   return (
     <section
       ref={ref}
-      className="relative min-h-[100dvh] overflow-hidden px-5 pb-10 pt-28 sm:px-8 lg:px-10"
+      id="hero"
+      className="relative flex min-h-[100dvh] flex-col justify-between overflow-hidden px-6 pb-10 pt-28 sm:px-8 lg:px-12"
     >
-      <h1 className="sr-only">Deign Lazaro - Full-stack developer and AI automation builder</h1>
+      <h1 className="sr-only">Deign Lazaro - Creative Full-Stack Developer and AI Automation Engineer</h1>
 
-      <div className="absolute inset-0 z-0 isolation-isolate" style={{ contain: 'layout paint' }}>
-        <EtherealShadowVideo
-          videoSrc="/ethereal-shadow"
-          availableFps={[60]}
-          noise={{ opacity: 0.26, scale: 1 }}
-          sizing="fill"
-          className="opacity-80 grayscale contrast-125"
-          fallbackColor="rgba(28, 28, 28, 1)"
-        />
-        <div className="absolute inset-0 bg-mono-950/55" />
+      {/* Top Editorial Metadata Bar */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl">
+        <div className="flex flex-col gap-3 rounded-xl border border-white/10 bg-mono-950/40 px-5 py-3.5 text-[10px] uppercase tracking-[0.38em] text-mono-300 backdrop-blur-md sm:flex-row sm:items-center sm:justify-between">
+          <span className="font-semibold text-mono-100">KINETIC PORTFOLIO</span>
+          <span className="text-mono-300">Deign Grey Lazaro / Valenzuela PH</span>
+          <span className="text-mono-400 font-mono">2026 edition</span>
+        </div>
       </div>
 
-      <SpotlightCursor className="z-[2]" />
-
+      {/* Centerpiece Hero Composition */}
       <motion.div
-        style={{ opacity, scale, y: contentY, willChange: 'opacity, transform' }}
-        className="relative z-10 mx-auto grid min-h-[calc(100dvh-9.5rem)] max-w-[1500px] grid-rows-[auto_1fr_auto] gap-8"
+        style={{ opacity, y: contentY, willChange: 'opacity, transform' }}
+        className="relative z-10 mx-auto my-auto w-full max-w-5xl py-8 text-center"
       >
-        <div className="flex flex-col gap-4 border-y border-mono-700/50 py-4 text-[10px] uppercase tracking-[0.36em] text-mono-400 md:flex-row md:items-center md:justify-between">
-          <span>KINETIC PORTFOLIO</span>
-          <span>Deign Grey Lazaro / Valenzuela PH</span>
-          <span>2026 edition</span>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="space-y-5"
+        >
+          <div className="inline-block rounded-full border border-white/15 bg-mono-950/60 px-4 py-1.5 text-[10px] font-mono uppercase tracking-[0.35em] text-mono-300 backdrop-blur-md shadow-lg">
+            01 / Creative Developer & AI Engineer
+          </div>
 
-        <div className="grid items-end gap-10 lg:grid-cols-[0.82fr_1.18fr]">
-          <aside className="order-2 grid gap-8 lg:order-1">
-            <motion.p
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.15 }}
-              className="max-w-md text-xl leading-relaxed text-mono-300 md:text-2xl"
-            >
-              I build sharp, deployable software where product craft and AI automation meet.
-            </motion.p>
+          <h2 className="text-4xl font-extrabold tracking-[-0.03em] text-mono-50 sm:text-6xl md:text-7xl lg:text-8xl leading-[1.02] drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+            Powering the <span className="font-serif italic font-normal text-mono-100 underline decoration-white/20 underline-offset-8">next</span>
+            <br />
+            generation of systems.
+          </h2>
 
-            <div className="grid gap-3">
-              {disciplines.map((discipline, index) => (
-                <motion.div
-                  key={discipline}
-                  initial={{ opacity: 0, x: -24 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.62, delay: 0.35 + index * 0.08 }}
-                  className="group flex items-center justify-between border-b border-mono-800 py-3 text-sm uppercase tracking-[0.24em] text-mono-500"
-                >
-                  <span className="text-mono-600 tabular-nums">0{index + 1}</span>
-                  <span className="transition-colors group-hover:text-mono-100">{discipline}</span>
-                </motion.div>
-              ))}
-            </div>
+          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-mono-200 sm:text-base md:text-lg font-light drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+            Crafting scalable full-stack web applications and autonomous agent tooling with physical aesthetic precision.
+          </p>
+        </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.7 }}
-              className="pointer-events-auto flex flex-wrap gap-4"
-            >
-              <GlassButton
-                size="lg"
-                className="group"
-                onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-                contentClassName="flex items-center gap-3"
-              >
-                <span>View selected builds</span>
-                <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-              </GlassButton>
-              <a
-                href="#contact"
-                className="inline-flex items-center border-b border-mono-600 px-1 text-sm uppercase tracking-[0.25em] text-mono-400 transition-colors hover:border-mono-100 hover:text-mono-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
-              >
-                Start a project
-              </a>
-            </motion.div>
-          </aside>
-
-          <motion.div
-            className="order-1 flex flex-col items-start lg:order-2"
-            style={{ y: markY, willChange: 'transform' }}
+        {/* Action Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="mt-8 flex flex-wrap items-center justify-center gap-4"
+        >
+          <button
+            onClick={() => {
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              window.dispatchEvent(new CustomEvent('hire-me'));
+            }}
+            className="group inline-flex items-center gap-3 rounded-full bg-mono-50 px-8 py-3.5 text-xs font-mono uppercase tracking-[0.24em] font-semibold text-mono-950 shadow-2xl transition-all hover:bg-mono-200 hover:scale-105 cursor-pointer"
           >
-            <motion.div
-              initial={{ opacity: 0, y: 28, filter: 'blur(14px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 1, delay: 0.28 }}
-              className="w-full"
-            >
-              <Image
-                src="/logo.svg"
-                alt="Deign"
-                width={980}
-                height={560}
-                className="w-full max-w-[980px] brightness-125 contrast-125"
-                priority
-              />
-            </motion.div>
+            <span>Get in Touch</span>
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </button>
 
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: 0.9 }}
-              className="mt-4 max-w-3xl text-4xl font-semibold leading-[0.95] text-mono-100 sm:text-6xl lg:text-7xl"
-            >
-              <BlurredTextReveal text="Systems with pulse." delay={0.1} blur />
-            </motion.div>
-          </motion.div>
-        </div>
+          <GlassButton
+            size="lg"
+            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            Explore Selected Builds
+          </GlassButton>
+        </motion.div>
 
-        <div className="grid gap-4 border-t border-mono-800 pt-5 sm:grid-cols-3">
+        {/* Discipline Badges */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="mt-8 flex flex-wrap items-center justify-center gap-2"
+        >
+          {disciplines.map((discipline, idx) => (
+            <span
+              key={discipline}
+              className="rounded-full border border-white/15 bg-mono-950/60 px-4 py-1.5 text-[10px] font-mono uppercase tracking-[0.2em] text-mono-300 backdrop-blur-md shadow-md"
+            >
+              0{idx + 1} {discipline}
+            </span>
+          ))}
+        </motion.div>
+      </motion.div>
+
+      {/* Bottom Row: Metrics & Scroll Down Indicator */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl">
+        <div className="grid items-center gap-4 rounded-2xl border border-white/10 bg-mono-950/50 p-4 backdrop-blur-md sm:grid-cols-4">
+          <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.35em] text-mono-300">
+            <span>Scroll down</span>
+            <ArrowDown className="h-3.5 w-3.5 animate-bounce text-mono-200" />
+          </div>
+
           {heroMetrics.map(([value, label], index) => (
             <motion.div
               key={label}
-              initial={{ opacity: 0, y: 18 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 1 + index * 0.08 }}
-              className="flex items-end justify-between gap-4"
+              transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
+              className="flex items-baseline justify-between gap-3 border-t border-white/10 pt-2 sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0"
             >
-              <span className="kinetic-type text-4xl font-bold text-mono-100 md:text-5xl">{value}</span>
-              <span className="max-w-[8rem] text-right text-xs uppercase tracking-[0.25em] text-mono-500">
+              <span className="text-xl font-bold tracking-tight text-mono-50 md:text-2xl">{value}</span>
+              <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-mono-400">
                 {label}
               </span>
             </motion.div>
           ))}
         </div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.6 }}
-        className="absolute bottom-5 right-5 z-10 hidden text-[10px] uppercase tracking-[0.4em] text-mono-600 md:block"
-        aria-hidden="true"
-      >
-        Scroll
-      </motion.div>
+      </div>
     </section>
   );
 }
