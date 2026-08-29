@@ -4,6 +4,7 @@ import { NextRequest } from 'next/server';
 const ALLOWED_HOST_SUFFIXES = [
   'vercel.app',
   'firebaseapp.com',
+  'web.app',
   'netlify.app',
   'github.io',
   'hf.space',

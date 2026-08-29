@@ -19,8 +19,7 @@ export const PINNED_PROJECTS: PinnedProject[] = [
     tags: ['Next.js', 'TypeScript', 'FastAPI'],
     githubRepo: 'Deign86/mathpulse-ai',
     liveUrlCandidates: [
-      'https://deign86-mathpulse-ai.static.hf.space/index.html',
-      'https://mathpulse-ai.vercel.app',
+      'https://mathpulse-ai-2026.web.app/',
     ],
     thumbnail: '/profile.jpg',
     featured: true,

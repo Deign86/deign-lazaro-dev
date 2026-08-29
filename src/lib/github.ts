@@ -72,7 +72,7 @@ const LIVE_DEPLOYMENTS: Record<string, { url: string; tags: string[] }> = {
     tags: ['Flutter', 'Dart', 'Firebase'],
   },
   'mathpulse-ai': {
-    url: 'https://deign86-mathpulse-ai.static.hf.space/index.html',
+    url: 'https://mathpulse-ai-2026.web.app/',
     tags: ['Next.js', 'TypeScript', 'FastAPI'],
   },
   'zhi-wei-zai': {
