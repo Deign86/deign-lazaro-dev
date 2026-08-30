@@ -172,6 +172,13 @@ const socialLinks = [
   },
 ];
 
+const workIndex = PINNED_PROJECTS.map((project) => ({
+  id: project.id,
+  number: String(project.order).padStart(2, '0'),
+  name: project.title,
+  language: project.tags[0] || 'Web',
+}));
+
 export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfolioProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
@@ -207,13 +214,6 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
     { value: 'AI', label: 'automation' },
   ];
 
-  // Work index
-  const workIndex = PINNED_PROJECTS.map((project) => ({
-    id: project.id,
-    number: String(project.order).padStart(2, '0'),
-    name: project.title,
-    language: project.tags[0] || 'Web',
-  }));
 
   // =========================================================================
   // SPATIAL SCENE CHOREOGRAPHY CURVES (Synchronized with Reference Interaction)
@@ -312,7 +312,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
       {/* ========================================================================= */}
       {/* MASTER STAGE (Sticky 100dvh Viewport: 3D Camera Traveling Through Space)  */}
       {/* ========================================================================= */}
-      <div className="sticky top-0 flex h-[100dvh] w-full items-center justify-center overflow-hidden px-4 sm:px-8 lg:px-12">
+      <div className="spatial-stage sticky top-0 flex h-[100dvh] w-full items-center justify-center overflow-hidden px-4 sm:px-8 lg:px-12">
         {/* Fixed 3D Liquid Metal Scrubber Canvas */}
         <LiquidObject progress={smoothProgress} />
 
@@ -332,9 +332,8 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             scale: reduceMotion ? 1 : heroScale,
             visibility: heroVisibility,
             pointerEvents: heroPointerEvents,
-            willChange: 'opacity, transform',
           }}
-          className="absolute inset-x-0 top-0 flex h-full w-full flex-col justify-between px-4 pb-6 pt-20 sm:px-8 sm:pb-12 sm:pt-28 lg:px-12 z-10 overflow-y-auto no-scrollbar"
+          className="spatial-scene absolute inset-x-0 top-0 flex h-full w-full flex-col justify-between px-4 pb-6 pt-20 sm:px-8 sm:pb-12 sm:pt-28 lg:px-12 z-10 overflow-y-auto no-scrollbar"
         >
           {/* Top Editorial Metadata (Desktop) */}
           <div className="mx-auto w-full max-w-7xl hidden sm:block">
@@ -425,9 +424,8 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             y: reduceMotion ? '0px' : aboutY,
             visibility: aboutVisibility,
             pointerEvents: aboutPointerEvents,
-            willChange: 'opacity, transform',
           }}
-          className="absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
+          className="spatial-scene absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
         >
           <div className="mx-auto w-full max-w-7xl max-h-[82vh] overflow-y-auto no-scrollbar pr-1">
             {/* Header */}
@@ -458,7 +456,6 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
                       fill
                       className="object-cover object-center"
                       sizes="128px"
-                      priority
                     />
                   </div>
                   <div className="space-y-2 sm:space-y-3 text-center sm:text-left">
@@ -523,9 +520,8 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             scale: reduceMotion ? 1 : resumeScale,
             visibility: resumeVisibility,
             pointerEvents: resumePointerEvents,
-            willChange: 'opacity, transform',
           }}
-          className="absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
+          className="spatial-scene absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
         >
           <div className="mx-auto w-full max-w-7xl max-h-[82vh] overflow-y-auto no-scrollbar pr-1">
             {/* Header */}
@@ -661,9 +657,8 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             opacity: reduceMotion ? 1 : workOpacity,
             visibility: workVisibility,
             pointerEvents: workPointerEvents,
-            willChange: 'opacity, transform',
           }}
-          className="absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
+          className="spatial-scene absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
         >
           <div className="mx-auto w-full max-w-7xl max-h-[82vh] overflow-y-auto no-scrollbar pr-1">
             {/* Header */}
@@ -765,9 +760,8 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             scale: reduceMotion ? 1 : contactScale,
             visibility: contactVisibility,
             pointerEvents: contactPointerEvents,
-            willChange: 'opacity, transform',
           }}
-          className="absolute inset-0 flex flex-col justify-between px-4 sm:px-6 pt-16 pb-3 z-30 overflow-y-auto no-scrollbar"
+          className="spatial-scene absolute inset-0 flex flex-col justify-between px-4 sm:px-6 pt-16 pb-3 z-30 overflow-y-auto no-scrollbar"
         >
           <div className="mx-auto w-full max-w-5xl my-auto text-center flex flex-col items-center justify-center">
             <span className="text-[10px] sm:text-xs uppercase tracking-[0.34em] text-mono-400 font-mono">05 / Contact</span>

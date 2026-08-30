@@ -71,27 +71,6 @@ html {
   overflow-x: clip;
 }
 
-/* Cross-browser video and compositing normalization */
-video {
-  /* Force consistent color rendering across Chromium browsers */
-  image-rendering: auto;
-  /* Prevent color banding differences */
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  /* Force GPU layer for consistent compositing */
-  transform: translateZ(0);
-  /* Normalize video color space handling */
-  color-interpolation: sRGB;
-}
-
-/* Normalize compositing for layered effects */
-[style*="position: absolute"], [class*="absolute"] {
-  /* Force layer creation for consistent rendering */
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  /* Prevent sub-pixel rendering differences */
-  -webkit-font-smoothing: antialiased;
-}
 
 body {
   background: var(--background);
@@ -129,27 +108,6 @@ body {
   letter-spacing: 0;
 }
 
-/* Performance optimizations for mobile devices */
-@media (max-width: 768px) {
-  body {
-    /* Crisp text rendering on mobile */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-  /* Remove translateZ from text elements to prevent blur */
-  p, h1, h2, h3, h4, h5, h6, span, div {
-    -webkit-transform: none;
-    transform: none;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
-  
-  /* Hint browser for smooth scrolling on mobile */
-  body {
-    -webkit-overflow-scrolling: touch;
-  }
-}
 
 /* Noise texture overlay */
 .noise-overlay {
@@ -263,6 +221,39 @@ body {
 /* Taste Skill typography utilities */
 .balance { text-wrap: balance; }
 .pretty { text-wrap: pretty; }
+
+/* Reduce paint and compositing work on phone-sized screens. */
+@media (max-width: 768px) {
+  .noise-overlay {
+    display: none;
+  }
+
+  .glass-card,
+  .backdrop-blur-sm,
+  .backdrop-blur-md {
+    background-color: rgba(10, 10, 10, 0.92);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .shadow-xl,
+  .shadow-2xl,
+  .animate-pulse-glow {
+    box-shadow: none;
+  }
+
+  [class*="drop-shadow"] {
+    filter: none;
+  }
+
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-shimmer,
+  .animate-gradient-shift,
+  .animate-bounce {
+    animation: none;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *,

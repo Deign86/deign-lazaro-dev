@@ -1,23 +1,40 @@
 'use client';
 
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
 import { GlassButton } from './ui/apple-tahoe-liquid-glass-button';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const opacity = useTransform(scrollYProgress, [0, 0.05], [0.85, 1]);
+  const isScrolledRef = useRef(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+    let frameId: number | null = null;
+
+    const updateScrollState = () => {
+      frameId = null;
+      const isPastThreshold = window.scrollY > 40;
+
+      if (isPastThreshold !== isScrolledRef.current) {
+        isScrolledRef.current = isPastThreshold;
+        setIsScrolled(isPastThreshold);
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      if (frameId === null) {
+        frameId = window.requestAnimationFrame(updateScrollState);
+      }
+    };
+
+    frameId = window.requestAnimationFrame(updateScrollState);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (frameId !== null) window.cancelAnimationFrame(frameId);
+    };
   }, []);
 
   useEffect(() => {
@@ -48,9 +65,10 @@ export function Navbar() {
 
   return (
     <>
-      <motion.header
-        style={{ opacity }}
-        className="fixed top-4 left-4 right-4 z-50 pointer-events-auto"
+      <header
+        className={`fixed top-4 left-4 right-4 z-50 pointer-events-auto transition-opacity duration-500 ${
+          isScrolled ? 'opacity-100' : 'opacity-[0.85]'
+        }`}
       >
         <nav
           className={`mx-auto max-w-6xl px-6 py-3.5 rounded-full transition-all duration-500 ${
@@ -118,7 +136,7 @@ export function Navbar() {
             </div>
           </div>
         </nav>
-      </motion.header>
+      </header>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
