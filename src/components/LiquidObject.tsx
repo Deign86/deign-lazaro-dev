@@ -1,118 +1,146 @@
 'use client';
 
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { useEffect, useState, useRef } from 'react';
+import { MotionValue, useReducedMotion } from 'framer-motion';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
-export function LiquidObject() {
+interface LiquidObjectProps {
+  progress?: MotionValue<number>;
+  className?: string;
+}
+
+export function LiquidObject({ progress, className = '' }: LiquidObjectProps) {
   const reduceMotion = useReducedMotion();
-  const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const targetTimeRef = useRef(0);
+  const rafIdRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {
-        // Autoplay handled by browser policy
-      });
+  // Direct video seek executed exactly once per animation frame
+  const applySeek = useCallback(() => {
+    rafIdRef.current = null;
+    const video = videoRef.current;
+    if (!video || !video.duration || Number.isNaN(video.duration)) {
+      return;
     }
 
-    return () => window.removeEventListener('resize', checkMobile);
+    const duration = video.duration;
+    const targetTime = Math.max(0, Math.min(duration - 0.001, targetTimeRef.current));
+
+    if (Math.abs(video.currentTime - targetTime) > 0.005) {
+      try {
+        video.currentTime = targetTime;
+      } catch {
+        // Safe catch if seeking is temporarily unavailable
+      }
+    }
   }, []);
 
-  const { scrollYProgress } = useScroll();
+  // Synchronize scroll progress value to video time
+  const handleProgressUpdate = useCallback(
+    (p: number) => {
+      const clamped = Math.max(0, Math.min(1, p));
+      const video = videoRef.current;
 
-  // Inertial spring for heavy, fluid physical momentum
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 45,
-    damping: 20,
-    mass: 1.0,
-    restDelta: 0.001,
-  });
+      if (!video || !video.duration || Number.isNaN(video.duration)) {
+        targetTimeRef.current = clamped * 10; // fallback duration before metadata
+        return;
+      }
 
-  // Fullscreen viewport transforms across the scroll journey:
-  const desktopScale = useTransform(
-    smoothProgress,
-    [0, 0.2, 0.4, 0.6, 0.8, 1],
-    [1.04, 1.14, 1.08, 1.16, 1.1, 1.05]
+      targetTimeRef.current = clamped * video.duration;
+
+      if (rafIdRef.current === null) {
+        rafIdRef.current = requestAnimationFrame(applySeek);
+      }
+    },
+    [applySeek]
   );
 
-  const desktopX = useTransform(
-    smoothProgress,
-    [0, 0.2, 0.4, 0.6, 0.8, 1],
-    ['0%', '4%', '-3%', '4%', '-3%', '0%']
-  );
+  // Subscribe to Framer Motion's progress MotionValue
+  useEffect(() => {
+    if (reduceMotion || !progress) return;
 
-  const desktopY = useTransform(
-    smoothProgress,
-    [0, 0.2, 0.4, 0.6, 0.8, 1],
-    ['0%', '-3%', '2%', '-2%', '2%', '0%']
-  );
+    // Apply initial value immediately
+    handleProgressUpdate(progress.get());
 
-  const desktopRotate = useTransform(
-    smoothProgress,
-    [0, 0.2, 0.4, 0.6, 0.8, 1],
-    [0, 2, -1.5, 1.5, -1, 0]
-  );
+    const unsubscribe = progress.on('change', (latest) => {
+      handleProgressUpdate(latest);
+    });
 
-  // Mobile viewport transforms:
-  const mobileScale = useTransform(
-    smoothProgress,
-    [0, 0.2, 0.4, 0.6, 0.8, 1],
-    [1.06, 1.12, 1.08, 1.12, 1.08, 1.04]
-  );
+    return () => {
+      unsubscribe();
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
+    };
+  }, [progress, reduceMotion, handleProgressUpdate]);
 
-  const mobileY = useTransform(
-    smoothProgress,
-    [0, 0.2, 0.4, 0.6, 0.8, 1],
-    ['0%', '-2%', '2%', '-2%', '1%', '0%']
-  );
+  // Handle video metadata loaded
+  const handleLoadedMetadata = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
 
-  const targetScale = reduceMotion ? 1 : isMobile ? mobileScale : desktopScale;
-  const targetX = reduceMotion ? '0%' : isMobile ? '0%' : desktopX;
-  const targetY = reduceMotion ? '0%' : isMobile ? mobileY : desktopY;
-  const targetRotate = reduceMotion ? 0 : isMobile ? 0 : desktopRotate;
+    video.pause();
+    setIsLoaded(true);
+
+    if (progress) {
+      const currentP = progress.get();
+      targetTimeRef.current = currentP * (video.duration || 10);
+      applySeek();
+    }
+  }, [progress, applySeek]);
+
+  // Ensure video stays paused at all times
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.pause();
+    const preventPlay = () => {
+      if (!video.paused) {
+        video.pause();
+      }
+    };
+
+    video.addEventListener('play', preventPlay);
+    return () => {
+      video.removeEventListener('play', preventPlay);
+    };
+  }, []);
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-0 h-screen w-screen overflow-hidden bg-mono-950"
+      className={`pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden bg-mono-950 ${className}`}
       aria-hidden="true"
     >
-      {/* Fullscreen Boomerang Video Canvas */}
-      <motion.div
-        style={{
-          scale: targetScale,
-          x: targetX,
-          y: targetY,
-          rotate: targetRotate,
-          willChange: 'transform',
-        }}
-        className="absolute inset-[-4vw] h-[calc(100%+8vw)] w-[calc(100%+8vw)]"
-      >
+      {/* Video Canvas */}
+      <div className="relative h-full w-full">
         <video
           ref={videoRef}
-          src="/liquid-metal.mp4"
-          autoPlay
-          loop
           muted
           playsInline
           preload="auto"
-          className="h-full w-full object-cover grayscale contrast-115 brightness-90 opacity-80"
+          poster="/video/liquid-metal-poster.jpg"
+          onLoadedMetadata={handleLoadedMetadata}
+          onCanPlay={handleLoadedMetadata}
+          className={`h-full w-full object-cover transition-opacity duration-700 ${
+            isLoaded ? 'opacity-90' : 'opacity-70'
+          }`}
           style={{
             transform: 'translateZ(0)',
             backfaceVisibility: 'hidden',
           }}
-        />
-      </motion.div>
+        >
+          <source src="/video/liquid-metal-mobile.mp4" media="(max-width: 768px)" type="video/mp4" />
+          <source src="/video/liquid-metal-scrub.mp4" type="video/mp4" />
+          <source src="/video/liquid-metal-8k-master.mp4" type="video/mp4" />
+        </video>
+      </div>
 
-      {/* Luxury Scrim & Vignette for Maximum Foreground Text Readability */}
-      <div className="pointer-events-none absolute inset-0 bg-mono-950/50 backdrop-contrast-125" />
-      <div className="pointer-events-none absolute inset-0 bg-radial from-transparent via-mono-950/50 to-mono-950/90" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-mono-950/70 via-transparent to-mono-950/80" />
+      {/* Atmospheric Editorial Scrims - Preserves liquid metal luminance while guaranteeing typography contrast */}
+      <div className="pointer-events-none absolute inset-0 bg-mono-950/20" />
+      <div className="pointer-events-none absolute inset-0 bg-radial from-transparent via-mono-950/40 to-mono-950/85" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-mono-950/70 via-transparent to-mono-950/90" />
     </div>
   );
 }

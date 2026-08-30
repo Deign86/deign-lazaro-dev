@@ -51,34 +51,28 @@ export function Deployments() {
 
         {/* Live Metrics */}
         <StaggerContainer className="mt-8 grid gap-4 sm:grid-cols-3" staggerDelay={0.1}>
-          <StaggerItem direction="up" blur={true} scale={true}>
-            <div className="flex items-baseline justify-between rounded-2xl border border-white/10 bg-mono-950/60 p-6 backdrop-blur-md shadow-xl">
-              <span className="text-3xl font-bold tracking-tight text-mono-50 md:text-4xl">
-                {PINNED_PROJECTS.length}
-              </span>
-              <span className="text-[11px] uppercase tracking-[0.24em] text-mono-300 font-mono font-medium">
-                Active Builds
-              </span>
+          <StaggerItem direction="up" blur={true}>
+            <div className="rounded-2xl border border-white/10 bg-mono-950/60 p-5 backdrop-blur-sm shadow-xl">
+              <span className="text-2xl font-bold text-mono-50">6 / 6</span>
+              <p className="mt-1 text-xs uppercase tracking-[0.2em] text-mono-300 font-mono">
+                Live Deployments
+              </p>
             </div>
           </StaggerItem>
-          <StaggerItem direction="up" blur={true} scale={true}>
-            <div className="flex items-baseline justify-between rounded-2xl border border-white/10 bg-mono-950/60 p-6 backdrop-blur-md shadow-xl">
-              <span className="text-3xl font-bold tracking-tight text-mono-50 md:text-4xl">
-                99.9%
-              </span>
-              <span className="text-[11px] uppercase tracking-[0.24em] text-mono-300 font-mono font-medium">
-                Uptime Target
-              </span>
+          <StaggerItem direction="up" blur={true}>
+            <div className="rounded-2xl border border-white/10 bg-mono-950/60 p-5 backdrop-blur-sm shadow-xl">
+              <span className="text-2xl font-bold text-mono-50">99.9%</span>
+              <p className="mt-1 text-xs uppercase tracking-[0.2em] text-mono-300 font-mono">
+                Average Uptime
+              </p>
             </div>
           </StaggerItem>
-          <StaggerItem direction="up" blur={true} scale={true}>
-            <div className="flex items-baseline justify-between rounded-2xl border border-white/10 bg-mono-950/60 p-6 backdrop-blur-md shadow-xl">
-              <span className="text-3xl font-bold tracking-tight text-mono-50 md:text-4xl">
-                Global
-              </span>
-              <span className="text-[11px] uppercase tracking-[0.24em] text-mono-300 font-mono font-medium">
-                Vercel & HF Edge
-              </span>
+          <StaggerItem direction="up" blur={true}>
+            <div className="rounded-2xl border border-white/10 bg-mono-950/60 p-5 backdrop-blur-sm shadow-xl">
+              <span className="text-2xl font-bold text-mono-50">&lt; 200ms</span>
+              <p className="mt-1 text-xs uppercase tracking-[0.2em] text-mono-300 font-mono">
+                TTFB Response
+              </p>
             </div>
           </StaggerItem>
         </StaggerContainer>

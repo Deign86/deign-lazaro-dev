@@ -106,7 +106,7 @@ export function Contact() {
           <div className="flex items-center justify-center gap-3 mb-8">
             <button
               onClick={() => setShowForm(false)}
-              className={`rounded-full px-7 py-3 text-xs font-mono uppercase tracking-[0.2em] transition-all cursor-pointer shadow-xl ${
+              className={`rounded-full px-6 py-2.5 text-xs font-mono uppercase tracking-[0.2em] transition-all cursor-pointer shadow-lg ${
                 !showForm
                   ? 'bg-mono-50 text-mono-950 font-bold'
                   : 'border border-white/10 bg-mono-950/60 text-mono-300 hover:text-mono-100 backdrop-blur-md'
@@ -116,7 +116,7 @@ export function Contact() {
             </button>
             <button
               onClick={() => setShowForm(true)}
-              className={`rounded-full px-7 py-3 text-xs font-mono uppercase tracking-[0.2em] transition-all cursor-pointer shadow-xl ${
+              className={`rounded-full px-6 py-2.5 text-xs font-mono uppercase tracking-[0.2em] transition-all cursor-pointer shadow-lg ${
                 showForm
                   ? 'bg-mono-50 text-mono-950 font-bold'
                   : 'border border-white/10 bg-mono-950/60 text-mono-300 hover:text-mono-100 backdrop-blur-md'
@@ -130,21 +130,19 @@ export function Contact() {
             {showForm ? (
               <motion.div
                 key="form"
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.3 }}
-                className="mx-auto max-w-xl rounded-3xl border border-white/10 bg-mono-950/80 p-8 backdrop-blur-md shadow-2xl"
+                exit={{ opacity: 0, y: -10 }}
+                className="mx-auto max-w-xl rounded-3xl border border-white/10 bg-mono-950/70 p-8 backdrop-blur-md shadow-2xl"
               >
                 <ContactForm />
               </motion.div>
             ) : (
               <motion.div
-                key="channels"
-                initial={{ opacity: 0, y: 15 }}
+                key="options"
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.3 }}
+                exit={{ opacity: 0, y: -10 }}
                 className="grid gap-4 sm:grid-cols-3"
               >
                 {contactOptions.map((opt) => {

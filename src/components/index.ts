@@ -9,3 +9,4 @@ export { Deployments } from './Deployments';
 export { AppLogos } from './ui/app-logos';
 export { KineticFrame } from './KineticFrame';
 export { LiquidObject } from './LiquidObject';
+export { SpatialPortfolio, useSpatialProgress } from './SpatialPortfolio';

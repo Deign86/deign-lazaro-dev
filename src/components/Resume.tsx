@@ -14,18 +14,18 @@ interface TimelineItem {
   highlights?: string[];
 }
 
-interface SkillCategory {
-  name: string;
-  skills: string[];
-}
-
 const education: TimelineItem[] = [
   {
     title: 'Bachelor of Science in Information Technology',
     organization: 'Pamantasan ng Lungsod ng Valenzuela',
     location: 'Valenzuela City, Philippines',
     period: '2023 – Present (4th Year)',
-    highlights: ['Full-Stack Development', 'AI & Machine Learning', 'Software Engineering'],
+    highlights: [
+      'Full-Stack Development',
+      'AI & Machine Learning',
+      'Software Engineering',
+      'Database Architecture',
+    ],
   },
   {
     title: 'Senior High School — ICT Track',
@@ -51,6 +51,7 @@ const projects: TimelineItem[] = [
     description: [
       'Architecting automation workflows with Python and autonomous agent models',
       'Integrating Claude, OpenAI, Hermes Agent, and custom tool calling',
+      'Publishing reusable developer utilities and CLI agents',
     ],
   },
   {
@@ -60,11 +61,12 @@ const projects: TimelineItem[] = [
     description: [
       'Building performant web apps with Next.js, React 19, and Tailwind CSS',
       'Developing cross-platform mobile apps with Flutter and Firebase',
+      'Designing RESTful APIs and real-time database schemas',
     ],
   },
 ];
 
-const skillCategories: SkillCategory[] = [
+const skillCategories = [
   {
     name: 'Languages',
     skills: ['Python', 'TypeScript', 'JavaScript', 'HTML', 'CSS', 'Dart', 'SQL'],
@@ -87,10 +89,7 @@ export function Resume() {
   const [activeTab, setActiveTab] = useState<'education' | 'skills'>('education');
 
   return (
-    <section
-      id="resume"
-      className="relative px-6 py-28 md:py-36"
-    >
+    <section id="resume" className="relative px-6 py-28 md:py-36">
       <div className="mx-auto max-w-7xl">
         {/* Section Header */}
         <ScrollReveal direction="up" blur={true} delay={0}>
@@ -107,14 +106,12 @@ export function Resume() {
                   A structured timeline of education, project leadership, and technical capability.
                 </p>
               </div>
-
-              {/* Download CV button */}
               <a
                 href="/Lazaro CV.pdf"
                 download="Lazaro CV.pdf"
-                className="group inline-flex items-center gap-3 rounded-full border border-white/20 bg-mono-900/90 px-6 py-3 text-xs uppercase tracking-[0.2em] font-mono text-mono-100 backdrop-blur-md shadow-xl transition-all hover:bg-mono-50 hover:text-mono-950"
+                className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-mono-900/90 px-7 py-3.5 text-xs uppercase tracking-[0.24em] font-mono text-mono-100 backdrop-blur-md transition-all hover:bg-mono-50 hover:text-mono-950 hover:border-white shadow-xl cursor-pointer"
               >
-                <Download className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
+                <Download className="h-4 w-4" />
                 <span>Download CV</span>
               </a>
             </div>
@@ -122,7 +119,7 @@ export function Resume() {
         </ScrollReveal>
 
         {/* Tab Controls */}
-        <div className="mt-8 flex gap-3">
+        <div className="mt-12 flex gap-3">
           {[
             { id: 'education', label: 'Timeline & History', icon: GraduationCap },
             { id: 'skills', label: 'Core Competencies', icon: Code },
@@ -237,7 +234,7 @@ export function Resume() {
                     {cat.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="rounded-lg border border-white/10 bg-mono-900/90 px-3 py-1.5 text-xs text-mono-200 font-medium transition-colors hover:border-white/30 hover:text-mono-50"
+                        className="rounded-lg border border-white/10 bg-mono-900/90 px-3 py-1 text-xs text-mono-200 font-medium transition-colors hover:border-white/30 hover:text-mono-50"
                       >
                         {skill}
                       </span>

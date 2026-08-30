@@ -156,86 +156,85 @@ export function ContactForm({ onClose }: ContactFormProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20 }}
+      exit={{ opacity: 0, y: 15 }}
       className="w-full max-w-2xl mx-auto"
     >
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="group">
-          <div className="flex justify-between items-center mb-2">
-            <label htmlFor="name" className="block text-sm font-medium text-mono-300">Your Name</label>
-            <span className={`text-xs transition-colors ${formData.name.length > VALIDATION.name.maxLength * 0.9 ? 'text-red-400' : 'text-mono-500'}`}>
-              {formData.name.length}/{VALIDATION.name.maxLength}
-            </span>
-          </div>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <User className={`h-5 w-5 transition-colors ${fieldErrors.name && touched.name ? 'text-red-400' : 'text-mono-600'}`} />
+      <form onSubmit={handleSubmit} className="space-y-2.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div className="group">
+            <div className="flex justify-between items-center mb-1">
+              <label htmlFor="name" className="block text-[11px] font-medium text-mono-300">Your Name</label>
+              <span className={`text-[9px] font-mono transition-colors ${formData.name.length > VALIDATION.name.maxLength * 0.9 ? 'text-red-400' : 'text-mono-500'}`}>
+                {formData.name.length}/{VALIDATION.name.maxLength}
+              </span>
             </div>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              maxLength={VALIDATION.name.maxLength}
-              aria-invalid={!!fieldErrors.name && touched.name}
-              aria-describedby={fieldErrors.name ? 'name-error' : undefined}
-              required
-              disabled={status === 'sending'}
-              className={`block w-full pl-12 pr-4 py-3.5 bg-mono-900 border rounded-xl text-mono-100 placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed ${fieldErrors.name && touched.name ? 'border-red-400 focus-visible:ring-red-400' : 'border-mono-800 focus-visible:ring-mono-50'}`}
-              placeholder="e.g. Alex"
-            />
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <User className={`h-3.5 w-3.5 transition-colors ${fieldErrors.name && touched.name ? 'text-red-400' : 'text-mono-500'}`} />
+              </div>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                maxLength={VALIDATION.name.maxLength}
+                aria-invalid={!!fieldErrors.name && touched.name}
+                aria-describedby={fieldErrors.name ? 'name-error' : undefined}
+                required
+                disabled={status === 'sending'}
+                className={`block w-full pl-9 pr-3 py-1.5 text-xs bg-mono-900/90 border rounded-xl text-mono-100 placeholder-mono-500 focus:outline-none focus-visible:ring-1 focus:border-white/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${fieldErrors.name && touched.name ? 'border-red-400 focus-visible:ring-red-400' : 'border-white/10 focus-visible:ring-white/40'}`}
+                placeholder="e.g. Alex"
+              />
+            </div>
+            {fieldErrors.name && touched.name && (
+              <p id="name-error" className="mt-0.5 text-[10px] text-red-400">{fieldErrors.name}</p>
+            )}
           </div>
-          {fieldErrors.name && touched.name && (
-            <p id="name-error" className="mt-1.5 text-sm text-red-400">{fieldErrors.name}</p>
-          )}
+
+          <div className="group">
+            <div className="flex justify-between items-center mb-1">
+              <label htmlFor="email" className="block text-[11px] font-medium text-mono-300">Email Address</label>
+            </div>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Mail className={`h-3.5 w-3.5 transition-colors ${fieldErrors.email && touched.email ? 'text-red-400' : 'text-mono-500'}`} />
+              </div>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                maxLength={VALIDATION.email.maxLength}
+                aria-invalid={!!fieldErrors.email && touched.email}
+                aria-describedby={fieldErrors.email ? 'email-error' : undefined}
+                required
+                disabled={status === 'sending'}
+                className={`block w-full pl-9 pr-3 py-1.5 text-xs bg-mono-900/90 border rounded-xl text-mono-100 placeholder-mono-500 focus:outline-none focus-visible:ring-1 focus:border-white/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${fieldErrors.email && touched.email ? 'border-red-400 focus-visible:ring-red-400' : 'border-white/10 focus-visible:ring-white/40'}`}
+                placeholder="you@company.com"
+              />
+            </div>
+            {fieldErrors.email && touched.email && (
+              <p id="email-error" className="mt-0.5 text-[10px] text-red-400">{fieldErrors.email}</p>
+            )}
+          </div>
         </div>
 
         <div className="group">
-          <div className="flex justify-between items-center mb-2">
-            <label htmlFor="email" className="block text-sm font-medium text-mono-300">Email Address</label>
-          </div>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Mail className={`h-5 w-5 transition-colors ${fieldErrors.email && touched.email ? 'text-red-400' : 'text-mono-600'}`} />
-            </div>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              maxLength={VALIDATION.email.maxLength}
-              aria-invalid={!!fieldErrors.email && touched.email}
-              aria-describedby={fieldErrors.email ? 'email-error' : undefined}
-              required
-              disabled={status === 'sending'}
-              className={`block w-full pl-12 pr-4 py-3.5 bg-mono-900 border rounded-xl text-mono-100 placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed ${fieldErrors.email && touched.email ? 'border-red-400 focus-visible:ring-red-400' : 'border-mono-800 focus-visible:ring-mono-50'}`}
-              placeholder="you@company.com"
-            />
-          </div>
-          {fieldErrors.email && touched.email && (
-            <p id="email-error" className="mt-1.5 text-sm text-red-400">{fieldErrors.email}</p>
-          )}
-        </div>
-
-        <div className="group">
-          <div className="flex justify-between items-center mb-2">
-            <label htmlFor="message" className="block text-sm font-medium text-mono-300">Your Message</label>
-            <span className={`text-xs transition-colors ${formData.message.length > VALIDATION.message.maxLength * 0.9 ? 'text-red-400' : formData.message.length < VALIDATION.message.minLength && touched.message ? 'text-amber-400' : 'text-mono-500'}`}>
+          <div className="flex justify-between items-center mb-1">
+            <label htmlFor="message" className="block text-[11px] font-medium text-mono-300">Your Message</label>
+            <span className={`text-[9px] font-mono transition-colors ${formData.message.length > VALIDATION.message.maxLength * 0.9 ? 'text-red-400' : 'text-mono-500'}`}>
               {formData.message.length}/{VALIDATION.message.maxLength}
-              {formData.message.length < VALIDATION.message.minLength && touched.message && (
-                <span className="ml-1">(min {VALIDATION.message.minLength})</span>
-              )}
             </span>
           </div>
           <div className="relative">
-            <div className="absolute top-4 left-4 pointer-events-none">
-              <MessageSquare className={`h-5 w-5 transition-colors ${fieldErrors.message && touched.message ? 'text-red-400' : 'text-mono-600'}`} />
+            <div className="absolute top-2.5 left-3 pointer-events-none">
+              <MessageSquare className={`h-3.5 w-3.5 transition-colors ${fieldErrors.message && touched.message ? 'text-red-400' : 'text-mono-500'}`} />
             </div>
             <textarea
               id="message"
@@ -248,47 +247,45 @@ export function ContactForm({ onClose }: ContactFormProps) {
               aria-describedby={fieldErrors.message ? 'message-error' : undefined}
               required
               disabled={status === 'sending'}
-              rows={6}
-              className={`block w-full pl-12 pr-4 py-3.5 bg-mono-900 border rounded-xl text-mono-100 placeholder-mono-600 focus:outline-none focus-visible:ring-2 focus:border-transparent transition-all resize-none disabled:opacity-50 disabled:cursor-not-allowed ${fieldErrors.message && touched.message ? 'border-red-400 focus-visible:ring-red-400' : 'border-mono-800 focus-visible:ring-mono-50'}`}
+              rows={2}
+              className={`block w-full pl-9 pr-3 py-1.5 text-xs bg-mono-900/90 border rounded-xl text-mono-100 placeholder-mono-500 focus:outline-none focus-visible:ring-1 focus:border-white/30 transition-all resize-none disabled:opacity-50 disabled:cursor-not-allowed ${fieldErrors.message && touched.message ? 'border-red-400 focus-visible:ring-red-400' : 'border-white/10 focus-visible:ring-white/40'}`}
               placeholder="What do you have in mind?"
             />
           </div>
           {fieldErrors.message && touched.message && (
-            <p id="message-error" className="mt-1.5 text-sm text-red-400">{fieldErrors.message}</p>
+            <p id="message-error" className="mt-0.5 text-[10px] text-red-400">{fieldErrors.message}</p>
           )}
         </div>
 
-        <div className="min-h-[60px]">
-          <AnimatePresence mode="wait">
-            {status === 'error' && errorMessage && (
-              <motion.div key="error" role="alert" aria-live="assertive" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="flex items-center gap-2 p-4 bg-red-950/30 border border-red-900 rounded-xl text-red-300">
-                <XCircle className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
-                <p className="text-sm">{errorMessage}</p>
-              </motion.div>
-            )}
-            {status === 'success' && (
-              <motion.div key="success" role="status" aria-live="polite" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="flex items-center gap-2 p-4 bg-green-950/30 border border-green-900 rounded-xl text-green-300">
-                <CheckCircle2 className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
-                <p className="text-sm">Message sent successfully! I&apos;ll get back to you soon.</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+        <AnimatePresence mode="wait">
+          {status === 'error' && errorMessage && (
+            <motion.div key="error" role="alert" aria-live="assertive" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} className="flex items-center gap-2 p-2.5 bg-red-950/40 border border-red-900/60 rounded-xl text-red-300">
+              <XCircle className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+              <p className="text-xs">{errorMessage}</p>
+            </motion.div>
+          )}
+          {status === 'success' && (
+            <motion.div key="success" role="status" aria-live="polite" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} className="flex items-center gap-2 p-2.5 bg-green-950/40 border border-green-900/60 rounded-xl text-green-300">
+              <CheckCircle2 className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+              <p className="text-xs">Message sent successfully! I&apos;ll get back to you soon.</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        <GlassButton type="submit" disabled={status === 'sending' || status === 'success'} className="w-full" contentClassName="flex items-center justify-center gap-2">
+        <GlassButton type="submit" disabled={status === 'sending' || status === 'success'} className="w-full !py-2.5" contentClassName="flex items-center justify-center gap-2 text-xs uppercase tracking-[0.2em] font-mono">
           {status === 'sending' ? (
             <>
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <Loader2 className="w-4 h-4 animate-spin" />
               <span>Sending...</span>
             </>
           ) : status === 'success' ? (
             <>
-              <CheckCircle2 className="w-5 h-5" />
+              <CheckCircle2 className="w-4 h-4" />
               <span>Message Sent!</span>
             </>
           ) : (
             <>
-              <Send className="w-5 h-5" />
+              <Send className="w-4 h-4" />
               <span>Send Message</span>
             </>
           )}

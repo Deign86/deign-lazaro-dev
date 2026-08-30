@@ -89,26 +89,17 @@ export function Projects() {
         </div>
 
         {/* View all repositories on GitHub */}
-        <ScrollReveal direction="up" blur={true} delay={0.2}>
-          <div className="mt-16 text-center">
-            <a
-              href="https://github.com/Deign86?tab=repositories"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-3 rounded-full border border-white/15 bg-mono-950/60 px-8 py-3.5 text-xs uppercase tracking-[0.24em] font-mono text-mono-200 backdrop-blur-md shadow-xl transition-all hover:bg-mono-50 hover:text-mono-950 cursor-pointer"
-            >
-              <span>Explore All Repositories on GitHub</span>
-              <svg
-                className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-          </div>
-        </ScrollReveal>
+        <div className="mt-12 text-center">
+          <a
+            href="https://github.com/Deign86?tab=repositories"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-mono-900/80 px-6 py-3 text-xs uppercase tracking-[0.2em] font-mono text-mono-200 backdrop-blur-md transition-all hover:bg-mono-50 hover:text-mono-950 shadow-xl"
+          >
+            <span>Explore All Repositories on GitHub</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
       </div>
     </section>
   );
