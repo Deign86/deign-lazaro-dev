@@ -14,26 +14,40 @@ export function LiquidObject({ progress, className = '' }: LiquidObjectProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const targetTimeRef = useRef(0);
   const rafIdRef = useRef<number | null>(null);
+  const pendingTimeRef = useRef<number | null>(null);
 
-  // Direct video seek executed exactly once per animation frame
-  const applySeek = useCallback(() => {
-    rafIdRef.current = null;
+  // Direct video seek executed smoothly
+  const performSeek = useCallback((targetTime: number) => {
     const video = videoRef.current;
     if (!video || !video.duration || Number.isNaN(video.duration)) {
       return;
     }
 
     const duration = video.duration;
-    const targetTime = Math.max(0, Math.min(duration - 0.001, targetTimeRef.current));
+    const clampedTime = Math.max(0, Math.min(duration - 0.005, targetTime));
 
-    if (Math.abs(video.currentTime - targetTime) > 0.005) {
+    if (video.seeking) {
+      pendingTimeRef.current = clampedTime;
+      return;
+    }
+
+    if (Math.abs(video.currentTime - clampedTime) > 0.005) {
       try {
-        video.currentTime = targetTime;
+        if ('fastSeek' in video && typeof (video as HTMLVideoElement & { fastSeek?: (t: number) => void }).fastSeek === 'function') {
+          (video as HTMLVideoElement & { fastSeek: (t: number) => void }).fastSeek(clampedTime);
+        } else {
+          video.currentTime = clampedTime;
+        }
       } catch {
-        // Safe catch if seeking is temporarily unavailable
+        // Safe catch if seeking is temporarily busy on iOS WebKit
       }
     }
   }, []);
+
+  const scheduleSeek = useCallback(() => {
+    rafIdRef.current = null;
+    performSeek(targetTimeRef.current);
+  }, [performSeek]);
 
   // Synchronize scroll progress value to video time
   const handleProgressUpdate = useCallback(
@@ -42,24 +56,23 @@ export function LiquidObject({ progress, className = '' }: LiquidObjectProps) {
       const video = videoRef.current;
 
       if (!video || !video.duration || Number.isNaN(video.duration)) {
-        targetTimeRef.current = clamped * 10; // fallback duration before metadata
+        targetTimeRef.current = clamped * 10;
         return;
       }
 
       targetTimeRef.current = clamped * video.duration;
 
       if (rafIdRef.current === null) {
-        rafIdRef.current = requestAnimationFrame(applySeek);
+        rafIdRef.current = requestAnimationFrame(scheduleSeek);
       }
     },
-    [applySeek]
+    [scheduleSeek]
   );
 
   // Subscribe to Framer Motion's progress MotionValue
   useEffect(() => {
     if (reduceMotion || !progress) return;
 
-    // Apply initial value immediately
     handleProgressUpdate(progress.get());
 
     const unsubscribe = progress.on('change', (latest) => {
@@ -75,7 +88,82 @@ export function LiquidObject({ progress, className = '' }: LiquidObjectProps) {
     };
   }, [progress, reduceMotion, handleProgressUpdate]);
 
-  // Handle video metadata loaded
+  // Handle seeked event to drain any queued seeks on iOS WebKit
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleSeeked = () => {
+      if (pendingTimeRef.current !== null) {
+        const nextTime = pendingTimeRef.current;
+        pendingTimeRef.current = null;
+        performSeek(nextTime);
+      }
+    };
+
+    video.addEventListener('seeked', handleSeeked);
+    return () => {
+      video.removeEventListener('seeked', handleSeeked);
+    };
+  }, [performSeek]);
+
+  // iOS Safari / WebKit Initialization & Decoder Priming
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Critical imperative properties for iOS WebKit inline playback
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.setAttribute('playsinline', 'true');
+    video.setAttribute('webkit-playsinline', 'true');
+    video.setAttribute('x5-playsinline', 'true');
+
+    const primeDecoder = async () => {
+      try {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          await playPromise;
+          video.pause();
+          setIsLoaded(true);
+          if (progress) {
+            performSeek(progress.get() * (video.duration || 10));
+          }
+        }
+      } catch {
+        // Autoplay policy fallback: will prime on first user touch/scroll gesture
+      }
+    };
+
+    primeDecoder();
+
+    const handleUserGestureUnlock = () => {
+      if (video.paused && !isLoaded) {
+        video
+          .play()
+          .then(() => {
+            video.pause();
+            setIsLoaded(true);
+            if (progress) {
+              performSeek(progress.get() * (video.duration || 10));
+            }
+          })
+          .catch(() => {});
+      }
+    };
+
+    window.addEventListener('touchstart', handleUserGestureUnlock, { once: true, passive: true });
+    window.addEventListener('scroll', handleUserGestureUnlock, { once: true, passive: true });
+    window.addEventListener('click', handleUserGestureUnlock, { once: true, passive: true });
+
+    return () => {
+      window.removeEventListener('touchstart', handleUserGestureUnlock);
+      window.removeEventListener('scroll', handleUserGestureUnlock);
+      window.removeEventListener('click', handleUserGestureUnlock);
+    };
+  }, [progress, isLoaded, performSeek]);
+
   const handleLoadedMetadata = useCallback(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -84,29 +172,10 @@ export function LiquidObject({ progress, className = '' }: LiquidObjectProps) {
     setIsLoaded(true);
 
     if (progress) {
-      const currentP = progress.get();
-      targetTimeRef.current = currentP * (video.duration || 10);
-      applySeek();
+      targetTimeRef.current = progress.get() * (video.duration || 10);
+      performSeek(targetTimeRef.current);
     }
-  }, [progress, applySeek]);
-
-  // Ensure video stays paused at all times
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    video.pause();
-    const preventPlay = () => {
-      if (!video.paused) {
-        video.pause();
-      }
-    };
-
-    video.addEventListener('play', preventPlay);
-    return () => {
-      video.removeEventListener('play', preventPlay);
-    };
-  }, []);
+  }, [progress, performSeek]);
 
   return (
     <div
@@ -117,12 +186,18 @@ export function LiquidObject({ progress, className = '' }: LiquidObjectProps) {
       <div className="relative h-full w-full">
         <video
           ref={videoRef}
+          src="/video/liquid-metal-scrub.mp4"
           muted
           playsInline
+          autoPlay={false}
+          controls={false}
+          disablePictureInPicture
+          disableRemotePlayback
           preload="auto"
           poster="/video/liquid-metal-poster.jpg"
           onLoadedMetadata={handleLoadedMetadata}
           onCanPlay={handleLoadedMetadata}
+          onLoadedData={handleLoadedMetadata}
           className={`h-full w-full object-cover transition-opacity duration-700 ${
             isLoaded ? 'opacity-90' : 'opacity-70'
           }`}
@@ -130,14 +205,10 @@ export function LiquidObject({ progress, className = '' }: LiquidObjectProps) {
             transform: 'translateZ(0)',
             backfaceVisibility: 'hidden',
           }}
-        >
-          <source src="/video/liquid-metal-mobile.mp4" media="(max-width: 768px)" type="video/mp4" />
-          <source src="/video/liquid-metal-scrub.mp4" type="video/mp4" />
-          <source src="/video/liquid-metal-8k-master.mp4" type="video/mp4" />
-        </video>
+        />
       </div>
 
-      {/* Atmospheric Editorial Scrims - Preserves liquid metal luminance while guaranteeing typography contrast */}
+      {/* Atmospheric Editorial Scrims */}
       <div className="pointer-events-none absolute inset-0 bg-mono-950/20" />
       <div className="pointer-events-none absolute inset-0 bg-radial from-transparent via-mono-950/40 to-mono-950/85" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-mono-950/70 via-transparent to-mono-950/90" />

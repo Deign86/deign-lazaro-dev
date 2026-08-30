@@ -334,10 +334,10 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             pointerEvents: heroPointerEvents,
             willChange: 'opacity, transform',
           }}
-          className="absolute inset-x-0 top-0 flex h-full w-full flex-col justify-between px-6 pb-12 pt-28 sm:px-8 lg:px-12 z-10"
+          className="absolute inset-x-0 top-0 flex h-full w-full flex-col justify-between px-4 pb-6 pt-20 sm:px-8 sm:pb-12 sm:pt-28 lg:px-12 z-10 overflow-y-auto no-scrollbar"
         >
-          {/* Top Editorial Metadata */}
-          <div className="mx-auto w-full max-w-7xl">
+          {/* Top Editorial Metadata (Desktop) */}
+          <div className="mx-auto w-full max-w-7xl hidden sm:block">
             <div className="flex flex-col gap-3 rounded-xl border border-white/10 bg-mono-950/50 px-5 py-3 text-[10px] uppercase tracking-[0.38em] text-mono-300 backdrop-blur-md sm:flex-row sm:items-center sm:justify-between shadow-xl">
               <span className="font-semibold text-mono-100">KINETIC PORTFOLIO</span>
               <span className="text-mono-300">Deign Grey Lazaro / Valenzuela PH</span>
@@ -346,34 +346,34 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
           </div>
 
           {/* Centered Headline */}
-          <div className="mx-auto my-auto max-w-5xl text-center py-6">
-            <div className="mb-5 inline-block rounded-full border border-white/15 bg-mono-950/60 px-4 py-1.5 text-[10px] font-mono uppercase tracking-[0.35em] text-mono-300 backdrop-blur-md shadow-lg">
+          <div className="mx-auto my-auto max-w-5xl text-center py-4 sm:py-6">
+            <div className="mb-3 sm:mb-5 inline-block rounded-full border border-white/15 bg-mono-950/60 px-3.5 py-1 text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.3em] text-mono-300 backdrop-blur-md shadow-lg">
               01 / Creative Developer & AI Engineer
             </div>
 
-            <h1 className="text-4xl font-extrabold tracking-[-0.03em] text-mono-50 sm:text-6xl md:text-7xl lg:text-8xl leading-[1.02] drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
-              Powering the <span className="font-serif italic font-normal text-mono-100 underline decoration-white/20 underline-offset-8">next</span>
+            <h1 className="text-3xl font-extrabold tracking-[-0.03em] text-mono-50 sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05] drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+              Powering the <span className="font-serif italic font-normal text-mono-100 underline decoration-white/20 underline-offset-4 sm:underline-offset-8">next</span>
               <br />
               generation of systems.
             </h1>
 
-            <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-mono-200 sm:text-base md:text-lg font-light drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+            <p className="mx-auto mt-3 sm:mt-6 max-w-2xl text-xs sm:text-base md:text-lg leading-relaxed text-mono-200 font-light drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
               Crafting scalable full-stack web applications and autonomous agent tooling with physical aesthetic precision.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <div className="mt-5 sm:mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
               <button
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('hire-me'));
                 }}
-                className="group inline-flex items-center gap-3 rounded-full bg-mono-50 px-8 py-3.5 text-xs font-mono uppercase tracking-[0.24em] font-semibold text-mono-950 shadow-2xl transition-all hover:bg-mono-200 hover:scale-105 cursor-pointer"
+                className="group inline-flex items-center gap-2 sm:gap-3 rounded-full bg-mono-50 px-6 py-2.5 sm:px-8 sm:py-3.5 text-xs font-mono uppercase tracking-[0.2em] font-semibold text-mono-950 shadow-2xl transition-all hover:bg-mono-200 hover:scale-105 cursor-pointer"
               >
                 <span>Get in Touch</span>
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </button>
 
               <GlassButton
-                size="lg"
+                size="default"
                 onClick={() => {
                   const container = containerRef.current;
                   if (container) {
@@ -386,7 +386,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
               </GlassButton>
             </div>
 
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+            <div className="mt-5 sm:mt-8 hidden sm:flex flex-wrap items-center justify-center gap-2">
               {disciplines.map((d, i) => (
                 <span
                   key={d}
@@ -400,15 +400,15 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
 
           {/* Bottom Metrics Bar */}
           <div className="mx-auto w-full max-w-7xl">
-            <div className="grid items-center gap-4 rounded-2xl border border-white/10 bg-mono-950/50 p-4 backdrop-blur-md sm:grid-cols-4 shadow-xl">
-              <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.35em] text-mono-300">
+            <div className="grid items-center gap-2 sm:gap-4 rounded-2xl border border-white/10 bg-mono-950/60 p-2.5 sm:p-4 backdrop-blur-md grid-cols-3 sm:grid-cols-4 shadow-xl">
+              <div className="hidden sm:flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.35em] text-mono-300">
                 <span>Scroll down</span>
                 <ArrowDown className="h-3.5 w-3.5 animate-bounce text-mono-200" />
               </div>
               {heroMetrics.map(([val, lbl]) => (
-                <div key={lbl} className="flex items-baseline justify-between gap-3 border-t border-white/10 pt-2 sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0">
-                  <span className="text-xl font-bold tracking-tight text-mono-50 md:text-2xl">{val}</span>
-                  <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-mono-400">{lbl}</span>
+                <div key={lbl} className="flex flex-col sm:flex-row items-center sm:items-baseline justify-between gap-1 sm:gap-3 border-r sm:border-r-0 sm:border-l border-white/10 last:border-r-0 px-2 sm:pl-4">
+                  <span className="text-sm sm:text-xl font-bold tracking-tight text-mono-50 md:text-2xl">{val}</span>
+                  <span className="text-[8px] sm:text-[10px] font-mono uppercase tracking-[0.16em] text-mono-400 text-center sm:text-left">{lbl}</span>
                 </div>
               ))}
             </div>
@@ -427,31 +427,31 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             pointerEvents: aboutPointerEvents,
             willChange: 'opacity, transform',
           }}
-          className="absolute inset-0 flex items-center justify-center px-6 pt-24 pb-8 z-20"
+          className="absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
         >
-          <div className="mx-auto w-full max-w-7xl">
+          <div className="mx-auto w-full max-w-7xl max-h-[82vh] overflow-y-auto no-scrollbar pr-1">
             {/* Header */}
-            <div className="mb-6 grid gap-6 rounded-3xl border border-white/10 bg-mono-950/70 p-6 backdrop-blur-md shadow-2xl lg:grid-cols-[0.4fr_1fr]">
-              <span className="text-xs uppercase tracking-[0.34em] text-mono-400 font-mono">02 / Profile</span>
+            <div className="mb-4 sm:mb-6 grid gap-3 sm:gap-6 rounded-3xl border border-white/10 bg-mono-950/70 p-4 sm:p-6 backdrop-blur-md shadow-2xl lg:grid-cols-[0.4fr_1fr]">
+              <span className="text-[10px] sm:text-xs uppercase tracking-[0.34em] text-mono-400 font-mono">02 / Profile</span>
               <div>
-                <h2 className="text-3xl font-bold tracking-tight text-mono-50 md:text-5xl drop-shadow">
+                <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-mono-50 drop-shadow">
                   Builder Profile
                 </h2>
-                <p className="mt-2 text-sm leading-relaxed text-mono-200 font-light md:text-base">
+                <p className="mt-1 sm:mt-2 text-xs sm:text-sm leading-relaxed text-mono-200 font-light md:text-base">
                   Engineering at the intersection of modern product design, robust system architecture, and autonomous AI tooling.
                 </p>
               </div>
             </div>
 
             {/* Columns */}
-            <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="grid gap-4 sm:gap-6 lg:grid-cols-[1.1fr_0.9fr]">
               {/* Left Column: Portrait & Narrative */}
               <motion.div
                 style={{ x: reduceMotion ? '0px' : aboutLeftX }}
-                className="flex flex-col gap-5 rounded-3xl border border-white/10 bg-mono-950/70 p-6 backdrop-blur-md shadow-2xl"
+                className="flex flex-col gap-4 sm:gap-5 rounded-3xl border border-white/10 bg-mono-950/70 p-4 sm:p-6 backdrop-blur-md shadow-2xl"
               >
-                <div className="flex flex-col sm:flex-row items-start gap-5">
-                  <div className="relative h-36 w-32 flex-shrink-0 overflow-hidden rounded-2xl border border-white/20 bg-mono-900 shadow-2xl">
+                <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-5">
+                  <div className="relative h-28 w-24 sm:h-36 sm:w-32 flex-shrink-0 overflow-hidden rounded-2xl border border-white/20 bg-mono-900 shadow-2xl mx-auto sm:mx-0">
                     <Image
                       src="/profile.jpg"
                       alt="Deign Lazaro"
@@ -461,21 +461,21 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
                       priority
                     />
                   </div>
-                  <div className="space-y-3">
-                    <p className="text-base leading-relaxed text-mono-100 font-light md:text-lg">
+                  <div className="space-y-2 sm:space-y-3 text-center sm:text-left">
+                    <p className="text-sm sm:text-base md:text-lg leading-relaxed text-mono-100 font-light">
                       4th-year BSIT student at <span className="text-mono-50 font-semibold underline decoration-white/30">Pamantasan ng Lungsod ng Valenzuela</span>, creating scalable software with autonomous AI tooling.
                     </p>
-                    <p className="text-xs leading-relaxed text-mono-300">
+                    <p className="text-[11px] sm:text-xs leading-relaxed text-mono-300">
                       With a background in academic leadership and student council, I pair technical precision with clear communication.
                     </p>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-4 gap-2 border-t border-white/10 pt-4">
+                <div className="grid grid-cols-4 gap-1.5 sm:gap-2 border-t border-white/10 pt-3 sm:pt-4">
                   {signalStrip.map((item) => (
-                    <div key={item.label} className="rounded-xl border border-white/10 bg-mono-900/60 p-2.5 text-center">
-                      <span className="text-lg font-bold text-mono-50">{item.value}</span>
-                      <p className="text-[9px] uppercase tracking-[0.16em] text-mono-400 font-mono mt-0.5">{item.label}</p>
+                    <div key={item.label} className="rounded-xl border border-white/10 bg-mono-900/60 p-1.5 sm:p-2.5 text-center">
+                      <span className="text-sm sm:text-lg font-bold text-mono-50">{item.value}</span>
+                      <p className="text-[8px] sm:text-[9px] uppercase tracking-[0.12em] text-mono-400 font-mono mt-0.5">{item.label}</p>
                     </div>
                   ))}
                 </div>
@@ -484,21 +484,21 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
               {/* Right Column: Tech Capability Matrix */}
               <motion.div
                 style={{ x: reduceMotion ? '0px' : aboutRightX }}
-                className="flex flex-col gap-4 rounded-3xl border border-white/10 bg-mono-950/70 p-6 backdrop-blur-md shadow-2xl"
+                className="flex flex-col gap-3 sm:gap-4 rounded-3xl border border-white/10 bg-mono-950/70 p-4 sm:p-6 backdrop-blur-md shadow-2xl"
               >
-                <h3 className="text-xs uppercase tracking-[0.3em] text-mono-300 font-mono font-medium">Technical Capabilities</h3>
-                <div className="space-y-3.5">
+                <h3 className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-mono-300 font-mono font-medium">Technical Capabilities</h3>
+                <div className="space-y-2.5 sm:space-y-3.5">
                   {categories.map((cat) => (
-                    <div key={cat.name} className="border-b border-white/10 pb-3 last:border-b-0 last:pb-0">
-                      <div className="flex items-center gap-2 mb-2">
+                    <div key={cat.name} className="border-b border-white/10 pb-2 sm:pb-3 last:border-b-0 last:pb-0">
+                      <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
                         <span className="text-mono-400 text-xs">{cat.icon}</span>
-                        <span className="text-[11px] uppercase tracking-[0.2em] text-mono-200 font-mono font-medium">{cat.name}</span>
+                        <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-mono-200 font-mono font-medium">{cat.name}</span>
                       </div>
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="flex flex-wrap gap-1 sm:gap-1.5">
                         {cat.items.map((tech) => (
                           <span
                             key={tech}
-                            className="rounded-lg border border-white/10 bg-mono-900/90 px-2.5 py-1 text-xs text-mono-200"
+                            className="rounded-lg border border-white/10 bg-mono-900/90 px-2 py-0.5 sm:px-2.5 sm:py-1 text-[11px] sm:text-xs text-mono-200"
                           >
                             {tech}
                           </span>
@@ -525,34 +525,34 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             pointerEvents: resumePointerEvents,
             willChange: 'opacity, transform',
           }}
-          className="absolute inset-0 flex items-center justify-center px-6 pt-24 pb-8 z-20"
+          className="absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
         >
-          <div className="mx-auto w-full max-w-7xl">
+          <div className="mx-auto w-full max-w-7xl max-h-[82vh] overflow-y-auto no-scrollbar pr-1">
             {/* Header */}
-            <div className="mb-6 grid gap-6 rounded-3xl border border-white/10 bg-mono-950/70 p-6 backdrop-blur-md shadow-2xl lg:grid-cols-[0.4fr_1fr]">
-              <span className="text-xs uppercase tracking-[0.34em] text-mono-400 font-mono">03 / Archive</span>
-              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div className="mb-4 sm:mb-6 grid gap-3 sm:gap-6 rounded-3xl border border-white/10 bg-mono-950/70 p-4 sm:p-6 backdrop-blur-md shadow-2xl lg:grid-cols-[0.4fr_1fr]">
+              <span className="text-[10px] sm:text-xs uppercase tracking-[0.34em] text-mono-400 font-mono">03 / Archive</span>
+              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 sm:gap-4">
                 <div>
-                  <h2 className="text-3xl font-bold tracking-tight text-mono-50 md:text-5xl drop-shadow">
+                  <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-mono-50 drop-shadow">
                     Background & Skills
                   </h2>
-                  <p className="mt-2 text-sm leading-relaxed text-mono-200 font-light md:text-base">
+                  <p className="mt-1 sm:mt-2 text-xs sm:text-sm leading-relaxed text-mono-200 font-light md:text-base">
                     A structured timeline of education, project leadership, and technical capability.
                   </p>
                 </div>
                 <a
                   href="/Lazaro CV.pdf"
                   download="Lazaro CV.pdf"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-mono-900/90 px-5 py-2.5 text-xs uppercase tracking-[0.2em] font-mono text-mono-100 backdrop-blur-md transition-all hover:bg-mono-50 hover:text-mono-950 shadow-xl"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-mono-900/90 px-4 py-2 text-[11px] sm:text-xs uppercase tracking-[0.2em] font-mono text-mono-100 backdrop-blur-md transition-all hover:bg-mono-50 hover:text-mono-950 shadow-xl"
                 >
-                  <Download className="h-4 w-4" />
+                  <Download className="h-3.5 w-3.5" />
                   <span>Download CV</span>
                 </a>
               </div>
             </div>
 
             {/* Tab Controls */}
-            <div className="mb-4 flex gap-2">
+            <div className="mb-3 sm:mb-4 flex gap-2">
               {[
                 { id: 'education', label: 'Timeline & History', icon: GraduationCap },
                 { id: 'skills', label: 'Core Competencies', icon: Code },
@@ -560,13 +560,13 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
                 <button
                   key={tab.id}
                   onClick={() => setActiveResumeTab(tab.id as typeof activeResumeTab)}
-                  className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs uppercase tracking-[0.2em] font-mono transition-all cursor-pointer ${
+                  className={`flex items-center gap-1.5 sm:gap-2 rounded-xl px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs uppercase tracking-[0.18em] font-mono transition-all cursor-pointer ${
                     activeResumeTab === tab.id
                       ? 'bg-mono-50 text-mono-950 font-bold shadow-lg'
                       : 'border border-white/10 bg-mono-950/60 text-mono-300 hover:text-mono-100 backdrop-blur-md'
                   }`}
                 >
-                  <tab.icon className="h-3.5 w-3.5" />
+                  <tab.icon className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                   <span>{tab.label}</span>
                 </button>
               ))}
@@ -574,26 +574,26 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
 
             {/* Tab Content */}
             {activeResumeTab === 'education' ? (
-              <div className="grid gap-6 lg:grid-cols-2">
-                <div className="space-y-3.5 rounded-3xl border border-white/10 bg-mono-950/70 p-6 backdrop-blur-md shadow-2xl">
-                  <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-[0.24em] text-mono-200 mb-4">
-                    <GraduationCap className="h-4 w-4 text-mono-100" />
+              <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
+                <div className="space-y-3 rounded-3xl border border-white/10 bg-mono-950/70 p-4 sm:p-6 backdrop-blur-md shadow-2xl">
+                  <div className="flex items-center gap-2 text-[11px] sm:text-xs font-mono uppercase tracking-[0.24em] text-mono-200 mb-3 sm:mb-4">
+                    <GraduationCap className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-mono-100" />
                     <span>Academic Trajectory</span>
                   </div>
-                  <div className="space-y-4 border-l border-white/10 pl-5">
+                  <div className="space-y-3 sm:space-y-4 border-l border-white/10 pl-4 sm:pl-5">
                     {education.map((item, idx) => (
                       <div key={idx} className="relative">
-                        <div className="absolute -left-[27px] top-1.5 h-2 w-2 rounded-full bg-mono-400 ring-4 ring-mono-950" />
-                        <div className="rounded-xl border border-white/10 bg-mono-900/60 p-3.5 backdrop-blur-sm">
-                          <div className="flex flex-wrap items-center justify-between gap-1.5">
-                            <h4 className="text-sm font-semibold text-mono-50">{item.title}</h4>
-                            <span className="text-[10px] font-mono text-mono-300 bg-mono-950/80 px-2 py-0.5 rounded border border-white/10">{item.period}</span>
+                        <div className="absolute -left-[23px] sm:-left-[27px] top-1.5 h-2 w-2 rounded-full bg-mono-400 ring-4 ring-mono-950" />
+                        <div className="rounded-xl border border-white/10 bg-mono-900/60 p-3 sm:p-3.5 backdrop-blur-sm">
+                          <div className="flex flex-wrap items-center justify-between gap-1">
+                            <h4 className="text-xs sm:text-sm font-semibold text-mono-50">{item.title}</h4>
+                            <span className="text-[9px] sm:text-[10px] font-mono text-mono-300 bg-mono-950/80 px-2 py-0.5 rounded border border-white/10">{item.period}</span>
                           </div>
-                          <p className="mt-1 text-xs text-mono-300">{item.organization}</p>
+                          <p className="mt-1 text-[11px] sm:text-xs text-mono-300">{item.organization}</p>
                           {item.highlights && (
                             <div className="mt-2 flex flex-wrap gap-1">
                               {item.highlights.map((h, i) => (
-                                <span key={i} className="rounded bg-mono-950/90 px-2 py-0.5 text-[10px] text-mono-300 font-mono border border-white/5">{h}</span>
+                                <span key={i} className="rounded bg-mono-950/90 px-1.5 py-0.5 text-[9px] sm:text-[10px] text-mono-300 font-mono border border-white/5">{h}</span>
                               ))}
                             </div>
                           )}
@@ -603,25 +603,25 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
                   </div>
                 </div>
 
-                <div className="space-y-3.5 rounded-3xl border border-white/10 bg-mono-950/70 p-6 backdrop-blur-md shadow-2xl">
-                  <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-[0.24em] text-mono-200 mb-4">
-                    <Lightbulb className="h-4 w-4 text-mono-100" />
+                <div className="space-y-3 rounded-3xl border border-white/10 bg-mono-950/70 p-4 sm:p-6 backdrop-blur-md shadow-2xl">
+                  <div className="flex items-center gap-2 text-[11px] sm:text-xs font-mono uppercase tracking-[0.24em] text-mono-200 mb-3 sm:mb-4">
+                    <Lightbulb className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-mono-100" />
                     <span>Initiatives & Focus</span>
                   </div>
-                  <div className="space-y-4 border-l border-white/10 pl-5">
+                  <div className="space-y-3 sm:space-y-4 border-l border-white/10 pl-4 sm:pl-5">
                     {initiatives.map((item, idx) => (
                       <div key={idx} className="relative">
-                        <div className="absolute -left-[27px] top-1.5 h-2 w-2 rounded-full bg-mono-400 ring-4 ring-mono-950" />
-                        <div className="rounded-xl border border-white/10 bg-mono-900/60 p-3.5 backdrop-blur-sm">
-                          <div className="flex flex-wrap items-center justify-between gap-1.5">
-                            <h4 className="text-sm font-semibold text-mono-50">{item.title}</h4>
-                            <span className="text-[10px] font-mono text-mono-300 bg-mono-950/80 px-2 py-0.5 rounded border border-white/10">{item.period}</span>
+                        <div className="absolute -left-[23px] sm:-left-[27px] top-1.5 h-2 w-2 rounded-full bg-mono-400 ring-4 ring-mono-950" />
+                        <div className="rounded-xl border border-white/10 bg-mono-900/60 p-3 sm:p-3.5 backdrop-blur-sm">
+                          <div className="flex flex-wrap items-center justify-between gap-1">
+                            <h4 className="text-xs sm:text-sm font-semibold text-mono-50">{item.title}</h4>
+                            <span className="text-[9px] sm:text-[10px] font-mono text-mono-300 bg-mono-950/80 px-2 py-0.5 rounded border border-white/10">{item.period}</span>
                           </div>
-                          <p className="mt-1 text-xs text-mono-300">{item.organization}</p>
+                          <p className="mt-1 text-[11px] sm:text-xs text-mono-300">{item.organization}</p>
                           {item.description && (
                             <ul className="mt-2 space-y-1">
                               {item.description.map((d, i) => (
-                                <li key={i} className="flex items-start gap-1.5 text-xs text-mono-300">
+                                <li key={i} className="flex items-start gap-1 text-[11px] sm:text-xs text-mono-300">
                                   <ChevronRight className="h-3 w-3 text-mono-400 flex-shrink-0 mt-0.5" />
                                   <span>{d}</span>
                                 </li>
@@ -635,13 +635,13 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
                 </div>
               </div>
             ) : (
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
                 {skillCategories.map((cat) => (
-                  <div key={cat.name} className="rounded-3xl border border-white/10 bg-mono-950/70 p-6 backdrop-blur-md shadow-2xl">
-                    <h4 className="text-xs font-mono uppercase tracking-[0.24em] text-mono-200 mb-3 font-semibold">{cat.name}</h4>
-                    <div className="flex flex-wrap gap-1.5">
+                  <div key={cat.name} className="rounded-3xl border border-white/10 bg-mono-950/70 p-4 sm:p-6 backdrop-blur-md shadow-2xl">
+                    <h4 className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.24em] text-mono-200 mb-2 sm:mb-3 font-semibold">{cat.name}</h4>
+                    <div className="flex flex-wrap gap-1 sm:gap-1.5">
                       {cat.skills.map((skill) => (
-                        <span key={skill} className="rounded-lg border border-white/10 bg-mono-900/90 px-2.5 py-1 text-xs text-mono-200">
+                        <span key={skill} className="rounded-lg border border-white/10 bg-mono-900/90 px-2 py-0.5 sm:px-2.5 sm:py-1 text-[11px] sm:text-xs text-mono-200">
                           {skill}
                         </span>
                       ))}
@@ -663,23 +663,23 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             pointerEvents: workPointerEvents,
             willChange: 'opacity, transform',
           }}
-          className="absolute inset-0 flex items-center justify-center px-6 pt-24 pb-8 z-20"
+          className="absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
         >
-          <div className="mx-auto w-full max-w-7xl">
+          <div className="mx-auto w-full max-w-7xl max-h-[82vh] overflow-y-auto no-scrollbar pr-1">
             {/* Header */}
-            <div className="mb-6 grid gap-6 rounded-3xl border border-white/10 bg-mono-950/70 p-6 backdrop-blur-md shadow-2xl lg:grid-cols-[0.4fr_1fr]">
-              <span className="text-xs uppercase tracking-[0.34em] text-mono-400 font-mono">04 / Work & Live</span>
+            <div className="mb-4 sm:mb-6 grid gap-3 sm:gap-6 rounded-3xl border border-white/10 bg-mono-950/70 p-4 sm:p-6 backdrop-blur-md shadow-2xl lg:grid-cols-[0.4fr_1fr]">
+              <span className="text-[10px] sm:text-xs uppercase tracking-[0.34em] text-mono-400 font-mono">04 / Work & Live</span>
               <div>
-                <h2 className="text-3xl font-bold tracking-tight text-mono-50 md:text-5xl drop-shadow">
+                <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-mono-50 drop-shadow">
                   Selected Builds
                 </h2>
-                <p className="mt-2 text-sm leading-relaxed text-mono-200 font-light md:text-base">
+                <p className="mt-1 sm:mt-2 text-xs sm:text-sm leading-relaxed text-mono-200 font-light md:text-base">
                   Production web applications, intelligent agents, and live platforms streaming alongside the liquid metal ribbons.
                 </p>
               </div>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-[0.35fr_1fr]">
+            <div className="grid gap-4 sm:gap-6 lg:grid-cols-[0.35fr_1fr]">
               {/* Left Aside Index */}
               <motion.div
                 style={{ x: reduceMotion ? '0px' : workAsideX }}
@@ -702,16 +702,16 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
               {/* Right Streaming Project Cards */}
               <motion.div
                 style={{ y: reduceMotion ? '0px' : workCardsY }}
-                className="grid gap-4 sm:grid-cols-2 max-h-[50vh] overflow-y-auto pr-2 no-scrollbar"
+                className="grid gap-3 sm:gap-4 sm:grid-cols-2 max-h-[58vh] overflow-y-auto pr-1 no-scrollbar"
               >
                 {PINNED_PROJECTS.slice(0, 4).map((project) => (
                   <div
                     key={project.id}
-                    className="flex flex-col justify-between rounded-2xl border border-white/10 bg-mono-950/80 p-5 backdrop-blur-md shadow-2xl transition-all hover:border-white/30"
+                    className="flex flex-col justify-between rounded-2xl border border-white/10 bg-mono-950/80 p-4 sm:p-5 backdrop-blur-md shadow-2xl transition-all hover:border-white/30"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-2">
-                        <span className="text-[10px] font-mono uppercase tracking-[0.24em] text-mono-400">
+                        <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.24em] text-mono-400">
                           #{String(project.order).padStart(2, '0')} {project.tags[0]}
                         </span>
                         <div className="flex items-center gap-2">
@@ -737,13 +737,13 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
                           )}
                         </div>
                       </div>
-                      <h4 className="text-base font-bold text-mono-50">{project.title}</h4>
-                      <p className="mt-1.5 text-xs text-mono-300 line-clamp-2 leading-relaxed">{project.description}</p>
+                      <h4 className="text-sm sm:text-base font-bold text-mono-50">{project.title}</h4>
+                      <p className="mt-1 text-[11px] sm:text-xs text-mono-300 line-clamp-2 leading-relaxed">{project.description}</p>
                     </div>
 
-                    <div className="mt-4 flex flex-wrap gap-1 border-t border-white/10 pt-3">
+                    <div className="mt-3 sm:mt-4 flex flex-wrap gap-1 border-t border-white/10 pt-2.5 sm:pt-3">
                       {project.tags.slice(0, 3).map((tag) => (
-                        <span key={tag} className="rounded bg-mono-900/90 px-2 py-0.5 text-[10px] font-mono text-mono-300 border border-white/5">
+                        <span key={tag} className="rounded bg-mono-900/90 px-2 py-0.5 text-[9px] sm:text-[10px] font-mono text-mono-300 border border-white/5">
                           {tag}
                         </span>
                       ))}
