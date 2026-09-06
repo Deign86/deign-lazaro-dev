@@ -32,11 +32,11 @@
 <br/>
 
 <p align="center">
-  <img src="public/preview/portfolio-hero.gif" alt="Portfolio hero — smooth scroll tour" width="800" />
+  <img src="public/preview/portfolio-hero.gif" alt="Portfolio guided tour — slow scroll with pauses" width="640" />
 </p>
 
 <p align="center">
-  <em>Smooth-scroll tour of the motion-heavy portfolio, recorded from the live site. Static fallback: <a href="public/preview/portfolio-hero.png">portfolio-hero.png</a></em>
+  <em>Guided slow-scroll tour with pauses on each section, recorded from the local site. Static fallback: <a href="public/preview/portfolio-hero.png">portfolio-hero.png</a></em>
 </p>
 
 <br/>
@@ -139,7 +139,17 @@ export const revalidate = 3600; // seconds (1 hour)
 ## Re-capturing previews
 
 ```bash
-# Smooth-scroll hero tour (one continuous descent) + GIF
+# Guided slow tour (pauses on each section) + GIF — this README's GIF
+node scripts/record-guided-tour.mjs
+ffmpeg -y -ss 3 -t 27 -i public/preview/portfolio-hero-smooth.webm \
+  -vf "fps=4,scale=640:-1:flags=lanczos,palettegen" /tmp/pal.png
+ffmpeg -y -ss 3 -t 27 -i public/preview/portfolio-hero-smooth.webm -i /tmp/pal.png \
+  -lavfi "fps=4,scale=640:-1:flags=lanczos [x]; [x][1:v] paletteuse" \
+  public/preview/portfolio-hero.gif
+```
+
+```bash
+# Single continuous descent (older variant) + GIF
 node scripts/record-smooth-scroll.mjs
 ffmpeg -y -ss 3 -t 19 -i public/preview/portfolio-hero-smooth.webm \
   -vf "fps=8,scale=800:-1:flags=lanczos,palettegen" /tmp/pal.png
@@ -151,7 +161,7 @@ ffmpeg -y -ss 3 -t 19 -i public/preview/portfolio-hero-smooth.webm -i /tmp/pal.p
 node scripts/record-live-systems.mjs
 ```
 
-Targets: hero GIF 800px / 8fps / ≤5MB; system shots 1280px PNG. System PNGs land in `public/screenshots/projects/` and are wired as `thumbnail` in `src/data/projects.ts`.
+Targets: hero GIF 640px / 4fps / ≤5MB (animated liquid background limits compression — longer tours must drop width/fps to fit); system shots 1280px PNG. System PNGs land in `public/screenshots/projects/` and are wired as `thumbnail` in `src/data/projects.ts`.
 
 ---
 
@@ -169,7 +179,8 @@ deign-lazaro-dev/
 │   ├── preview/              # Hero tour GIF + webm source + PNG fallback
 │   └── screenshots/projects/ # Static per-project thumbnails used by the UI
 ├── scripts/
-│   ├── record-smooth-scroll.mjs   # Hero tour (this README's GIF)
+│   ├── record-guided-tour.mjs      # Hero tour (this README's GIF)
+│   ├── record-smooth-scroll.mjs   # Single-descent variant
 │   └── record-live-systems.mjs    # 6 systems: static PNG screenshots
 ```
 
