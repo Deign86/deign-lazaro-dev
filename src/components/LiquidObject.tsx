@@ -4,8 +4,8 @@ import { MotionValue, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useRef, useState, useCallback } from 'react';
 
-const DESKTOP_SEEK_INTERVAL_MS = 40;
-const MOBILE_SEEK_INTERVAL_MS = 72;
+const DESKTOP_SEEK_INTERVAL_MS = 24;
+const MOBILE_SEEK_INTERVAL_MS = 50;
 const MOBILE_MEDIA_QUERY = '(pointer: coarse), (hover: none), (max-width: 767px)';
 
 interface LiquidObjectProps {

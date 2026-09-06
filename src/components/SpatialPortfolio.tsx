@@ -313,8 +313,8 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
       {/* MASTER STAGE (Sticky 100dvh Viewport: 3D Camera Traveling Through Space)  */}
       {/* ========================================================================= */}
       <div className="spatial-stage sticky top-0 flex h-[100dvh] w-full items-center justify-center overflow-hidden px-4 sm:px-8 lg:px-12">
-        {/* Fixed 3D Liquid Metal Scrubber Canvas */}
-        <LiquidObject progress={smoothProgress} />
+        {/* Fixed 3D Liquid Metal Scrubber Canvas (raw scroll progress: 1:1 tracking, no spring trail) */}
+        <LiquidObject progress={scrollYProgress} />
 
         {/* Global Architectural Hairline Grid */}
         <div
