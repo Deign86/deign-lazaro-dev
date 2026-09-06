@@ -170,9 +170,7 @@ deign-lazaro-dev/
 │   └── screenshots/projects/ # Static per-project thumbnails used by the UI
 ├── scripts/
 │   ├── record-smooth-scroll.mjs   # Hero tour (this README's GIF)
-│   ├── record-live-systems.mjs    # 6 systems: static PNG screenshots
-│   └── capture-*.ts               # Legacy still-capture scripts
-└── remotion/                 # Promo video project
+│   └── record-live-systems.mjs    # 6 systems: static PNG screenshots
 ```
 
 ---
