@@ -32,18 +32,22 @@
 <br/>
 
 <p align="center">
-  <img src="public/preview/portfolio-hero.gif" alt="Portfolio guided tour — slow scroll with pauses" width="800" />
+  <video src="https://cdn.jsdelivr.net/gh/Deign86/deign-lazaro-dev@main/public/preview/portfolio-tour-60fps.mp4" poster="public/preview/portfolio-hero.png" width="800" controls muted loop playsinline preload="metadata">
+    <a href="public/preview/portfolio-tour-60fps.mp4">
+      <img src="public/preview/portfolio-hero.png" alt="Watch the 60 fps guided tour (MP4)" width="800" />
+    </a>
+  </video>
 </p>
 
 <p align="center">
-  <em>Guided slow-scroll tour with pauses on each section, recorded from the local site. Static fallback: <a href="public/preview/portfolio-hero.png">portfolio-hero.png</a></em>
+  <em>Guided slow-scroll tour at 60 fps with pauses on each section — click to play. File: <a href="public/preview/portfolio-tour-60fps.mp4">portfolio-tour-60fps.mp4</a> · Poster: <a href="public/preview/portfolio-hero.png">portfolio-hero.png</a></em>
 </p>
 
 <br/>
 
 ## What is this?
 
-An animated, monochrome spatial portfolio with live GitHub integration (ISR, refreshed hourly) and **6 production deployments** actively serving users. The portfolio UI uses a **screenshot gallery** — no embedded live iframes — and the hero tour above is a **recorded GIF**, re-capturable at any time via the scripts in `scripts/`.
+An animated, monochrome spatial portfolio with live GitHub integration (ISR, refreshed hourly) and **6 production deployments** actively serving users. The portfolio UI uses a **screenshot gallery** — no embedded live iframes — and the hero tour above is a **recorded 60 fps MP4**, re-capturable at any time via the scripts in `scripts/`.
 
 - **Motion-first** — scroll-driven spatial scenes, staggered reveals, liquid-glass UI
 - **Screenshot-first previews** — every deployment ships a static thumbnail, never a fragile iframe embed
@@ -95,7 +99,7 @@ Resume/experience section plus contact form and links (Viber, LinkedIn, WhatsApp
 | UI | React 19, TypeScript, Tailwind CSS v4 |
 | Motion | Framer Motion 12 |
 | Data | GitHub REST API (ISR, 1h) |
-| Capture | Playwright 1.62 + ffmpeg (palette GIFs) |
+| Capture | Playwright 1.62 + ffmpeg (25fps webm → 60fps MP4) |
 | Deployment | Vercel |
 
 ---
@@ -106,7 +110,7 @@ Resume/experience section plus contact form and links (Viber, LinkedIn, WhatsApp
 
 - Node.js 18+
 - npm / yarn / pnpm / bun
-- `ffmpeg` on PATH (only for GIF regeneration)
+- `ffmpeg` on PATH (only for MP4 regeneration)
 - Playwright chromium (only for re-capture): `npx playwright install chromium`
 
 ### Installation
@@ -139,13 +143,12 @@ export const revalidate = 3600; // seconds (1 hour)
 ## Re-capturing previews
 
 ```bash
-# Guided slow tour (pauses on each section) + GIF — this README's GIF
+# Guided slow tour (pauses on each section) + 60fps MP4 — this README's video
 LEG_MS=6000 HOLD_MS=2000 node scripts/record-guided-tour.mjs
 ffmpeg -y -ss 2 -t 42 -i public/preview/portfolio-hero-smooth.webm \
-  -vf "fps=4,scale=800:-1:flags=lanczos,palettegen" /tmp/pal.png
-ffmpeg -y -ss 2 -t 42 -i public/preview/portfolio-hero-smooth.webm -i /tmp/pal.png \
-  -lavfi "fps=4,scale=800:-1:flags=lanczos [x]; [x][1:v] paletteuse" \
-  public/preview/portfolio-hero.gif
+  -vf "minterpolate=fps=60:mi_mode=blend" \
+  -c:v libx264 -preset medium -crf 20 -pix_fmt yuv420p -movflags +faststart -an \
+  public/preview/portfolio-tour-60fps.mp4
 ```
 
 ```bash
@@ -161,7 +164,7 @@ ffmpeg -y -ss 3 -t 19 -i public/preview/portfolio-hero-smooth.webm -i /tmp/pal.p
 node scripts/record-live-systems.mjs
 ```
 
-Targets: hero GIF 800px / 4fps (~11MB — the animated liquid background limits GIF compression; this is accepted for full-page slow tours); system shots 1280px PNG. System PNGs land in `public/screenshots/projects/` and are wired as `thumbnail` in `src/data/projects.ts`.
+Targets: hero MP4 1280×800 / 60fps / ~5MB (H.264 + faststart for web playback); system shots 1280px PNG. System PNGs land in `public/screenshots/projects/` and are wired as `thumbnail` in `src/data/projects.ts`.
 
 ---
 
@@ -176,10 +179,10 @@ deign-lazaro-dev/
 │   ├── data/projects.ts      # PINNED_PROJECTS — single source of truth
 │   └── lib/                  # github.ts, resolve-live-url.ts, vercel.ts, utils.ts
 ├── public/
-│   ├── preview/              # Hero tour GIF + webm source + PNG fallback
+│   ├── preview/              # Hero tour MP4 + webm source + PNG poster
 │   └── screenshots/projects/ # Static per-project thumbnails used by the UI
 ├── scripts/
-│   ├── record-guided-tour.mjs      # Hero tour (this README's GIF)
+│   ├── record-guided-tour.mjs      # Hero tour (this README's MP4)
 │   ├── record-smooth-scroll.mjs   # Single-descent variant
 │   └── record-live-systems.mjs    # 6 systems: static PNG screenshots
 ```
@@ -203,4 +206,4 @@ deign-lazaro-dev/
 - Portfolio: [https://deign-lazaro-dev.vercel.app](https://deign-lazaro-dev.vercel.app)
 - LinkedIn: [Deign Grey Lazaro](https://www.linkedin.com/in/deign-grey-lazaro-2976a41b6/)
 
-Built with Next.js, React, and TypeScript. The hero tour is a recorded GIF and system previews are static screenshots — click through to the live systems.
+Built with Next.js, React, and TypeScript. The hero tour is a recorded 60 fps MP4 and system previews are static screenshots — click through to the live systems.
