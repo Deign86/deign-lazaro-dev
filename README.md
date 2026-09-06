@@ -32,7 +32,7 @@
 <br/>
 
 <p align="center">
-  <img src="public/preview/portfolio-hero.gif" alt="Portfolio guided tour — slow scroll with pauses" width="640" />
+  <img src="public/preview/portfolio-hero.gif" alt="Portfolio guided tour — slow scroll with pauses" width="800" />
 </p>
 
 <p align="center">
@@ -140,11 +140,11 @@ export const revalidate = 3600; // seconds (1 hour)
 
 ```bash
 # Guided slow tour (pauses on each section) + GIF — this README's GIF
-node scripts/record-guided-tour.mjs
-ffmpeg -y -ss 3 -t 27 -i public/preview/portfolio-hero-smooth.webm \
-  -vf "fps=4,scale=640:-1:flags=lanczos,palettegen" /tmp/pal.png
-ffmpeg -y -ss 3 -t 27 -i public/preview/portfolio-hero-smooth.webm -i /tmp/pal.png \
-  -lavfi "fps=4,scale=640:-1:flags=lanczos [x]; [x][1:v] paletteuse" \
+LEG_MS=6000 HOLD_MS=2000 node scripts/record-guided-tour.mjs
+ffmpeg -y -ss 2 -t 42 -i public/preview/portfolio-hero-smooth.webm \
+  -vf "fps=4,scale=800:-1:flags=lanczos,palettegen" /tmp/pal.png
+ffmpeg -y -ss 2 -t 42 -i public/preview/portfolio-hero-smooth.webm -i /tmp/pal.png \
+  -lavfi "fps=4,scale=800:-1:flags=lanczos [x]; [x][1:v] paletteuse" \
   public/preview/portfolio-hero.gif
 ```
 
@@ -161,7 +161,7 @@ ffmpeg -y -ss 3 -t 19 -i public/preview/portfolio-hero-smooth.webm -i /tmp/pal.p
 node scripts/record-live-systems.mjs
 ```
 
-Targets: hero GIF 640px / 4fps / ≤5MB (animated liquid background limits compression — longer tours must drop width/fps to fit); system shots 1280px PNG. System PNGs land in `public/screenshots/projects/` and are wired as `thumbnail` in `src/data/projects.ts`.
+Targets: hero GIF 800px / 4fps (~11MB — the animated liquid background limits GIF compression; this is accepted for full-page slow tours); system shots 1280px PNG. System PNGs land in `public/screenshots/projects/` and are wired as `thumbnail` in `src/data/projects.ts`.
 
 ---
 
