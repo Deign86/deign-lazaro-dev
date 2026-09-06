@@ -9,6 +9,9 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isScrolledRef = useRef(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLElement>(null);
+  const wasMenuOpenRef = useRef(false);
 
   useEffect(() => {
     let frameId: number | null = null;
@@ -42,15 +45,44 @@ export function Navbar() {
       if (e.key === 'Escape') setIsMobileMenuOpen(false);
     };
 
+    // Keep Tab focus cycling inside the open menu (focus-trap rule).
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab' || !menuRef.current) return;
+      const focusables = menuRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled])'
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
     if (isMobileMenuOpen) {
       document.addEventListener('keydown', handleEscape);
+      document.addEventListener('keydown', handleTab);
       document.body.style.overflow = 'hidden';
+      // Initial focus inside the menu on open.
+      menuRef.current
+        ?.querySelector<HTMLElement>('a[href]')
+        ?.focus({ preventScroll: true });
     } else {
       document.body.style.overflow = '';
+      // Return focus to the trigger on close.
+      if (wasMenuOpenRef.current) {
+        menuButtonRef.current?.focus({ preventScroll: true });
+      }
     }
+    wasMenuOpenRef.current = isMobileMenuOpen;
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('keydown', handleTab);
       document.body.style.overflow = '';
     };
   }, [isMobileMenuOpen]);
@@ -127,9 +159,12 @@ export function Navbar() {
 
               {/* Mobile Menu Button */}
               <button
+                ref={menuButtonRef}
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="md:hidden p-2 text-mono-300 hover:text-mono-50 transition-colors rounded-lg"
                 aria-label={isMobileMenuOpen ? 'Close navigation' : 'Open navigation'}
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-menu"
               >
                 {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
@@ -151,6 +186,8 @@ export function Navbar() {
             />
 
             <motion.nav
+              id="mobile-menu"
+              ref={menuRef}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}

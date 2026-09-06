@@ -265,3 +265,10 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Visible keyboard focus (mono theme). Components without their own
+   focus-visible ring fall back to this instead of a bare outline. */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--mono-300);
+  outline-offset: 2px;
+}

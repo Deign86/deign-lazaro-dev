@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode, useRef } from 'react';
-import { motion, useInView, Variant } from 'framer-motion';
+import { motion, useInView, useReducedMotion, Variant } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 type Direction = 'up' | 'down' | 'left' | 'right' | 'none';
@@ -43,7 +43,7 @@ const generateVariants = (
   return {
     hidden: {
       opacity: 0,
-      ...(blur && { filter: 'blur(12px)' }),
+      ...(blur && { filter: 'blur(8px)' }),
       ...(scale && { scale: 0.9 }),
       ...(axis && { [axis]: value }),
     },
@@ -70,8 +70,15 @@ export function ScrollReveal({
 }: ScrollRevealProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once, amount });
+  const reduceMotion = useReducedMotion();
 
-  const variants = generateVariants(direction, distance, blur, scale);
+  // Reduced motion: opacity-only fade (no blur/scale/offset per fixing-motion-performance §7)
+  const variants = generateVariants(
+    direction,
+    reduceMotion ? 0 : distance,
+    blur && !reduceMotion,
+    scale && !reduceMotion
+  );
 
   return (
     <motion.div
@@ -152,7 +159,14 @@ export function StaggerItem({
   scale = false,
   distance = 30,
 }: StaggerItemProps) {
-  const variants = generateVariants(direction, distance, blur, scale);
+  const reduceMotion = useReducedMotion();
+  // Reduced motion: opacity-only fade (no blur/scale/offset per fixing-motion-performance §7)
+  const variants = generateVariants(
+    direction,
+    reduceMotion ? 0 : distance,
+    blur && !reduceMotion,
+    scale && !reduceMotion
+  );
 
   const itemVariants: { hidden: Variant; visible: Variant } = {
     hidden: variants.hidden,

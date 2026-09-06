@@ -1,8 +1,8 @@
 'use client';
 
-import { motion, Variants, useInView } from 'framer-motion';
+import { motion, Variants, useInView, useReducedMotion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { useRef, useState, useEffect } from 'react';
+import { useRef } from 'react';
 
 interface TextRevealProps {
   text: string;
@@ -25,6 +25,7 @@ export function BlurredTextReveal({
 }: TextRevealProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once, amount: 0.5 });
+  const reduceMotion = useReducedMotion();
 
   const container: Variants = {
     hidden: { opacity: 0 },
@@ -40,13 +41,13 @@ export function BlurredTextReveal({
   const letterVariants: Variants = {
     hidden: {
       opacity: 0,
-      y: 20,
-      ...(blur && { filter: 'blur(10px)' }),
+      y: reduceMotion ? 0 : 20,
+      ...(blur && !reduceMotion && { filter: 'blur(8px)' }),
     },
     visible: {
       opacity: 1,
       y: 0,
-      ...(blur && { filter: 'blur(0px)' }),
+      ...(blur && !reduceMotion && { filter: 'blur(0px)' }),
       transition: {
         duration: 0.4,
         ease: [0.25, 0.46, 0.45, 0.94],
@@ -97,6 +98,7 @@ export function WordReveal({
 }: WordRevealProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once, amount: 0.5 });
+  const reduceMotion = useReducedMotion();
 
   const container: Variants = {
     hidden: { opacity: 0 },
@@ -112,9 +114,10 @@ export function WordReveal({
   const wordVariants: Variants = {
     hidden: {
       opacity: 0,
-      y: 40,
-      rotateX: -90,
-      filter: 'blur(10px)',
+      // Reduced motion: opacity-only fade (no blur/rotate/offset per fixing-motion-performance §7)
+      y: reduceMotion ? 0 : 40,
+      rotateX: reduceMotion ? 0 : -90,
+      filter: reduceMotion ? 'blur(0px)' : 'blur(8px)',
     },
     visible: {
       opacity: 1,
@@ -148,127 +151,5 @@ export function WordReveal({
         </motion.span>
       ))}
     </motion.span>
-  );
-}
-
-// Gradient text with color animation
-interface GradientTextProps {
-  text: string;
-  className?: string;
-  colors?: string[];
-  animationDuration?: number;
-}
-
-export function AnimatedGradientText({
-  text,
-  className,
-  colors = [
-    'rgb(131, 179, 32)',
-    'rgb(47, 195, 106)',
-    'rgb(42, 169, 210)',
-    'rgb(4, 112, 202)',
-    'rgb(107, 10, 255)',
-    'rgb(183, 0, 218)',
-  ],
-  animationDuration = 5000,
-}: GradientTextProps) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
-  const [currentColors, setCurrentColors] = useState(colors);
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const shuffled = [...colors].sort(() => Math.random() - 0.5);
-      setCurrentColors(shuffled);
-      setCount((prev) => prev + 1);
-    }, animationDuration);
-
-    return () => clearInterval(interval);
-  }, [colors, animationDuration]);
-
-  return (
-    <span ref={ref} className={cn('inline-flex', className)}>
-      {text.split('').map((char, index) => (
-        <motion.span
-          key={`${char}-${count}-${index}`}
-          initial={{ opacity: 0, y: 10 }}
-          animate={
-            isInView
-              ? {
-                  opacity: 1,
-                  y: 0,
-                  color: currentColors[index % currentColors.length],
-                }
-              : { opacity: 0 }
-          }
-          transition={{
-            duration: 0.5,
-            delay: index * 0.03,
-          }}
-          className="inline-block whitespace-pre"
-        >
-          {char === ' ' ? '\u00A0' : char}
-        </motion.span>
-      ))}
-    </span>
-  );
-}
-
-
-// Typewriter effect
-interface TypewriterProps {
-  text: string;
-  className?: string;
-  delay?: number;
-  speed?: number;
-  cursor?: boolean;
-}
-
-export function Typewriter({
-  text,
-  className,
-  delay = 0,
-  speed = 50,
-  cursor = true,
-}: TypewriterProps) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
-  const [displayedText, setDisplayedText] = useState('');
-  const [started, setStarted] = useState(false);
-
-  useEffect(() => {
-    if (!isInView) return;
-    const startTimeout = setTimeout(() => { setStarted(true); }, delay * 1000);
-    return () => clearTimeout(startTimeout);
-  }, [isInView, delay]);
-
-  useEffect(() => {
-    if (!started) return;
-    let currentIndex = 0;
-    const interval = setInterval(() => {
-      if (currentIndex <= text.length) {
-        setDisplayedText(text.slice(0, currentIndex));
-        currentIndex++;
-      } else {
-        clearInterval(interval);
-      }
-    }, speed);
-    return () => clearInterval(interval);
-  }, [started, text, speed]);
-
-  return (
-    <span ref={ref} className={cn('inline-block', className)}>
-      {displayedText}
-      {cursor && started && displayedText.length < text.length && (
-        <motion.span
-          animate={{ opacity: [1, 0] }}
-          transition={{ duration: 0.5, repeat: Infinity, repeatType: 'reverse' }}
-          className="inline-block ml-0.5"
-        >
-          |
-        </motion.span>
-      )}
-    </span>
   );
 }

@@ -330,8 +330,8 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             opacity: reduceMotion ? 1 : heroOpacity,
             y: reduceMotion ? '0px' : heroY,
             scale: reduceMotion ? 1 : heroScale,
-            visibility: heroVisibility,
-            pointerEvents: heroPointerEvents,
+            visibility: reduceMotion ? 'visible' : heroVisibility,
+            pointerEvents: reduceMotion ? 'auto' : heroPointerEvents,
           }}
           className="spatial-scene absolute inset-x-0 top-0 flex h-full w-full flex-col justify-between px-4 pb-6 pt-20 sm:px-8 sm:pb-12 sm:pt-28 lg:px-12 z-10 overflow-y-auto no-scrollbar"
         >
@@ -422,8 +422,8 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             opacity: reduceMotion ? 1 : aboutOpacity,
             scale: reduceMotion ? 1 : aboutScale,
             y: reduceMotion ? '0px' : aboutY,
-            visibility: aboutVisibility,
-            pointerEvents: aboutPointerEvents,
+            visibility: reduceMotion ? 'visible' : aboutVisibility,
+            pointerEvents: reduceMotion ? 'auto' : aboutPointerEvents,
           }}
           className="spatial-scene absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
         >
@@ -518,8 +518,8 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             x: reduceMotion ? '0px' : resumeX,
             y: reduceMotion ? '0px' : resumeY,
             scale: reduceMotion ? 1 : resumeScale,
-            visibility: resumeVisibility,
-            pointerEvents: resumePointerEvents,
+            visibility: reduceMotion ? 'visible' : resumeVisibility,
+            pointerEvents: reduceMotion ? 'auto' : resumePointerEvents,
           }}
           className="spatial-scene absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
         >
@@ -655,8 +655,8 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
         <motion.div
           style={{
             opacity: reduceMotion ? 1 : workOpacity,
-            visibility: workVisibility,
-            pointerEvents: workPointerEvents,
+            visibility: reduceMotion ? 'visible' : workVisibility,
+            pointerEvents: reduceMotion ? 'auto' : workPointerEvents,
           }}
           className="spatial-scene absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
         >
@@ -758,8 +758,8 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             opacity: reduceMotion ? 1 : contactOpacity,
             y: reduceMotion ? '0px' : contactY,
             scale: reduceMotion ? 1 : contactScale,
-            visibility: contactVisibility,
-            pointerEvents: contactPointerEvents,
+            visibility: reduceMotion ? 'visible' : contactVisibility,
+            pointerEvents: reduceMotion ? 'auto' : contactPointerEvents,
           }}
           className="spatial-scene absolute inset-0 flex flex-col justify-between px-4 sm:px-6 pt-16 pb-3 z-30 overflow-y-auto no-scrollbar"
         >

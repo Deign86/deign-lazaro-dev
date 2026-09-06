@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { useRef, useState, MouseEvent, KeyboardEvent } from 'react';
+import { useRef, useState, MouseEvent } from 'react';
 import type { PinnedProject } from '@/data/projects';
 import { ExternalLink, Github } from 'lucide-react';
 
@@ -47,17 +47,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
     setIsHovered(true);
   };
 
-  const handleCardClick = () => {
-    window.open(primaryUrl || githubUrl, '_blank', 'noopener,noreferrer');
-  };
-
-  const handleCardKeyDown = (e: KeyboardEvent<HTMLElement>) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleCardClick();
-    }
-  };
-
   return (
     <motion.article
       ref={cardRef}
@@ -69,12 +58,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
-      onClick={handleCardClick}
-      onKeyDown={handleCardKeyDown}
-      role="link"
-      tabIndex={0}
-      aria-label={`Open ${project.title}`}
-      className="group relative h-full cursor-pointer rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
+      className="group relative h-full rounded-3xl"
     >
       {/* Dynamic Cursor Spotlight Layer */}
       <div
@@ -110,7 +94,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
                   className="rounded-lg border border-white/10 bg-mono-900/80 p-2 text-mono-300 transition-colors hover:bg-mono-50 hover:text-mono-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
-                  aria-label="View live deployment"
+                  aria-label={`View ${project.title} live deployment`}
                 >
                   <ExternalLink className="h-4 w-4" />
                 </a>
@@ -122,7 +106,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
                   className="rounded-lg border border-white/10 bg-mono-900/80 p-2 text-mono-300 transition-colors hover:bg-mono-50 hover:text-mono-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-300"
-                  aria-label="View source on GitHub"
+                  aria-label={`View ${project.title} source on GitHub`}
                 >
                   <Github className="h-4 w-4" />
                 </a>

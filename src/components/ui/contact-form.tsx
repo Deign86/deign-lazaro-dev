@@ -161,7 +161,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
       exit={{ opacity: 0, y: 15 }}
       className="w-full max-w-2xl mx-auto"
     >
-      <form onSubmit={handleSubmit} className="space-y-2.5">
+      <form onSubmit={handleSubmit} className="space-y-2.5" aria-busy={status === 'sending'}>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           <div className="group">
             <div className="flex justify-between items-center mb-1">
@@ -172,7 +172,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
             </div>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <User className={`h-3.5 w-3.5 transition-colors ${fieldErrors.name && touched.name ? 'text-red-400' : 'text-mono-500'}`} />
+                <User aria-hidden="true" className={`h-3.5 w-3.5 transition-colors ${fieldErrors.name && touched.name ? 'text-red-400' : 'text-mono-500'}`} />
               </div>
               <input
                 type="text"
@@ -201,7 +201,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
             </div>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Mail className={`h-3.5 w-3.5 transition-colors ${fieldErrors.email && touched.email ? 'text-red-400' : 'text-mono-500'}`} />
+                <Mail aria-hidden="true" className={`h-3.5 w-3.5 transition-colors ${fieldErrors.email && touched.email ? 'text-red-400' : 'text-mono-500'}`} />
               </div>
               <input
                 type="email"
@@ -234,7 +234,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
           </div>
           <div className="relative">
             <div className="absolute top-2.5 left-3 pointer-events-none">
-              <MessageSquare className={`h-3.5 w-3.5 transition-colors ${fieldErrors.message && touched.message ? 'text-red-400' : 'text-mono-500'}`} />
+              <MessageSquare aria-hidden="true" className={`h-3.5 w-3.5 transition-colors ${fieldErrors.message && touched.message ? 'text-red-400' : 'text-mono-500'}`} />
             </div>
             <textarea
               id="message"
@@ -275,7 +275,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
         <GlassButton type="submit" disabled={status === 'sending' || status === 'success'} className="w-full !py-2.5" contentClassName="flex items-center justify-center gap-2 text-xs uppercase tracking-[0.2em] font-mono">
           {status === 'sending' ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <Loader2 aria-hidden="true" className="w-4 h-4 animate-spin" />
               <span>Sending...</span>
             </>
           ) : status === 'success' ? (
@@ -285,7 +285,7 @@ export function ContactForm({ onClose }: ContactFormProps) {
             </>
           ) : (
             <>
-              <Send className="w-4 h-4" />
+              <Send aria-hidden="true" className="w-4 h-4" />
               <span>Send Message</span>
             </>
           )}

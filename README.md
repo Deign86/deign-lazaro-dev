@@ -1,194 +1,190 @@
-# Flashy Portfolio
+<p align="center">
+  <img src="public/logo.svg" alt="Deign Lazaro" width="120" height="120" />
+</p>
 
-A modern, animated portfolio website built with Next.js 16, React 19, and TypeScript, featuring dynamic GitHub project integration and stunning UI/UX animations.
+<h1 align="center">Deign Lazaro — Spatial Portfolio</h1>
 
-## Live Demo
+<p align="center">
+  <strong>Full-stack portfolio in motion — live systems, not mockups.</strong><br/>
+  Next.js 16 • React 19 • TypeScript • Firebase • Live on Vercel.
+</p>
 
-**Production**: [https://deign-lazaro-dev.vercel.app](https://deign-lazaro-dev.vercel.app)
+<p align="center">
+  <a href="https://github.com/Deign86/deign-lazaro-dev/stargazers">
+    <img src="https://img.shields.io/github/stars/Deign86/deign-lazaro-dev?style=flat" alt="Stars" />
+  </a>
+  <a href="https://github.com/Deign86/deign-lazaro-dev/commits/main">
+    <img src="https://img.shields.io/github/last-commit/Deign86/deign-lazaro-dev?style=flat" alt="Last commit" />
+  </a>
+  <img src="https://img.shields.io/badge/deploy-vercel-black?style=flat" alt="Vercel" />
+  <img src="https://img.shields.io/badge/next.js-16-black?style=flat" alt="Next.js 16" />
+  <img src="https://img.shields.io/badge/react-19-blue?style=flat" alt="React 19" />
+</p>
 
-**Repository**: [https://github.com/Deign86/deign-lazaro-dev](https://github.com/Deign86/deign-lazaro-dev)
+<p align="center">
+  <a href="https://deign-lazaro-dev.vercel.app">Live Site</a> •
+  <a href="#live-systems">Live Systems</a> •
+  <a href="#features">Features</a> •
+  <a href="#tech-stack">Tech Stack</a> •
+  <a href="#getting-started">Getting Started</a>
+</p>
+
+<br/>
+
+<p align="center">
+  <img src="public/preview/portfolio-hero.gif" alt="Portfolio hero — smooth scroll tour" width="800" />
+</p>
+
+<p align="center">
+  <em>Smooth-scroll tour of the motion-heavy portfolio, recorded from the live site. Static fallback: <a href="public/preview/portfolio-hero.png">portfolio-hero.png</a></em>
+</p>
+
+<br/>
+
+## What is this?
+
+An animated, monochrome spatial portfolio with live GitHub integration (ISR, refreshed hourly) and **6 production deployments** actively serving users. The portfolio UI uses a **screenshot gallery** — no embedded live iframes — and the hero tour above is a **recorded GIF**, re-capturable at any time via the scripts in `scripts/`.
+
+- **Motion-first** — scroll-driven spatial scenes, staggered reveals, liquid-glass UI
+- **Screenshot-first previews** — every deployment ships a static thumbnail, never a fragile iframe embed
+- **Live data** — GitHub REST API with ISR (`revalidate = 3600`)
+- **Responsive** — desktop 1280px captures, mobile-tuned layouts
+
+---
+
+## Live Systems
+
+> Every system below is live — click through to try them. MathPulse shows its login wall (app interior needs demo credentials).
+
+| System | Stack | Links |
+| ------ | ----- | ----- |
+| **MathPulse AI** | Next.js, TypeScript, FastAPI | [Live](https://mathpulse-ai-2026.web.app/) • [Repo](https://github.com/Deign86/mathpulse-ai) |
+| **VServe** | Flutter, Dart, Firebase | [Live](https://v-serve-arta-feedback.vercel.app) • [Repo](https://github.com/Deign86/v-serve-arta-feedback-analytics) |
+| **GameCon System** | Vite, React, Firebase | [Live](https://playverse-ops.vercel.app) • [Repo](https://github.com/Deign86/gamecon-system) |
+| **Digital Classroom** | Next.js, TypeScript, Firebase | [Live](https://digital-classroom-reservation-for-plv.vercel.app) • [Repo](https://github.com/Deign86/digital-classroom-assignment-for-plv-ceit-bldg--with-backend-) |
+| **Zhi Wei Zai** | HTML, Tailwind, Firebase | [Live](https://zhi-wei-zai.vercel.app) • [Repo](https://github.com/Deign86/zhi-wei-zai) |
+| **APG Website** | HTML, CSS | [Live](https://apg-website-alpha-gamma.vercel.app) • [Repo](https://github.com/Deign86/apg-website) |
+
+---
 
 ## Features
 
-- **Dynamic GitHub Integration**: Automatically fetches and displays your latest GitHub projects
-- **Smooth Animations**: Custom animations powered by Framer Motion
-- **Monochromatic Design**: Strict black & white design system with dark mode support
-- **React 19 & Next.js 16**: Built with the latest React and Next.js features
-- **TypeScript**: Fully typed for better developer experience
-- **Tailwind CSS v4**: Modern styling with CSS variables
-- **Auto-Deployment**: Connected to Vercel for automatic deployments from GitHub
-- **ISR (Incremental Static Regeneration)**: Fresh GitHub data every hour
-- **Responsive Design**: Optimized for all screen sizes
+### Spatial scroll experience
+
+Scroll-driven portfolio scenes with springs and parallax (Framer Motion), reduced-motion respected. Captured above as a single smooth descent — see `scripts/record-smooth-scroll.mjs`.
+
+### Screenshot gallery (no live iframes)
+
+`src/components/Deployments.tsx` renders a static per-project gallery from `public/screenshots/projects/`, with plain **Visit live** + **GitHub** links. The old `LivePreview` iframe carousel (`src/components/ui/live-preview.tsx`, `/api/live-preview`, `/api/embed`) is no longer mounted — static screenshots replace embedding entirely.
+
+### Project cards
+
+Editorial cards (`ProjectCard.tsx`) with tilt spotlight, tags, and deployment status, sourced from the single source of truth `src/data/projects.ts` (`PINNED_PROJECTS`).
+
+### Resume & contact
+
+Resume/experience section plus contact form and links (Viber, LinkedIn, WhatsApp).
+
+---
 
 ## Tech Stack
 
-- **Framework**: [Next.js 16](https://nextjs.org) (App Router)
-- **UI Library**: [React 19](https://react.dev)
-- **Language**: [TypeScript](https://www.typescriptlang.org)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **Deployment**: [Vercel](https://vercel.com)
-- **API Integration**: GitHub REST API
+| Layer | Technology |
+| ----- | ---------- |
+| Framework | Next.js 16 (App Router) |
+| UI | React 19, TypeScript, Tailwind CSS v4 |
+| Motion | Framer Motion 12 |
+| Data | GitHub REST API (ISR, 1h) |
+| Capture | Playwright 1.62 + ffmpeg (palette GIFs) |
+| Deployment | Vercel |
+
+---
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ installed
-- npm, yarn, pnpm, or bun package manager
+- Node.js 18+
+- npm / yarn / pnpm / bun
+- `ffmpeg` on PATH (only for GIF regeneration)
+- Playwright chromium (only for re-capture): `npx playwright install chromium`
 
 ### Installation
 
-1. Clone the repository:
 ```bash
 git clone https://github.com/Deign86/deign-lazaro-dev.git
 cd deign-lazaro-dev
-```
-
-2. Install dependencies:
-```bash
 npm install
-# or
-yarn install
-# or
-pnpm install
-# or
-bun install
-```
-
-3. Run the development server:
-```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
+
+### Environment
+
+Optional GitHub token (raises API limit from 60/hr):
+
+```env
+GITHUB_TOKEN=your_token_here
+```
+
+ISR cadence lives in `src/app/page.tsx`:
+
+```typescript
+export const revalidate = 3600; // seconds (1 hour)
+```
+
+---
+
+## Re-capturing previews
+
+```bash
+# Smooth-scroll hero tour (one continuous descent) + GIF
+node scripts/record-smooth-scroll.mjs
+ffmpeg -y -ss 3 -t 19 -i public/preview/portfolio-hero-smooth.webm \
+  -vf "fps=8,scale=800:-1:flags=lanczos,palettegen" /tmp/pal.png
+ffmpeg -y -ss 3 -t 19 -i public/preview/portfolio-hero-smooth.webm -i /tmp/pal.png \
+  -lavfi "fps=8,scale=800:-1:flags=lanczos [x]; [x][1:v] paletteuse" \
+  public/preview/portfolio-hero.gif
+
+# All six live systems (static PNG screenshots)
+node scripts/record-live-systems.mjs
+```
+
+Targets: hero GIF 800px / 8fps / ≤5MB; system shots 1280px PNG. System PNGs land in `public/screenshots/projects/` and are wired as `thumbnail` in `src/data/projects.ts`.
+
+---
 
 ## Project Structure
 
 ```
 deign-lazaro-dev/
 ├── src/
-│   ├── app/                  # Next.js App Router
-│   │   ├── globals.css       # Global styles & design system
-│   │   ├── layout.tsx        # Root layout
-│   │   └── page.tsx          # Home page with server-side data fetching
-│   ├── components/           # React components
-│   │   ├── Hero.tsx          # Hero section with animations
-│   │   ├── About.tsx         # About section
-│   │   ├── Projects.tsx      # GitHub projects display
-│   │   ├── Resume.tsx        # Resume/experience section
-│   │   ├── Contact.tsx       # Contact form/info
-│   │   ├── Deployments.tsx   # Deployment information
-│   │   └── ui/               # Reusable UI components
-│   │       ├── text-reveal.tsx      # Text reveal effects
-│   │       ├── scroll-reveal.tsx    # Scroll-triggered animations
-│   │       └── spotlight-card.tsx   # Interactive hover cards
-│   └── lib/
-│       ├── github.ts         # GitHub API integration
-│       └── utils.ts          # Utility functions
-├── skills/
-│   └── ui-ux-pro-max/        # Design system & UI/UX guidelines
-└── public/                   # Static assets
+│   ├── app/                  # Next.js App Router (page.tsx, layout, api/)
+│   ├── components/           # Hero, Projects, Deployments (screenshot gallery),
+│   │                         # ProjectCard, Resume, Contact, SpatialPortfolio
+│   ├── data/projects.ts      # PINNED_PROJECTS — single source of truth
+│   └── lib/                  # github.ts, resolve-live-url.ts, vercel.ts, utils.ts
+├── public/
+│   ├── preview/              # Hero tour GIF + webm source + PNG fallback
+│   └── screenshots/projects/ # Static per-project thumbnails used by the UI
+├── scripts/
+│   ├── record-smooth-scroll.mjs   # Hero tour (this README's GIF)
+│   ├── record-live-systems.mjs    # 6 systems: static PNG screenshots
+│   └── capture-*.ts               # Legacy still-capture scripts
+└── remotion/                 # Promo video project
 ```
 
-## Key Features Explained
-
-### GitHub Integration
-
-The portfolio automatically fetches your GitHub repositories and displays them with:
-- Custom descriptions (configurable in `lib/github.ts`)
-- Automatic categorization (Frontend, Backend, Full-stack, Mobile, Other)
-- Tech stack extraction from repository languages
-- Live stats (stars, forks, etc.)
-
-To customize displayed projects, edit `CUSTOM_DESCRIPTIONS` and `EXCLUDED_REPOS` in `src/lib/github.ts`.
-
-### Animation System
-
-Built with Framer Motion, featuring:
-- **Scroll-based parallax**: Smooth scrolling effects
-- **Staggered reveals**: Sequential element animations
-- **Text effects**: Blur and fade-in animations
-- **Interactive elements**: Hover states and spotlight effects
-
-### Design System
-
-Monochromatic (black & white) design with:
-- CSS variables for easy theming
-- Automatic dark mode support
-- Consistent spacing and typography
-- Custom Tailwind utilities
-
-## Deployment
-
-This project is configured for automatic deployment on Vercel:
-
-1. Push changes to the `main` branch
-2. Vercel automatically builds and deploys
-3. Live in seconds!
-
-### Manual Deployment
-
-```bash
-vercel --prod
-```
-
-## Configuration
-
-### GitHub API
-
-The GitHub integration uses unauthenticated requests (60/hour rate limit). To increase this:
-
-1. Create a GitHub Personal Access Token
-2. Add to `.env.local`:
-```env
-GITHUB_TOKEN=your_token_here
-```
-
-### ISR Revalidation
-
-Adjust the revalidation time in `src/app/page.tsx`:
-```typescript
-export const revalidate = 3600; // seconds (1 hour)
-```
+---
 
 ## Customization
 
-### Colors
+- **Showcased projects** — edit `PINNED_PROJECTS` in `src/data/projects.ts` (title, description, tags, `githubRepo`, `liveUrlCandidates`, `thumbnail`).
+- **Thumbnails** — drop a PNG in `public/screenshots/projects/<id>.png` and point `thumbnail` at it.
+- **Theme** — CSS variables in `src/app/globals.css` (`--mono-*`).
+- **GitHub feed** — `CUSTOM_DESCRIPTIONS` / `EXCLUDED_REPOS` in `src/lib/github.ts`.
 
-Edit CSS variables in `src/app/globals.css`:
-```css
-:root {
-  --mono-50: #fafafa;
-  --mono-950: #0a0a0a;
-  /* ... */
-}
-```
-
-### Animations
-
-Modify animation parameters in component files or create new ones in `src/components/ui/`.
-
-## Learn More
-
-- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API
-- [React Documentation](https://react.dev) - Learn React
-- [Tailwind CSS](https://tailwindcss.com/docs) - Utility-first CSS framework
-- [Framer Motion](https://www.framer.com/motion/) - Animation library
-
-## Contributing
-
-This is a personal portfolio project, but suggestions and feedback are welcome!
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
+---
 
 ## Author
 
@@ -196,7 +192,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 - GitHub: [@Deign86](https://github.com/Deign86)
 - Portfolio: [https://deign-lazaro-dev.vercel.app](https://deign-lazaro-dev.vercel.app)
+- LinkedIn: [Deign Grey Lazaro](https://www.linkedin.com/in/deign-grey-lazaro-2976a41b6/)
 
----
-
-Built with Next.js, React, and TypeScript
+Built with Next.js, React, and TypeScript. The hero tour is a recorded GIF and system previews are static screenshots — click through to the live systems.

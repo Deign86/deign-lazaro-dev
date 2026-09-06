@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
@@ -13,7 +13,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://deign-lazaro-dev.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Deign Lazaro | Full-Stack Developer & AI Enthusiast",
   description: "Building modern web apps with Python, TypeScript & AI integrations. From concept to deployment—clean code, thoughtful design.",
   keywords: ["developer", "portfolio", "full-stack", "python", "typescript", "AI", "react", "nextjs", "software engineer"],
@@ -23,11 +26,37 @@ export const metadata: Metadata = {
     shortcut: "/favicon.svg",
     apple: "/favicon.svg",
   },
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     title: "Deign Lazaro | Full-Stack Developer & AI Enthusiast",
     description: "Building modern web apps with Python, TypeScript & AI integrations. From concept to deployment—clean code, thoughtful design.",
+    url: "/",
     type: "website",
+    images: [
+      {
+        url: "/preview/portfolio-hero.png",
+        width: 1280,
+        height: 800,
+        alt: "Smooth-scroll tour of the Deign Lazaro portfolio",
+      },
+    ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Deign Lazaro | Full-Stack Developer & AI Enthusiast",
+    description: "Building modern web apps with Python, TypeScript & AI integrations. From concept to deployment—clean code, thoughtful design.",
+    images: ["/preview/portfolio-hero.png"],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
 };
 
 export default function RootLayout({
