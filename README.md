@@ -32,7 +32,7 @@
 <br/>
 
 <p align="center">
-  <video src="https://cdn.jsdelivr.net/gh/Deign86/deign-lazaro-dev@main/public/preview/portfolio-tour-60fps.mp4" poster="public/preview/portfolio-hero.png" width="800" controls muted loop playsinline preload="metadata">
+  <video src="https://github.com/user-attachments/assets/35f65b03-c547-466a-80e5-b95256e9657c" poster="public/preview/portfolio-hero.png" width="800" controls muted loop playsinline preload="metadata">
     <a href="public/preview/portfolio-tour-60fps.mp4">
       <img src="public/preview/portfolio-hero.png" alt="Watch the 60 fps guided tour (MP4)" width="800" />
     </a>
