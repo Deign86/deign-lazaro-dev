@@ -55,7 +55,10 @@ The cue sheet's times stay valid: only the pictures inside four slots change, an
 slot keeps its frames. Put the new MP4 in `C:\Users\APG\Downloads\lights-on-sound\` and
 lay the existing mix over it:
 
-1. Keep the new export as the picture: `reel.mp4`. Never use its own audio track.
+1. Keep the new export as the picture: `reel.mp4`. Never use its own audio track. If its music
+   differs from the last export, rebuild the bed first: `ffmpeg -i reel.mp4 -vn -ac 2 -ar 48000 audio/music.wav`,
+   then `python tools/widen.py audio/music.wav audio/music-wide.wav -6`, then
+   `uv run sound-layer/scripts/mix.py audio/cues.json`.
 2. Mux the existing mix: `ffmpeg -i reel.mp4 -i audio/mix.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 256k -shortest out/final.mp4`
 3. Run `uv run sound-layer/scripts/qa.py out/final.mp4`. The offset check must read 0 samples,
    and the picture checks should match the last run: 1 FAIL (lights-on) and 2 WARN.

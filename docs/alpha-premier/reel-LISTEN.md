@@ -23,3 +23,13 @@ Also worth a pass: the dense runs at 0:24 (card pops), 0:25.25 (LCP roll and the
 - The heroes, the titles, the shutters and the photo clicks stay centred. So does card-3, because any pan dropped it under QA's 3 dB hero-body line.
 
 On headphones: do the moves follow the picture, and does anything feel lopsided?
+
+**Music width.** earshot measured the mix as nearly mono (side −26 dB vs mid). The music was the cause: it is
+mono below 120 Hz, where 80% of its energy sits, and narrow above. `tools/widen.py` now widens the music bed
+(`audio/music-wide.wav`, which the cue sheet points at). The mid, and so the mono fold-down, is unchanged
+sample for sample. The bass below 150 Hz stays centred. Each band above it is lifted so its side sits 6 dB
+under its mid: +14 dB at 150 Hz–1 kHz, +11.7 dB at 1–4 kHz and +9.1 dB above 4 kHz. The mix now measures
+−14.7 dB side/mid (earshot range −15.5 to −4.0) and L/R correlation 0.93.
+
+On headphones, does the music sound wider without going phasey or hollow? On a phone speaker it should sound
+exactly as before.
