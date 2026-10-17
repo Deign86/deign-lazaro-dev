@@ -1,0 +1,382 @@
+/* /alpha-premier closing sections, owned by build agent C (docs/alpha-premier/BUILD-BRIEF.md):
+   gallery "Drag row of mixed modules", stats "Photograph with figure tiles", list "Sticky
+   photograph, active list", about "Founder's letter", footer "Name across the last photograph".
+   Tokens and the five type steps from tokens.css only. Motion is transform and opacity, plus
+   grid-template-rows for the record's descriptions (the accepted exception).
+   Reveal variants carry one more class than tokens.css on both states, so load order never matters. */
+
+/* ---------- gallery: drag row of mixed modules ---------- */
+
+.ap-gallery { padding-top: var(--section); }
+
+.ap-gallery__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding-inline: 6vw;
+  margin-bottom: 32px;
+}
+.ap-gallery__count { flex: none; }
+
+.ap-gallery__row {
+  --row-h: calc(68svh - 8px); /* the row is 68svh; 4px above and below hold the focus ring */
+  --gap: 12px;
+  display: flex;
+  gap: var(--gap);
+  height: 68svh;
+  padding: 4px 6vw;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 6vw;
+  scrollbar-width: none;
+  cursor: grab;
+}
+.ap-gallery__row::-webkit-scrollbar { display: none; }
+.ap-root .ap-gallery__row:focus-visible { outline-offset: -3px; }
+.ap-gallery__row[data-dragging] { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+
+.ap-gallery__module {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  scroll-snap-align: start;
+}
+.ap-gallery__module--tall { width: calc(var(--row-h) * 3 / 4); }
+.ap-gallery__module--pair { width: calc((var(--row-h) - var(--gap)) * 2 / 3); } /* two 4:3 frames */
+.ap-gallery__module--wide { width: calc(var(--row-h) * 16 / 10); }
+
+.ap-gallery__frame {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--surface);
+}
+.ap-gallery__frame img { object-fit: cover; }
+
+/* ---------- stats: photograph with figure tiles ---------- */
+
+.ap-figures { padding-top: var(--section); }
+.ap-figures__title { padding-inline: 6vw; margin-bottom: 40px; }
+
+.ap-figures__mosaic {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  height: 66vw;
+}
+.ap-figures__photo {
+  position: relative;
+  grid-row: 1 / 3;
+  overflow: hidden;
+  background: var(--surface);
+}
+.ap-figures__photo img { object-fit: cover; object-position: 50% 55%; }
+
+.ap-figures__tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 28px;
+}
+.ap-figures__tile--accent { background: var(--accent); color: var(--accent-ink); }
+.ap-figures__tile--ink { background: var(--ink); color: var(--bg); }
+.ap-figures .ap-figures__value { font-size: var(--step-head); }
+.ap-figures .ap-figures__caption {
+  max-width: 26ch;
+  margin-top: 16px;
+  font-size: var(--step-body);
+  line-height: 1.45;
+  text-wrap: balance;
+}
+
+/* ---------- list: sticky photograph, active list ---------- */
+
+.ap-record {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--margin);
+  align-items: start;
+  padding: var(--section) var(--pad);
+}
+
+.ap-record__head { grid-column: 7 / 12; grid-row: 1; padding-bottom: 48px; }
+.ap-record__head h2 { margin-bottom: 32px; }
+
+.ap-record__facts { display: grid; row-gap: 6px; }
+.ap-record__fact {
+  display: grid;
+  grid-template-columns: 7em minmax(0, 1fr);
+  column-gap: 20px;
+  line-height: 1.5;
+}
+.ap-record__fact dt { color: var(--muted); }
+.ap-record__fact dd { color: var(--ink); }
+
+.ap-record__print-wrap { margin-top: 20px; }
+.ap-record .ap-record__print {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--step-body);
+  transition: color var(--t-hover) ease, transform var(--t-press) var(--ease-out);
+}
+.ap-record .ap-record__print:active { transform: translateY(1px); }
+
+.ap-record__media {
+  position: sticky;
+  top: 12vh;
+  grid-column: 1 / 6;
+  grid-row: 1 / 3;
+  width: min(34vw, calc(76svh * 4 / 5));
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--surface);
+}
+.ap-record__img { object-fit: cover; opacity: 0; transition: opacity 300ms ease; }
+.ap-record__img[data-on='true'] { opacity: 1; }
+
+.ap-record__list { grid-column: 7 / 12; grid-row: 2; }
+
+.ap-record__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  align-content: center;
+  column-gap: 24px;
+  width: 100%;
+  min-height: 58px;
+  text-align: left;
+  color: var(--muted);
+  transition: color var(--t-hover) ease;
+}
+.ap-record__item[data-active='true'] .ap-record__row { color: var(--ink); }
+.ap-record__name {
+  font-size: var(--step-lead);
+  line-height: 1.2;
+  transition: transform var(--t-press) var(--ease-out);
+}
+.ap-record__row:active .ap-record__name { transform: translateX(3px); }
+.ap-record__period {
+  font-size: var(--step-small);
+  line-height: 1.45;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* the description opens under the name and pushes later rows down */
+.ap-record__panel { display: grid; grid-template-rows: 0fr; }
+.ap-record__panel > div { min-height: 0; overflow: hidden; }
+.ap-record .ap-record__panel p {
+  max-width: 34ch;
+  padding-bottom: 22px;
+  font-size: var(--step-body);
+  line-height: 1.55;
+  color: var(--ink);
+  opacity: 0;
+}
+.ap-record__item[data-open='true'] .ap-record__panel { grid-template-rows: 1fr; }
+.ap-record__item[data-open='true'] .ap-record__panel p { opacity: 1; }
+
+/* ---------- about: the thank-you letter ---------- */
+
+.ap-letter { padding: max(10rem, var(--section)) 24px; }
+.ap-letter__column { width: 100%; max-width: 520px; margin-inline: auto; }
+
+.ap-letter__portrait {
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.ap-letter__portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 46% 62%;
+  transform: scale(1.6); /* frame the face in a 44px square */
+  transform-origin: 46% 62%;
+}
+
+.ap-letter__body { margin-top: 28px; }
+.ap-letter__body p { font-size: var(--step-body); line-height: 1.55; color: var(--ink); }
+.ap-letter__body p + p { margin-top: 1.55em; }
+.ap-letter__name { font-weight: 500; }
+.ap-letter__mark {
+  padding: 0.04em 0.18em;
+  background: var(--accent);
+  color: var(--accent-ink);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.ap-letter__sign { margin-top: 2.6em; }
+.ap-letter__signature {
+  display: block;
+  font-style: italic;
+  font-size: var(--step-lead);
+  line-height: 1.3;
+}
+.ap-letter__role { display: block; margin-top: 6px; }
+
+/* ---------- footer: the name across the last photograph ---------- */
+
+.ap-footer {
+  --edge: 32px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 48px;
+  min-height: 100svh;
+  padding: var(--edge);
+  background: var(--night); /* under the photograph only, so the type reads before it arrives */
+  color: var(--bg);
+  container-type: inline-size;
+}
+
+.ap-footer__photo { position: absolute; inset: 0; z-index: -1; }
+.ap-footer__photo img { object-fit: cover; object-position: 40% 45%; filter: brightness(0.62); }
+
+.ap-footer__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+.ap-footer__links { display: flex; flex-wrap: wrap; column-gap: 28px; }
+.ap-footer .ap-footer__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--step-body);
+  color: var(--bg);
+  transition: color var(--t-hover) ease, transform var(--t-press) var(--ease-out);
+}
+.ap-footer .ap-footer__link:active { transform: translateY(1px); }
+.ap-footer__legal a { color: var(--bg); }
+.ap-root .ap-footer :focus-visible { outline-color: var(--bg); }
+@media (hover: hover) and (pointer: fine) {
+  .ap-root .ap-footer .ap-link:hover { color: var(--gold); }
+}
+
+/* "Alpha Premier" measures 6.52em in Bodoni Moda 500 at this tracking: fit it to the width */
+.ap-footer .ap-footer__wordmark {
+  max-width: none;
+  white-space: nowrap;
+  font-size: min(var(--step-display), calc((100vw - 80px) / 6.7));
+  font-size: min(var(--step-display), calc(100cqi / 6.6));
+}
+
+.ap-footer__legal {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 32px;
+  row-gap: 8px;
+  margin-top: 20px;
+  color: var(--bg);
+}
+.ap-footer__legal p { max-width: 70ch; }
+
+/* ---------- phone: each section composed for 390px ---------- */
+
+@media (max-width: 767px) {
+  .ap-gallery__head { padding-inline: 20px; }
+  .ap-gallery__row {
+    --row-h: calc(62svh - 8px);
+    --gap: 8px;
+    height: 62svh;
+    padding-inline: 20px;
+    scroll-padding-inline: 20px;
+  }
+  .ap-gallery__module--tall { width: 72vw; }
+  .ap-gallery__module--pair { width: 64vw; }
+  .ap-gallery__module--wide { width: 88vw; height: calc(88vw * 10 / 16); align-self: center; }
+
+  .ap-figures__title { padding-inline: 20px; }
+  .ap-figures__mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; height: auto; }
+  .ap-figures__photo { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 4 / 3; }
+  .ap-figures__tile { aspect-ratio: 1; padding: 20px; }
+  .ap-figures .ap-figures__caption { margin-top: 10px; }
+
+  .ap-record { display: block; padding-inline: 20px; }
+  .ap-record__head { padding-bottom: 32px; }
+  .ap-record__media {
+    top: 0;
+    z-index: 2;
+    width: auto;
+    height: min(38svh, 75vw); /* a 4:3 band on a phone, never taller than 38svh */
+    aspect-ratio: auto;
+    margin-inline: -20px;
+  }
+  .ap-record__list { position: relative; z-index: 1; padding-top: 12px; }
+  .ap-record__row { min-height: 56px; }
+
+  .ap-letter__portrait { width: 40px; height: 40px; }
+
+  .ap-footer { --edge: 20px; gap: 32px; min-height: 88svh; }
+  .ap-footer__top { flex-direction: column; gap: 0; }
+  .ap-footer__links { flex-direction: column; }
+  .ap-footer__legal { grid-template-columns: 1fr; }
+  .ap-footer__photo img { object-position: 12% 45%; }
+}
+
+/* ---------- motion: entrances per section, the record's crossfade and expand ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* gallery modules arrive sideways, the way the row moves */
+  .ap-js .ap-root .ap-gallery__module[data-reveal] { transform: translateX(56px); }
+  .ap-js .ap-root .ap-gallery__module[data-reveal].is-in { transform: none; }
+
+  /* the large photographs settle inside their frames instead of travelling */
+  .ap-js .ap-root .ap-figures__photo[data-reveal],
+  .ap-js .ap-root .ap-footer__photo[data-reveal] { transform: none; }
+  .ap-js .ap-root .ap-figures__photo img { transform: scale(1.06); transition: transform 1800ms var(--ease-soft); }
+  .ap-js .ap-root .ap-footer__photo img { transform: scale(1.05); transition: transform 2400ms var(--ease-soft); }
+  .ap-js .ap-root .ap-figures__photo[data-reveal].is-in img,
+  .ap-js .ap-root .ap-footer__photo[data-reveal].is-in img { transform: none; }
+
+  .ap-record__panel { transition: grid-template-rows 360ms var(--ease-out); }
+  .ap-record .ap-record__panel p { transition: opacity 240ms ease; }
+  .ap-record__item[data-open='true'] .ap-record__panel p { transition-delay: 90ms; }
+}
+
+/* ---------- print: the internship record alone, black on white ---------- */
+
+@media print {
+  body:has(.ap-record) > :not(:has(.ap-record)),
+  .ap-root:has(.ap-record) > :not(:has(.ap-record)),
+  main:has(.ap-record) > :not(.ap-record) { display: none !important; }
+  .ap-root:has(.ap-record) { min-height: 0; }
+
+  .ap-record { display: block; padding: 0; background: #fff; }
+  .ap-record * { color: #000 !important; background: transparent !important; }
+  .ap-record [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .ap-record__media,
+  .ap-record .ap-no-print { display: none !important; }
+
+  .ap-record__head { padding-bottom: 18pt; }
+  .ap-record__head h2 { margin-bottom: 14pt; font-size: 26pt; }
+  .ap-record__facts { font-size: 10.5pt; }
+  .ap-record__fact { grid-template-columns: 7em minmax(0, 1fr); }
+
+  .ap-record__item { break-inside: avoid; }
+  .ap-record__row { min-height: 0; padding-top: 10pt; }
+  .ap-record__name { font-size: 13pt; }
+  .ap-record__period { font-size: 10pt; }
+  .ap-record__panel { grid-template-rows: 1fr !important; }
+  .ap-record .ap-record__panel p {
+    max-width: 62ch;
+    padding: 2pt 0 0;
+    font-size: 10.5pt;
+    opacity: 1 !important;
+  }
+}

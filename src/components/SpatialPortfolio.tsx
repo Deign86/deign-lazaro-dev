@@ -20,6 +20,7 @@ import { Navbar } from './Navbar';
 import { GlassButton } from './ui/apple-tahoe-liquid-glass-button';
 import { ContactForm } from './ui/contact-form';
 import { PINNED_PROJECTS } from '@/data/projects';
+import { TransitionLink } from './transition/TransitionLink';
 
 interface TechStackProps {
   frontend: string[];
@@ -78,7 +79,25 @@ const education = [
   },
 ];
 
-const initiatives = [
+const initiatives: {
+  title: string;
+  organization: string;
+  period: string;
+  description: string[];
+  href?: string;
+  linkLabel?: string;
+}[] = [
+  {
+    title: 'IT Administrator Intern',
+    organization: 'Alpha Premier Realty · Ortigas',
+    period: 'Jun – Oct 2026',
+    description: [
+      'Became the brokerage’s first IT department: PCs, network, printers, accounts and deployments',
+      'Built the attendance kiosk, the group website, the Branding Studio and a Viber MCP',
+    ],
+    href: '/alpha-premier',
+    linkLabel: 'Open the company portfolio',
+  },
   {
     title: 'AI-Powered Automation Tools',
     organization: 'Personal & Open Source',
@@ -623,6 +642,16 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
                                 </li>
                               ))}
                             </ul>
+                          )}
+                          {item.href && (
+                            <TransitionLink
+                              href={item.href}
+                              direction="in"
+                              className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-mono-50 px-3 py-1.5 text-[11px] sm:text-xs font-semibold text-mono-950 transition-colors hover:bg-mono-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-mono-50"
+                            >
+                              {item.linkLabel}
+                              <ArrowRight className="h-3 w-3" />
+                            </TransitionLink>
                           )}
                         </div>
                       </div>

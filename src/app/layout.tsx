@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { TransitionLayer } from "@/components/transition/TransitionLayer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -77,6 +78,7 @@ export default function RootLayout({
           Skip to main content
         </a>
         {children}
+        <TransitionLayer />
         <Analytics />
       </body>
     </html>

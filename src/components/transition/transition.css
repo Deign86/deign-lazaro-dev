@@ -1,0 +1,57 @@
+/* Page-transition sting between / (ground #0a0a0a) and /alpha-premier (ground #dfdedb). */
+.sting {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+}
+.sting[data-phase='cover'] { visibility: visible; opacity: 1; pointer-events: auto; }
+.sting[data-phase='reveal'] { visibility: visible; opacity: 0; transition: opacity 400ms cubic-bezier(0.22, 1, 0.36, 1); }
+
+.sting__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
+.sting[data-mode='video'] .sting__video { display: block; }
+.sting[data-mode='video'] .sting__css { display: none; }
+
+/* CSS version: a lit row of windows; the light becomes the next page's ground */
+.sting__css { position: absolute; inset: 0; display: grid; place-items: center; grid-template-columns: repeat(4, 3.2vmin); justify-content: center; align-content: center; gap: 1.6vmin; }
+.sting[data-direction='in'] .sting__css { background: #0a0a0a; }
+.sting[data-direction='out'] .sting__css { background: #dfdedb; }
+.sting__window { width: 3.2vmin; height: 4.4vmin; background: #c5a059; opacity: 0; transform: scaleY(0.6); }
+.sting__field { position: absolute; inset: 0; clip-path: inset(50% 50% 50% 50%); }
+.sting[data-direction='in'] .sting__field { background: #dfdedb; }
+.sting[data-direction='out'] .sting__field { background: #0a0a0a; }
+
+.sting[data-phase='cover'][data-mode='css'][data-direction='in'] .sting__window { animation: sting-window-on 420ms cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.sting[data-phase='cover'][data-mode='css'][data-direction='in'] .sting__window:nth-child(2) { animation-delay: 110ms; }
+.sting[data-phase='cover'][data-mode='css'][data-direction='in'] .sting__window:nth-child(3) { animation-delay: 220ms; }
+.sting[data-phase='cover'][data-mode='css'][data-direction='in'] .sting__window:nth-child(4) { animation-delay: 330ms; }
+.sting[data-phase='cover'][data-mode='css'][data-direction='in'] .sting__field { animation: sting-field-open 700ms cubic-bezier(0.76, 0, 0.24, 1) 760ms forwards; }
+
+.sting[data-phase='cover'][data-mode='css'][data-direction='out'] .sting__window { opacity: 1; transform: none; animation: sting-window-off 380ms ease-in 520ms forwards; }
+.sting[data-phase='cover'][data-mode='css'][data-direction='out'] .sting__field { animation: sting-field-open 640ms cubic-bezier(0.76, 0, 0.24, 1) 760ms forwards; }
+
+@keyframes sting-window-on { to { opacity: 1; transform: none; } }
+@keyframes sting-window-off { to { opacity: 0; transform: scaleY(0.6); } }
+@keyframes sting-field-open { to { clip-path: inset(0 0 0 0); } }
+
+.sting__skip {
+  position: absolute;
+  right: 16px;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  min-height: 44px;
+  padding: 0 18px;
+  font: 500 15px/1 var(--font-jost, system-ui), system-ui, sans-serif;
+  letter-spacing: 0.01em;
+  color: #ecebe7;
+  background: rgba(10, 10, 10, 0.55);
+  border: 0;
+  cursor: pointer;
+}
+.sting[data-direction='out'] .sting__skip { color: #26251e; background: rgba(223, 222, 219, 0.7); }
+.sting__skip:focus-visible { outline: 2px solid #c5a059; outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sting { display: none; }
+}

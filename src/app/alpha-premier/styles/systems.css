@@ -1,0 +1,401 @@
+/* owned by the systems agent, see docs/alpha-premier/BUILD-BRIEF.md
+   Showcase "Square plate, spare text": the four systems as tabs. This section breaks the split stage
+   and runs full width on one flat stone field. Selectors start with .ap-systems (page parts) or
+   [data-ui] (the kiosk and chat fragments) so they outrank the .ap-root element resets. */
+
+.ap-systems { background: var(--bg); padding-top: calc(var(--section) / 2); }
+
+/* ---------- layout, phone first ----------
+   The tab row and all four panels share one grid. Each panel is a subgrid laid in the same cells,
+   so switching is a true crossfade and the section keeps one height whichever tab is open.
+   Phone rows: plate, tabs, text, actions. */
+.ap-systems .ap-sys {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto auto auto;
+}
+.ap-systems .ap-sys-tablist {
+  grid-column: 1;
+  grid-row: 2;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 1.25rem;
+  padding: 1.25rem var(--margin) 6px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.ap-systems .ap-sys-tablist::-webkit-scrollbar { display: none; }
+
+.ap-systems .ap-sys-panel {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  transition: opacity var(--t-ui) ease, visibility 0s linear 0s;
+}
+.ap-systems .ap-sys-panel[data-active="true"] { z-index: 1; }
+.ap-systems .ap-sys-panel[data-active="false"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--t-ui) ease, visibility 0s linear var(--t-ui);
+}
+
+.ap-systems .ap-sys-plate {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  padding-inline: var(--margin);
+}
+.ap-systems .ap-sys-body { grid-column: 1; grid-row: 3; padding: 1.75rem var(--margin) 2.5rem; }
+.ap-systems .ap-sys-actions {
+  grid-column: 1;
+  grid-row: 4;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  padding: 0 var(--margin) var(--margin);
+}
+
+/* ---------- the square plate ---------- */
+.ap-systems .ap-sys-square { position: relative; display: grid; width: 100%; aspect-ratio: 1; }
+.ap-systems .ap-sys-square:not(.ap-sys-square--ui) { overflow: hidden; background: var(--surface); }
+.ap-systems .ap-sys-img { object-fit: cover; object-position: 50% 50%; }
+.ap-systems .ap-sys-img--branding { object-position: 100% 50%; } /* keeps the frame's badge whole */
+.ap-systems .ap-sys-note {
+  margin-top: 1rem;
+  max-width: 46ch;
+  font-size: var(--step-small);
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* ---------- tabs: plain text, active by ink and weight ---------- */
+.ap-systems .ap-sys-tab {
+  flex: none;
+  display: inline-grid;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--step-body);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color var(--t-hover) ease, transform var(--t-press) var(--ease-out);
+}
+.ap-systems .ap-sys-tab > span { grid-area: 1 / 1; }
+/* reserves the medium-weight width so the row does not shift when the active tab changes */
+.ap-systems .ap-sys-tab::after {
+  content: attr(data-label);
+  grid-area: 1 / 1;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: 500;
+}
+.ap-systems .ap-sys-tab[aria-selected="true"] { color: var(--ink); font-weight: 500; }
+.ap-systems .ap-sys-tab:active { transform: translateY(1px); }
+@media (hover: hover) and (pointer: fine) {
+  .ap-systems .ap-sys-tab:hover { color: var(--ink); }
+}
+
+/* ---------- text ---------- */
+.ap-systems .ap-sys-title { font-size: var(--step-head); }
+.ap-systems .ap-sys-desc {
+  margin-top: clamp(1.5rem, 4vw, 3rem);
+  max-width: 34ch;
+  font-size: var(--step-body);
+  color: var(--ink);
+}
+/* set like a listing sheet: label and value, spacing instead of rules */
+.ap-systems .ap-sys-specs {
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+  border-collapse: collapse;
+  font-size: var(--step-body);
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+.ap-systems .ap-sys-specs th {
+  padding: 0.35rem 1.5rem 0.35rem 0;
+  vertical-align: baseline;
+  text-align: left;
+  font-weight: 400;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.ap-systems .ap-sys-specs td { padding: 0.35rem 0; vertical-align: baseline; color: var(--ink); }
+
+/* ---------- the two action cells ---------- */
+.ap-systems .ap-sys-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 60px;
+  padding: 0 1.25rem;
+  border-radius: var(--radius);
+  font-size: var(--step-body);
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: transform var(--t-press) var(--ease-out);
+}
+.ap-systems .ap-sys-cell--primary { background: var(--ink); color: var(--bg); }
+.ap-systems .ap-sys-cell--secondary { background: var(--surface); color: var(--ink); }
+.ap-systems .ap-sys-cell-label {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 0.07em;
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--t-hover) ease;
+}
+.ap-systems .ap-sys-cell-mark {
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  transition: transform var(--t-hover) var(--ease-out);
+}
+.ap-systems .ap-sys-cell:active { transform: scale(0.98); }
+.ap-systems .ap-sys-cell:focus-visible .ap-sys-cell-label { text-decoration-color: currentColor; }
+@media (hover: hover) and (pointer: fine) {
+  .ap-systems .ap-sys-cell:hover .ap-sys-cell-label { text-decoration-color: currentColor; }
+  .ap-systems .ap-sys-cell:hover .ap-sys-cell-mark { transform: translate(2px, -2px); }
+}
+
+/* ---------- tablet: same stack, a composed plate instead of a giant one ---------- */
+@media (min-width: 600px) {
+  .ap-systems .ap-sys-plate { grid-template-columns: min(100%, 36rem); }
+  .ap-systems .ap-sys-tablist { gap: 2rem; }
+  .ap-systems .ap-sys-tab { font-size: var(--step-lead); }
+}
+
+/* ---------- desktop: one field split 50/50, at least 88svh ---------- */
+@media (min-width: 1000px) {
+  .ap-systems { padding-top: 0; }
+  .ap-systems .ap-sys {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto;
+    min-height: 88svh;
+  }
+  .ap-systems .ap-sys-tablist { grid-column: 2; grid-row: 1; padding: 40px 40px 6px var(--pad); overflow: visible; }
+  .ap-systems .ap-sys-panel { grid-column: 1 / -1; }
+  /* the square fills the half minus 40px margins, held inside short viewports */
+  .ap-systems .ap-sys-plate {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    grid-template-columns: min(100%, max(26rem, calc(100svh - 160px)));
+    justify-content: center;
+    padding: 40px;
+  }
+  .ap-systems .ap-sys-body { grid-column: 2; grid-row: 2; align-self: center; padding: 48px 40px 48px var(--pad); }
+  .ap-systems .ap-sys-actions {
+    grid-column: 2;
+    grid-row: 3;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    padding: 0 40px 40px var(--pad);
+  }
+  .ap-systems .ap-sys-cell { min-height: 72px; padding-inline: 1.5rem; }
+}
+
+/* ---------- motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* the plate settles from a slight scale instead of rising like the text */
+  .ap-js .ap-root .ap-systems .ap-sys-plate[data-reveal]:not(.is-in) { transform: scale(0.97); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ap-systems .ap-sys-panel, .ap-systems .ap-sys-panel[data-active="false"] { transition: none; }
+  .ap-systems .ap-sys-tab, .ap-systems .ap-sys-cell, .ap-systems .ap-sys-cell-mark { transition: none; }
+  [data-ui].ap-kiosk .ap-kiosk-slide, [data-ui].ap-kiosk .ap-kiosk-card, [data-ui].ap-kiosk .ap-kiosk-reset { transition: none; }
+}
+
+/* ---------- without script: no tabs, all four systems stacked and readable ---------- */
+@media (scripting: none) {
+  .ap-systems .ap-sys { display: block; min-height: 0; }
+  .ap-systems .ap-sys-tablist { display: none; }
+  .ap-systems .ap-sys-panel, .ap-systems .ap-sys-panel[data-active="false"] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .ap-systems .ap-sys-panel + .ap-sys-panel { padding-top: 3rem; }
+  .ap-systems .ap-sys-plate { grid-row: 1; }
+  .ap-systems .ap-sys-body { grid-row: 2; }
+  .ap-systems .ap-sys-actions { grid-row: 3; }
+  [data-ui].ap-kiosk .ap-kiosk-live, [data-ui].ap-kiosk .ap-kiosk-clock { display: none; }
+  [data-ui].ap-kiosk noscript { display: block; margin-block: auto; }
+}
+@media (scripting: none) and (min-width: 1000px) {
+  .ap-systems .ap-sys-panel, .ap-systems .ap-sys-panel[data-active="false"] {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: 1fr auto;
+    min-height: 88svh;
+  }
+  .ap-systems .ap-sys-panel + .ap-sys-panel { padding-top: 0; }
+  .ap-systems .ap-sys-plate { grid-column: 1; grid-row: 1 / -1; }
+  .ap-systems .ap-sys-body { grid-column: 2; grid-row: 1; }
+  .ap-systems .ap-sys-actions { grid-column: 2; grid-row: 2; }
+}
+
+/* ==========================================================================
+   TapCard: the front-desk kiosk, in its own dark look (data-ui fragment)
+   ========================================================================== */
+[data-ui].ap-kiosk {
+  container-type: inline-size;
+  display: grid;
+  background: var(--night);
+  color: var(--night-ink);
+  font-family: var(--font-text);
+  font-size: var(--step-small);
+  line-height: 1.45;
+  text-align: center;
+}
+[data-ui].ap-kiosk :focus-visible { outline-color: var(--gold); }
+[data-ui].ap-kiosk p { max-width: none; }
+[data-ui].ap-kiosk .ap-kiosk-inner { display: flex; flex-direction: column; gap: 12px; padding: max(16px, 5cqi); }
+
+[data-ui].ap-kiosk .ap-kiosk-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; }
+[data-ui].ap-kiosk .ap-kiosk-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+[data-ui].ap-kiosk .ap-kiosk-brand img { flex: none; width: 24px; height: 24px; }
+[data-ui].ap-kiosk .ap-kiosk-brand p { display: grid; line-height: 1.3; }
+[data-ui].ap-kiosk .ap-kiosk-name { font-weight: 500; }
+[data-ui].ap-kiosk .ap-kiosk-clock { color: var(--gold); font-size: var(--step-body); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+[data-ui].ap-kiosk .ap-kiosk-live { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; }
+[data-ui].ap-kiosk .ap-kiosk-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 8.75rem;
+}
+[data-ui].ap-kiosk .ap-kiosk-greet { font-size: var(--step-lead); font-weight: 500; line-height: 1.2; }
+[data-ui].ap-kiosk .ap-kiosk-what { display: flex; align-items: center; justify-content: center; gap: 8px; }
+[data-ui].ap-kiosk .ap-kiosk-reset {
+  min-height: 44px;
+  padding: 0 10px;
+  color: var(--night-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 0.07em;
+  text-underline-offset: 0.2em;
+  transition: color var(--t-hover) ease, transform var(--t-press) var(--ease-out);
+}
+[data-ui].ap-kiosk .ap-kiosk-reset:active { transform: scale(0.96); }
+[data-ui].ap-kiosk .ap-kiosk-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: 100%; max-width: 30rem; }
+[data-ui].ap-kiosk .ap-kiosk-facts > div { padding: 6px 8px; border: 1px solid var(--muted); }
+[data-ui].ap-kiosk .ap-kiosk-facts dt { color: var(--gold); }
+[data-ui].ap-kiosk .ap-kiosk-facts dd { font-weight: 500; font-variant-numeric: tabular-nums; }
+
+/* the card rests above the reader; a time-in docks it into the reader, a time-out lifts it out */
+[data-ui].ap-kiosk .ap-kiosk-dock {
+  --card-w: clamp(144px, 50cqi, 300px);
+  --dock: calc(10px + var(--card-w) * 0.16);
+  display: grid;
+  justify-items: center;
+}
+[data-ui].ap-kiosk .ap-kiosk-slide { position: relative; z-index: 1; transition: transform 300ms cubic-bezier(0.34, 1.3, 0.64, 1); }
+[data-ui].ap-kiosk[data-docked="true"] .ap-kiosk-slide { transform: translateY(var(--dock)); }
+[data-ui].ap-kiosk .ap-kiosk-card {
+  position: relative;
+  display: block;
+  width: var(--card-w);
+  aspect-ratio: 85.6 / 54;
+  background: var(--night-ink);
+  color: var(--night);
+  text-align: left;
+  transition: transform var(--t-press) var(--ease-out);
+}
+[data-ui].ap-kiosk .ap-kiosk-card:active { transform: scale(0.97); }
+[data-ui].ap-kiosk .ap-kiosk-chip { position: absolute; left: 9%; top: 40%; width: 15%; aspect-ratio: 1.3; background: var(--gold); }
+[data-ui].ap-kiosk .ap-kiosk-chip::before { content: ''; position: absolute; inset: 50% 0 auto; height: 1px; background: var(--night); }
+[data-ui].ap-kiosk .ap-kiosk-chip::after { content: ''; position: absolute; inset: 0 auto 0 38%; width: 1px; background: var(--night); }
+[data-ui].ap-kiosk .ap-kiosk-print { position: absolute; top: 12%; right: 9%; font-weight: 500; }
+[data-ui].ap-kiosk .ap-kiosk-reader {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: min(100%, calc(var(--card-w) + 64px));
+  min-height: 48px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--gold);
+  background: var(--night);
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+[data-ui].ap-kiosk .ap-kiosk-waves { flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+@media (hover: hover) and (pointer: fine) {
+  [data-ui].ap-kiosk[data-docked="false"] .ap-kiosk-card:hover { transform: translateY(-4px); }
+  [data-ui].ap-kiosk[data-docked="false"] .ap-kiosk-card:active { transform: scale(0.97); }
+  [data-ui].ap-kiosk .ap-kiosk-reset:hover { color: var(--gold); }
+}
+
+/* shown only without script */
+[data-ui].ap-kiosk .ap-kiosk-table { width: 100%; border-collapse: collapse; text-align: left; font-variant-numeric: tabular-nums; }
+[data-ui].ap-kiosk .ap-kiosk-table caption { caption-side: top; padding-bottom: 10px; text-align: left; font-weight: 500; color: var(--gold); }
+[data-ui].ap-kiosk .ap-kiosk-table th, [data-ui].ap-kiosk .ap-kiosk-table td { padding: 10px 8px 10px 0; border-bottom: 1px solid var(--muted); font-weight: 400; }
+[data-ui].ap-kiosk .ap-kiosk-table thead th { font-weight: 500; color: var(--gold); }
+
+/* ==========================================================================
+   ViberFragment: a neutral chat window in the page's own tokens (data-ui fragment)
+   ========================================================================== */
+[data-ui].ap-viber {
+  container-type: inline-size;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--step-small);
+  line-height: 1.45;
+}
+[data-ui].ap-viber .ap-viber-head { display: grid; align-items: center; padding: 12px max(16px, 5cqi); border-bottom: 1px solid var(--bg); }
+[data-ui].ap-viber .ap-viber-from, [data-ui].ap-viber .ap-viber-to { grid-area: 1 / 1; display: flex; align-items: center; gap: 12px; min-width: 0; }
+[data-ui].ap-viber .ap-viber-from { opacity: 0; }
+[data-ui].ap-viber .ap-viber-avatar { flex: none; display: grid; place-items: center; width: 36px; height: 36px; background: var(--bg); color: var(--ink); font-weight: 500; }
+[data-ui].ap-viber .ap-viber-avatar--group { background: var(--accent); color: var(--accent-ink); }
+[data-ui].ap-viber .ap-viber-name { font-size: var(--step-body); font-weight: 500; line-height: 1.25; overflow-wrap: anywhere; }
+[data-ui].ap-viber .ap-viber-log { display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; padding: max(16px, 5cqi); }
+[data-ui].ap-viber .ap-viber-note { align-self: center; text-align: center; }
+[data-ui].ap-viber .ap-viber-msg { align-self: flex-end; max-width: 84%; padding: 10px 14px; background: var(--bg); }
+[data-ui].ap-viber .ap-viber-doc { display: grid; width: 84%; }
+[data-ui].ap-viber .ap-viber-doc-title { margin-bottom: 4px; font-weight: 500; }
+/* the real convention: text above the dashed line goes to the client, the rest stays internal */
+[data-ui].ap-viber .ap-viber-cut { display: block; margin: 10px 0; border-top: 1px dashed var(--muted); }
+[data-ui].ap-viber .ap-viber-redact { display: grid; gap: 6px; }
+[data-ui].ap-viber .ap-viber-redact span { display: block; height: 0.7em; background: var(--ink); }
+[data-ui].ap-viber .ap-viber-redact span:nth-child(1) { width: 74%; }
+[data-ui].ap-viber .ap-viber-redact span:nth-child(2) { width: 52%; }
+[data-ui].ap-viber .ap-viber-redact span:nth-child(3) { width: 63%; }
+[data-ui].ap-viber .ap-viber-held { margin-top: 8px; color: var(--muted); }
+@container (max-width: 400px) {
+  [data-ui].ap-viber .ap-viber-hello { display: none; }
+}
+
+/* on view: the template arrives, the window becomes the new group, the listing and the greeting follow.
+   Runs each time the Viber tab opens; without script or under reduced motion the final state shows. */
+@media (prefers-reduced-motion: no-preference) {
+  .ap-js .ap-sys-panel[data-active="false"] [data-ui].ap-viber [data-step] {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0s linear var(--t-ui), transform 0s linear var(--t-ui);
+  }
+  .ap-js .ap-sys-panel[data-active="false"] [data-ui].ap-viber .ap-viber-from { opacity: 1; transition: opacity 0s linear var(--t-ui); }
+  .ap-js .ap-sys-panel[data-active="true"] [data-ui].ap-viber [data-step] {
+    transition: opacity 420ms var(--ease-out), transform 560ms var(--ease-out);
+    transition-delay: calc(var(--s, 0) * 600ms + 260ms);
+  }
+  .ap-js .ap-sys-panel[data-active="true"] [data-ui].ap-viber .ap-viber-from { transition: opacity 300ms ease 860ms; }
+}

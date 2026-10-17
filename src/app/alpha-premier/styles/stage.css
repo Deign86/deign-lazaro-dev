@@ -1,0 +1,294 @@
+/* /alpha-premier split stage, owned by agent A (see docs/alpha-premier/BUILD-BRIEF.md).
+   The reading column on the left scrolls; the right half is the sticky stage.
+   Geometry from the sheet: hero "Menu column, sticky photograph", intro "Narrow column, empty field",
+   work "Quiet ledger, side preview". Tokens and type steps come from tokens.css only. */
+
+/* ---------- shell: two equal panels on the surface ground ---------- */
+
+.ap-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--margin);
+  padding: var(--margin);
+  background: var(--surface);
+}
+.ap-stage__read { min-width: 0; background: var(--bg); }
+.ap-hero, .ap-before, .ap-ledger { background: var(--bg); }
+
+/* ---------- the stage ---------- */
+
+/* The rail bounds the sticky panel: it stretches to the reading column's height. */
+.ap-stage__rail { align-self: stretch; min-width: 0; }
+.ap-stage__media {
+  position: sticky;
+  top: var(--margin);
+  height: calc(100svh - 2 * var(--margin));
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--ink); /* only seen while the first still loads */
+}
+.ap-stage__frame { position: absolute; inset: 0 0 56px; }
+
+/* chapter stills: every layer up to the active one is opaque, later ones fade in on top (the slow crossfade) */
+.ap-stage__layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--t-crossfade) var(--ease-in-out);
+}
+.ap-stage__layer[data-on] { opacity: 1; }
+.ap-stage__still { object-fit: cover; }
+
+.ap-stage__film { position: absolute; inset: 0; }
+
+/* ledger preview: the row's screen as an object on a flat paper field */
+.ap-stage__preview {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(1.5rem, 3.4vw, 3.5rem);
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-ui) ease;
+}
+.ap-stage__preview[data-on] { opacity: 1; }
+.ap-stage__plate {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  transform: scale(0.98);
+  transition: transform var(--t-ui) var(--ease-out);
+}
+.ap-stage__preview[data-on] .ap-stage__plate { transform: none; }
+.ap-stage__plate img { object-fit: cover; object-position: top center; }
+
+/* bottom bar: the chapter's floor on the left, the office on the right */
+.ap-stage__bar {
+  position: absolute;
+  inset: auto 0 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-inline: 20px;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: var(--step-small);
+  line-height: 1.35;
+}
+.ap-stage__bar > span { min-width: 0; max-width: 50%; text-wrap: balance; }
+.ap-stage__office { text-align: right; }
+
+/* the scrubbed film (ScrubFilm) */
+.ap-film { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.ap-film__poster { object-fit: cover; }
+.ap-film__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition: opacity 700ms var(--ease-out);
+}
+.ap-film__video[data-loaded] { opacity: 1; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .ap-stage__floor { animation: ap-floor-in 700ms var(--ease-out) both; }
+}
+@keyframes ap-floor-in { from { opacity: 0; transform: translateY(6px); } }
+@media (prefers-reduced-motion: reduce) {
+  .ap-stage__layer { transition: none; }
+}
+
+/* ---------- hero sheet: a menu card, everything centred ---------- */
+
+.ap-hero {
+  display: grid;
+  grid-template-rows: calc(0.34 * (100svh - 2 * var(--margin))) auto 1fr; /* headline starts at 34% */
+  min-height: calc(100svh - 2 * var(--margin));
+  padding: 0 var(--pad) var(--pad);
+  text-align: center;
+}
+.ap-hero__top {
+  align-self: start;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding-top: 14px;
+}
+.ap-hero__top > :first-child { justify-self: start; }
+.ap-hero__top > :last-child { justify-self: end; }
+
+.ap-hero__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 2px;
+  color: var(--ink);
+  font-size: var(--step-small);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 0.07em;
+  text-underline-offset: 0.3em;
+  transition: text-decoration-color var(--t-hover) ease, transform var(--t-press) var(--ease-out);
+}
+.ap-hero__link:focus-visible { text-decoration-color: currentColor; }
+.ap-hero__link:active { transform: translateY(1px); }
+@media (hover: hover) and (pointer: fine) {
+  .ap-hero__link:hover { text-decoration-color: currentColor; }
+}
+
+.ap-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: none;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-optical-sizing: auto;
+  font-size: var(--step-lead);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.ap-wordmark img { flex: none; width: 40px; height: 40px; }
+
+.ap-hero__body { display: flex; flex-direction: column; align-items: center; }
+.ap-hero__title { max-width: 18ch; font-size: var(--step-head); color: var(--accent); }
+.ap-hero__line { display: inline-block; }
+/* two classes: tokens.css resets `.ap-root p` (margin 0, 62ch), which outranks one class */
+.ap-hero .ap-hero__sentence { max-width: 40ch; margin-top: clamp(28px, 2.8vw, 44px); font-size: var(--step-body); line-height: 1.55; }
+.ap-hero__action { margin-top: 36px; }
+/* tokens.css `.ap-root a { color: inherit }` outranks `.ap-button`'s white; restate it here */
+.ap-root .ap-hero__action .ap-button { color: var(--accent-ink); }
+
+/* ---------- intro: a narrow column on an empty field ---------- */
+
+.ap-before { padding: var(--section) var(--pad) 0 max(var(--pad), 15%); }
+.ap-before__column { width: min(100%, 20rem); }
+.ap-before__column p { color: var(--muted); font-size: var(--step-body); line-height: 1.55; }
+.ap-before__column p + p { margin-top: 1.55em; }
+.ap-before__column p:first-child { color: var(--ink); font-weight: 500; }
+
+/* ---------- ledger: three fixed starts, nothing drawn between rows ---------- */
+
+.ap-ledger { container: ap-ledger / inline-size; padding: var(--section) var(--pad); }
+.ap-ledger__title,
+.ap-ledger__group { max-width: 40rem; }
+.ap-ledger .ap-ledger__title { margin-bottom: 32px; font-size: var(--step-lead); line-height: 1.2; }
+.ap-ledger__group + .ap-ledger__group { margin-top: 28px; }
+.ap-ledger__shot { display: none; }
+
+/* A narrow ledger (phone, and desktop columns under 564px) stacks each row on two lines:
+   the name and month, then the kind at the small step. */
+.ap-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "name month" "kind kind";
+  align-items: baseline;
+  align-content: center;
+  min-height: 52px;
+  padding-block: 4px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.ap-row > span { transition: color var(--t-hover) ease, transform var(--t-hover) var(--ease-out); }
+.ap-row__name { grid-area: name; padding-right: 16px; font-size: var(--step-body); line-height: 1.4; }
+.ap-row__kind {
+  grid-area: kind;
+  color: var(--muted);
+  font-size: var(--step-small);
+  line-height: 1.35;
+  text-wrap: balance;
+}
+.ap-row__month {
+  grid-area: month;
+  color: var(--muted);
+  font-size: var(--step-small);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Wide enough for the longest kind on one line: three fixed starts, 44px rows. */
+@container ap-ledger (min-width: 35.25rem) {
+  .ap-row {
+    grid-template-columns: 50% minmax(0, 1fr) auto;
+    grid-template-areas: "name kind month";
+    min-height: 44px;
+    padding-block: 7px;
+  }
+  .ap-row__name { line-height: 1.5; }
+  .ap-row__kind { padding-right: 16px; }
+}
+
+/* the active row keeps full ink, the rest drop to the soft ink (colour, never opacity) */
+.ap-ledger:has(.ap-row:focus-visible) .ap-row:not(:focus-visible) .ap-row__name { color: var(--muted); }
+.ap-row:focus-visible .ap-row__kind,
+.ap-row:focus-visible .ap-row__month { color: var(--ink); }
+.ap-row:active .ap-row__name { transform: translateX(2px); }
+@media (hover: hover) and (pointer: fine) {
+  .ap-ledger:has(.ap-row:hover) .ap-row:not(:hover) .ap-row__name { color: var(--muted); }
+  .ap-row:hover .ap-row__kind,
+  .ap-row:hover .ap-row__month { color: var(--ink); }
+  .ap-row:hover .ap-row__name { transform: translateX(4px); }
+}
+
+/* ---------- phone and narrow tablet: the stage becomes a panel above the sheet ---------- */
+
+@media (max-width: 959.98px) {
+  .ap-stage {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: calc(56svh + var(--margin)) auto auto auto;
+    row-gap: 0;
+  }
+  /* The column's blocks join the grid and the rail spans only the stage row and the hero row,
+     so the panel holds while the hero sheet slides over it, then releases. */
+  .ap-stage__read { display: contents; }
+  .ap-stage__rail { grid-area: 1 / 1 / 3 / 2; }
+  .ap-stage__media { height: 56svh; }
+  .ap-stage__preview { display: none; }
+  .ap-hero, .ap-before, .ap-ledger { position: relative; z-index: 1; grid-column: 1; }
+  .ap-hero { grid-row: 2; }
+  .ap-before { grid-row: 3; }
+  .ap-ledger { grid-row: 4; }
+
+  .ap-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 60svh;
+    padding: 0 20px 72px;
+  }
+  .ap-hero__top { width: 100%; gap: 8px; padding-top: 8px; }
+  .ap-wordmark img { width: 32px; height: 32px; }
+  .ap-hero__body { width: 100%; margin-top: 56px; }
+  .ap-hero__action { width: min(100%, 22rem); }
+  .ap-hero__action .ap-button { width: 100%; }
+
+  .ap-before { padding: 72px 20px 96px; }
+  .ap-before__column { width: min(78vw, 26rem); }
+
+  .ap-ledger { padding: 0 20px 96px; }
+  .ap-ledger__title,
+  .ap-ledger__group { max-width: none; }
+  .ap-ledger__shot {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+    margin: 20px 0 4px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .ap-ledger__shot img { object-fit: cover; object-position: top center; }
+}

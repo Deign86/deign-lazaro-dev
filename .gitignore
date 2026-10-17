@@ -65,3 +65,7 @@ temp_upscale/
 
 # Windows null device
 nul
+
+# alpha-premier: raw intake (internship photos, Flow downloads) and taste-skill scratch
+_intake/
+.taste-skill/
