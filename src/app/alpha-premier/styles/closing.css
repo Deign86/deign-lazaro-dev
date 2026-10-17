@@ -189,22 +189,6 @@
 .ap-letter { padding: max(10rem, var(--section)) 24px; }
 .ap-letter__column { width: 100%; max-width: 520px; margin-inline: auto; }
 
-.ap-letter__portrait {
-  width: 44px;
-  height: 44px;
-  overflow: hidden;
-  background: var(--surface);
-}
-.ap-letter__portrait img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 46% 62%;
-  transform: scale(1.6); /* frame the face in a 44px square */
-  transform-origin: 46% 62%;
-}
-
-.ap-letter__body { margin-top: 28px; }
 .ap-letter__body p { font-size: var(--step-body); line-height: 1.55; color: var(--ink); }
 .ap-letter__body p + p { margin-top: 1.55em; }
 .ap-letter__name { font-weight: 500; }
@@ -319,8 +303,6 @@
   }
   .ap-record__list { position: relative; z-index: 1; padding-top: 12px; }
   .ap-record__row { min-height: 56px; }
-
-  .ap-letter__portrait { width: 40px; height: 40px; }
 
   .ap-footer { --edge: 20px; gap: 32px; min-height: 88svh; }
   .ap-footer__top { flex-direction: column; gap: 0; }

@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import type { CSSProperties, ReactNode } from 'react';
 import { closing, thanks } from '@/data/alpha-premier';
 
@@ -22,7 +21,7 @@ const joiner = (text: string) => (/^(our|the|my)\b/i.test(text) ? ', ' : ' ');
 
 // Blueprint "Founder's letter": a centred 520px column on empty ground, no visible heading.
 export function ThanksLetter() {
-  const last = thanks.people.length + 2;
+  const last = thanks.people.length + 1;
 
   return (
     <section id="thanks" className="ap-letter" aria-labelledby="ap-thanks-title">
@@ -30,15 +29,12 @@ export function ThanksLetter() {
         {closing.thanksHeading}
       </h2>
       <div className="ap-letter__column">
-        <div className="ap-letter__portrait" data-reveal style={i(0)}>
-          <Image src="/profile.jpg" alt={thanks.signature} width={96} height={96} sizes="72px" />
-        </div>
         <div className="ap-letter__body">
-          <p data-reveal style={i(1)}>
+          <p data-reveal style={i(0)}>
             {thanks.opening}
           </p>
           {thanks.people.map((person, k) => (
-            <p key={person.name} data-reveal style={i(k + 2)}>
+            <p key={person.name} data-reveal style={i(k + 1)}>
               <strong className="ap-letter__name">{person.name}</strong>
               {joiner(person.text)}
               {person.text}
