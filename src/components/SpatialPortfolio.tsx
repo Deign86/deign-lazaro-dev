@@ -21,6 +21,7 @@ import { GlassButton } from './ui/apple-tahoe-liquid-glass-button';
 import { ContactForm } from './ui/contact-form';
 import { PINNED_PROJECTS } from '@/data/projects';
 import { TransitionLink } from './transition/TransitionLink';
+import { AlphaPremierFeature } from './AlphaPremierFeature';
 
 interface TechStackProps {
   frontend: string[];
@@ -404,6 +405,8 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
               </GlassButton>
             </div>
 
+            <AlphaPremierFeature variant="hero" />
+
             <div className="mt-5 sm:mt-8 hidden sm:flex flex-wrap items-center justify-center gap-2">
               {disciplines.map((d, i) => (
                 <span
@@ -726,8 +729,9 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
               {/* Right Streaming Project Cards */}
               <motion.div
                 style={{ y: reduceMotion ? '0px' : workCardsY }}
-                className="grid gap-3 sm:gap-4 sm:grid-cols-2 max-h-[58vh] overflow-y-auto pr-1 no-scrollbar"
+                className="grid auto-rows-max gap-3 sm:gap-4 sm:grid-cols-2 max-h-[58vh] overflow-y-auto pr-1 no-scrollbar"
               >
+                <AlphaPremierFeature variant="work" />
                 {PINNED_PROJECTS.slice(0, 4).map((project) => (
                   <div
                     key={project.id}

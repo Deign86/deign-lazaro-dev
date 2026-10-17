@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
 import { GlassButton } from './ui/apple-tahoe-liquid-glass-button';
+import { TransitionLink } from './transition/TransitionLink';
+import { ALPHA_PREMIER_HREF } from './AlphaPremierFeature';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -131,6 +133,14 @@ export function Navbar() {
                   {link.name}
                 </a>
               ))}
+              <TransitionLink
+                href={ALPHA_PREMIER_HREF}
+                direction="in"
+                className="inline-flex items-center gap-2 border-l border-mono-800 pl-6 text-xs uppercase tracking-[0.24em] font-mono text-mono-200 hover:text-mono-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 rounded-sm"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-[#c5a059]" aria-hidden="true" />
+                Alpha Premier
+              </TransitionLink>
             </div>
 
             {/* Right Actions */}
@@ -205,6 +215,17 @@ export function Navbar() {
                     </a>
                   </li>
                 ))}
+                <li>
+                  <TransitionLink
+                    href={ALPHA_PREMIER_HREF}
+                    direction="in"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 py-3 px-4 text-base font-mono uppercase tracking-[0.2em] text-mono-100 hover:text-mono-50 hover:bg-mono-900 rounded-xl transition-colors"
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#c5a059]" aria-hidden="true" />
+                    Alpha Premier
+                  </TransitionLink>
+                </li>
               </ul>
 
               <div className="mt-6 pt-6 border-t border-mono-850 flex flex-col gap-3">

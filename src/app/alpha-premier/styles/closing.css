@@ -244,7 +244,7 @@
 }
 
 .ap-footer__photo { position: absolute; inset: 0; z-index: -1; }
-.ap-footer__photo img { object-fit: cover; object-position: 40% 45%; filter: brightness(0.62); }
+.ap-footer__photo img { object-fit: cover; object-position: 50% 45%; filter: brightness(0.48); }
 
 .ap-footer__top {
   display: flex;
@@ -326,7 +326,7 @@
   .ap-footer__top { flex-direction: column; gap: 0; }
   .ap-footer__links { flex-direction: column; }
   .ap-footer__legal { grid-template-columns: 1fr; }
-  .ap-footer__photo img { object-position: 12% 45%; }
+  .ap-footer__photo img { object-position: 46% 45%; }
 }
 
 /* ---------- motion: entrances per section, the record's crossfade and expand ---------- */

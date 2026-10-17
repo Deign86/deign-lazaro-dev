@@ -212,7 +212,7 @@ export const record: RecordRow[] = [
     period: 'Jul – Oct 2026',
     description: 'Made and registered the RFID IDs, set up accounts and inboxes, and handled the company email.',
     image: '/alpha-premier/photos/photo-04.webp',
-    alt: 'Staff at the front desk beside a gold dragon figure and the RFID card reader on the counter.',
+    alt: 'Deign laughs behind a camera on a tripod in the office doorway while a colleague adjusts one of its legs.',
   },
   {
     name: 'Attendance and payroll',
@@ -327,7 +327,7 @@ export const fieldPhotoStandIns: Picture[] = [
 /** The photograph beside the two figures, and the photograph the footer is set on. */
 export const closingPhotos: { figures: Picture; footer: Picture } = {
   figures: { src: '/alpha-premier/photos/photo-01.webp', alt: 'An intern at a corner desk by the window works across a laptop spreadsheet and a portrait monitor, a condo tower outside.' },
-  footer: { src: '/alpha-premier/found/ortigas-night.webp', alt: 'Ortigas Center at night, office towers lit across the middle of the view' },
+  footer: { src: '/alpha-premier/photos/team.webp', alt: 'The interns and staff crowd around the conference-room table for a birthday, a cake and a bouquet in the middle.' },
 };
 
 /** Headings, labels and links for the closing sections. */
@@ -448,7 +448,7 @@ export const stageCopy = {
 export const fieldPhotos: Picture[] = [
   { src: '/alpha-premier/photos/photo-02.webp', alt: 'Deign grins from behind a camera on a tripod in an office doorway while two colleagues steady its legs.' },
   { src: '/alpha-premier/photos/photo-03.webp', alt: 'Interns gathered around the long conference table under the Alpha Premier Group of Companies wall sign.' },
-  { src: '/alpha-premier/photos/photo-04.webp', alt: 'Staff at the front desk, one making a peace sign, beside a gold dragon figure and the RFID card reader on the counter.' },
+  { src: '/alpha-premier/photos/photo-04.webp', alt: 'Deign laughs behind a camera on a tripod in the office doorway while a colleague adjusts its legs and another intern looks on.' },
   { src: '/alpha-premier/photos/photo-05.webp', alt: 'An intern positions a softbox light in the gold-walled lounge under a crystal chandelier before a photo shoot.' },
   { src: '/alpha-premier/photos/photo-06.webp', alt: 'An intern runs a batch in Branding Studio on a laptop, a folder of listing photos open on the portrait monitor beside it.' },
   { src: '/alpha-premier/photos/photo-07.webp', alt: 'One intern on a stepladder works at the ceiling while another steadies the ladder and a third looks on.' },

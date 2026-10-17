@@ -81,6 +81,16 @@ if (!photosOnly) {
   }
 }
 
+// Footer photo: the team at a birthday in the conference room. The ID card on the front
+// lanyard (source pixels 240–340 × 955–1095) is blurred before encoding.
+const team = path.join(root, '_intake', 'closing', 'team.jpg');
+if (existsSync(team)) {
+  const badge = { left: 240, top: 955, width: 100, height: 140 };
+  const blurred = await sharp(team).rotate().extract(badge).blur(14).toBuffer();
+  const source = await sharp(team).rotate().composite([{ input: blurred, left: badge.left, top: badge.top }]).toBuffer();
+  await encode(source, 'photos/team.webp', 2400);
+}
+
 // Internship photos: _intake/alpha-premier/* → photos/photo-NN.webp (EXIF/GPS stripped)
 const intake = path.join(root, '_intake', 'alpha-premier');
 if (existsSync(intake)) {
