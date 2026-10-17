@@ -15,25 +15,32 @@ import './transition.css';
 
 export type StingDirection = 'in' | 'out';
 type Phase = 'idle' | 'cover' | 'reveal';
+// wait: flat start colour while the video loads · video: the rendered sting · css: in-code fallback
+type Mode = 'wait' | 'video' | 'css';
 
 const EVENT = 'ap:transition';
 const COVER_MS = { in: 2000, out: 1500 } as const; // when the screen is fully covered and it is safe to navigate
 const CSS_TOTAL_MS = { in: 1900, out: 1500 } as const;
+const START_TIMEOUT_MS = 1200; // how long to hold the flat cover for the video before using the CSS version
 
 export function requestTransition(href: string, direction: StingDirection) {
   window.dispatchEvent(new CustomEvent(EVENT, { detail: { href, direction } }));
 }
 
-function stingSrc(direction: StingDirection) {
-  const portrait = window.matchMedia('(orientation: portrait)').matches;
-  return `/alpha-premier/stings/sting-${direction}-${portrait ? '9x16' : '16x9'}.mp4`;
+// Only 16:9 stings exist; on portrait screens the video is cropped to fill (object-fit: cover).
+export function stingSrc(direction: StingDirection) {
+  return `/alpha-premier/stings/sting-${direction}-16x9.mp4`;
+}
+
+export function stingAudioSrc(direction: StingDirection) {
+  return `/alpha-premier/stings/sting-${direction}-audio.m4a`;
 }
 
 export function TransitionLayer() {
   const router = useRouter();
   const [phase, setPhase] = useState<Phase>('idle');
   const [direction, setDirection] = useState<StingDirection>('in');
-  const [useVideo, setUseVideo] = useState(false);
+  const [mode, setMode] = useState<Mode>('wait');
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const timers = useRef<number[]>([]);
@@ -72,15 +79,16 @@ export function TransitionLayer() {
       clearTimers();
       pendingHref.current = href;
       setDirection(dir);
+      setMode('wait');
       setPhase('cover');
 
       const video = videoRef.current;
-      const src = stingSrc(dir);
-      let started = false;
+      let settled = false;
       const startCssFallback = () => {
-        if (started) return;
-        started = true;
-        setUseVideo(false);
+        if (settled) return;
+        settled = true;
+        video?.pause();
+        setMode('css');
         timers.current.push(window.setTimeout(navigate, CSS_TOTAL_MS[dir] * 0.55));
         timers.current.push(window.setTimeout(finish, CSS_TOTAL_MS[dir]));
       };
@@ -89,7 +97,7 @@ export function TransitionLayer() {
         startCssFallback();
         return;
       }
-      video.src = src;
+      video.src = stingSrc(dir);
       video.muted = true;
       video.playsInline = true;
       video.currentTime = 0;
@@ -98,19 +106,22 @@ export function TransitionLayer() {
       video
         .play()
         .then(() => {
-          if (started) return;
-          started = true;
-          setUseVideo(true);
+          if (settled) {
+            video.pause();
+            return;
+          }
+          settled = true;
+          setMode('video');
           timers.current.push(window.setTimeout(navigate, COVER_MS[dir]));
-          // The click that started this is a user gesture, so the sting's sound may play.
-          const audio = new Audio(src.replace(/-(16x9|9x16)\.mp4$/, '-audio.m4a'));
+          // Still inside the click's user activation, so the sting's sound may play with the picture.
+          const audio = new Audio(stingAudioSrc(dir));
           audio.volume = 0.7;
           audio.play().catch(() => {});
           audioRef.current = audio;
         })
         .catch(startCssFallback);
-      // If the video has not started within 350ms (missing file, slow network), fall back.
-      timers.current.push(window.setTimeout(startCssFallback, 350));
+      // Hold the flat cover while the video loads; on a slow connection use the CSS version instead.
+      timers.current.push(window.setTimeout(startCssFallback, START_TIMEOUT_MS));
     };
 
     const onKey = (event: KeyboardEvent) => {
@@ -131,7 +142,7 @@ export function TransitionLayer() {
       className="sting"
       data-phase={phase}
       data-direction={direction}
-      data-mode={useVideo ? 'video' : 'css'}
+      data-mode={mode}
       aria-hidden={phase === 'idle'}
     >
       <video ref={videoRef} className="sting__video" muted playsInline preload="none" aria-hidden="true" />

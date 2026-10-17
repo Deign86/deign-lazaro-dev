@@ -380,3 +380,13 @@
     opacity: 1 !important;
   }
 }
+
+/* ── The reel: one full-width 16:9 frame under a short heading ───────────────────────────── */
+.ap-reel { padding: var(--section) var(--margin) 0; }
+.ap-reel__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 1rem 2rem; padding-inline: 6vw; margin-bottom: 40px; }
+.ap-reel .ap-reel__lead { max-width: 40ch; color: var(--muted); }
+.ap-reel__frame { position: relative; aspect-ratio: 16 / 9; background: var(--night); }
+.ap-reel__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: var(--night); }
+@media (max-width: 767px) {
+  .ap-reel__head { padding-inline: 8px; }
+}

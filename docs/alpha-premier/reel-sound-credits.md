@@ -1,0 +1,91 @@
+# Sound credits
+
+Only the sounds used in this reel's mix (audio/cues.json). All are CC0 (public domain):
+Kenney packs and Freesound recordings, picked from the sound-layer library. Credit is not required but given.
+The music is the reel's own score (from reel.mp4), not part of this kit.
+
+74 sounds on 71 cues.
+
+## Kenney packs
+
+- Kenney (kenney.nl), RPG Audio, CC0, https://kenney.nl/assets/rpg-audio
+  - click/kenney-rpg-metal-click  (cues: shutter-2)
+  - click/kenney-rpg-metal-latch  (cues: shutter-1)
+- Kenney (kenney.nl), UI Audio, CC0, https://kenney.nl/assets/ui-audio
+  - click/kenney-ui-audio-switch1  (cues: shutter-3)
+  - click/kenney-ui-audio-switch19  (cues: photo-12)
+  - click/kenney-ui-audio-switch2  (cues: photo-09)
+  - click/kenney-ui-audio-switch29  (cues: photo-06)
+  - click/kenney-ui-audio-switch31  (cues: photo-08)
+  - click/kenney-ui-audio-switch33  (cues: photo-04)
+  - click/kenney-ui-audio-switch34  (cues: photo-07)
+  - click/kenney-ui-audio-switch36  (cues: photo-10)
+  - click/kenney-ui-audio-switch4  (cues: photo-01)
+  - click/kenney-ui-audio-switch6  (cues: photo-03)
+  - click/kenney-ui-audio-switch7  (cues: photo-05)
+  - click/kenney-ui-audio-switch8  (cues: photo-11)
+  - click/kenney-ui-audio-switch9  (cues: photo-02)
+- Kenney (kenney.nl), Casino Audio, CC0, https://kenney.nl/assets/casino-audio
+  - swish/kenney-casino-card-slide-4  (cues: rfid-card-in)
+  - tap/kenney-casino-chip-lay-1  (cues: rfid-tap)
+  - tap/kenney-casino-die-throw-1  (cues: crop-lock)
+- Kenney (kenney.nl), Interface Sounds, CC0, https://kenney.nl/assets/interface-sounds
+  - ui/kenney-interface-select-003  (cues: rfid-tap)
+  - ui/kenney-interface-select-004  (cues: group-named)
+
+## Freesound recordings
+
+- boom/fs-636624-deep-hit-2: "Deep hit" by CogFireStudios, CC0, https://freesound.org/people/CogFireStudios/sounds/636624  (cues: lights-on)
+- boom/fs-720897-gloss-stomp-sub-firm-1: "gloss stomp sub firm" by hyperglosss, CC0, https://freesound.org/people/hyperglosss/sounds/720897  (cues: sign-off)
+- chime/fs-127149-ding-wav-1: "ding.wav" by Daphne_in_Wonderland, CC0, https://freesound.org/people/Daphne_in_Wonderland/sounds/127149  (cues: peacock-chime)
+- chime/fs-404104-glass-ding-1: "Glass ding" by Counter-gamer, CC0, https://freesound.org/people/Counter-gamer/sounds/404104  (cues: lights-on-chime)
+- chime/fs-404104-glass-ding-3: "Glass ding" by Counter-gamer, CC0, https://freesound.org/people/Counter-gamer/sounds/404104  (cues: lcp-lands)
+- click/fs-534104-mouse-click-double-00-flac: "mouse-click-double-00.flac" by pbimal, CC0, https://freesound.org/people/pbimal/sounds/534104  (cues: photo-13)
+- hit/fs-198115-clang-2-1: "Clang 2" by editor_adp, CC0, https://freesound.org/people/editor_adp/sounds/198115  (cues: lights-on)
+- hit/fs-321482-metal-hit-2-1: "Metal Hit 2" by dslrguide, CC0, https://freesound.org/people/dslrguide/sounds/321482  (cues: sign-off)
+- key/fs-180974-key-1: "ä key" by uEffects, CC0, https://freesound.org/people/uEffects/sounds/180974  (cues: key-6)
+- key/fs-180997-enter-key-2: "enter key" by uEffects, CC0, https://freesound.org/people/uEffects/sounds/180997  (cues: key-8)
+- key/fs-194795-vintage-keyboard-1-1: "Vintage Keyboard 1" by jim-ph, CC0, https://freesound.org/people/jim-ph/sounds/194795  (cues: key-1)
+- key/fs-194795-vintage-keyboard-1-2: "Vintage Keyboard 1" by jim-ph, CC0, https://freesound.org/people/jim-ph/sounds/194795  (cues: key-5)
+- key/fs-194797-vintage-keyboard-3-1: "Vintage Keyboard 3" by jim-ph, CC0, https://freesound.org/people/jim-ph/sounds/194797  (cues: key-7)
+- key/fs-194799-keyboard5-wav-1: "keyboard5.wav" by jim-ph, CC0, https://freesound.org/people/jim-ph/sounds/194799  (cues: key-3)
+- key/fs-348239-mech-keyboard-01-wav-1: "MECH-KEYBOARD-01.wav" by newagesoup, CC0, https://freesound.org/people/newagesoup/sounds/348239  (cues: key-2)
+- key/fs-442649-keyboard-click-mp3: "Keyboard Click.mp3" by asetkeyzet, CC0, https://freesound.org/people/asetkeyzet/sounds/442649  (cues: key-4)
+- paper/fs-428338-underlining-stroke-on-paper-1: "Underlining Stroke on Paper" by zembacraftworks, CC0, https://freesound.org/people/zembacraftworks/sounds/428338  (cues: listing-slide)
+- pop/fs-187342-wine-bottle-opening-wav-1: "Wine Bottle Opening.wav" by baidonovan, CC0, https://freesound.org/people/baidonovan/sounds/187342  (cues: sent)
+- pop/fs-188381-3-popping-pops-2: "3 Popping Pops" by wubitog, CC0, https://freesound.org/people/wubitog/sounds/188381  (cues: card-2)
+- pop/fs-188381-3-popping-pops-3: "3 Popping Pops" by wubitog, CC0, https://freesound.org/people/wubitog/sounds/188381  (cues: card-4)
+- pop/fs-206152-bottlepop44-wav-1: "bottlepop44.wav" by ahill86, CC0, https://freesound.org/people/ahill86/sounds/206152  (cues: card-3)
+- pop/fs-244652-pop-4-1: "Pop 4" by greenvwbeetle, CC0, https://freesound.org/people/greenvwbeetle/sounds/244652  (cues: card-6)
+- pop/fs-254892-bubble-pop-out-1: "bubble pop out" by tsidilin, CC0, https://freesound.org/people/tsidilin/sounds/254892  (cues: bubble-in)
+- pop/fs-269583-bubble-1: "Bubble" by deleted_user_3854053, CC0, https://freesound.org/people/deleted_user_3854053/sounds/269583  (cues: card-5)
+- pop/fs-319107-pop-made-by-duffy-bro-1: "Pop (made by DuffyBro)" by DuffyBro, CC0, https://freesound.org/people/DuffyBro/sounds/319107  (cues: card-1)
+- riser/fs-611170-uplifter-1-1: "Uplifter-1" by skullowner83@gmail.com, CC0, https://freesound.org/people/skullowner83@gmail.com/sounds/611170  (cues: lights-on-riser)
+- swish/fs-14176-28-wav-3: "28.wav" by adcbicycle, CC0, https://freesound.org/people/adcbicycle/sounds/14176  (cues: payroll-up)
+- swish/fs-254866-swish-twig-wav-3: "swish twig.wav" by blukotek, CC0, https://freesound.org/people/blukotek/sounds/254866  (cues: flip-to-stone)
+- swish/fs-395369-swish-4-1: "Swish 4" by ihitokage, CC0, https://freesound.org/people/ihitokage/sounds/395369  (cues: send-flight)
+- swish/fs-733018-whip-3-1: "Whip 3" by Geoff-Bremner-Audio, CC0, https://freesound.org/people/Geoff-Bremner-Audio/sounds/733018  (cues: flash-to-stone)
+- tick/fs-130388-clock-ticking-1: "Clock ticking" by olver, CC0, https://freesound.org/people/olver/sounds/130388  (cues: word-1)
+- tick/fs-130388-clock-ticking-2: "Clock ticking" by olver, CC0, https://freesound.org/people/olver/sounds/130388  (cues: word-2)
+- tick/fs-130388-clock-ticking-3: "Clock ticking" by olver, CC0, https://freesound.org/people/olver/sounds/130388  (cues: word-3)
+- tick/fs-188033-ticking-clock-1: "Ticking Clock" by AntumDeluge, CC0, https://freesound.org/people/AntumDeluge/sounds/188033  (cues: lcp-roll-1)
+- tick/fs-188033-ticking-clock-2: "Ticking Clock" by AntumDeluge, CC0, https://freesound.org/people/AntumDeluge/sounds/188033  (cues: lcp-roll-2)
+- tick/fs-188033-ticking-clock-3: "Ticking Clock" by AntumDeluge, CC0, https://freesound.org/people/AntumDeluge/sounds/188033  (cues: lcp-roll-3)
+- tick/fs-199066-clock-tick-tock-1: "clock tick tock" by rustica, CC0, https://freesound.org/people/rustica/sounds/199066  (cues: line-1)
+- tick/fs-199066-clock-tick-tock-2: "clock tick tock" by rustica, CC0, https://freesound.org/people/rustica/sounds/199066  (cues: line-2)
+- tick/fs-199066-clock-tick-tock-3: "clock tick tock" by rustica, CC0, https://freesound.org/people/rustica/sounds/199066  (cues: line-3)
+- tick/fs-386208-ratchet-drill-unbranded-tigh-2: "Ratchet drill - Unbranded - Tighten" by ldezem, CC0, https://freesound.org/people/ldezem/sounds/386208  (cues: redact-3)
+- tick/fs-386208-ratchet-drill-unbranded-tigh-3: "Ratchet drill - Unbranded - Tighten" by ldezem, CC0, https://freesound.org/people/ldezem/sounds/386208  (cues: redact-4)
+- tick/fs-386209-ratchet-drill-unbranded-tigh-3: "Ratchet drill - Unbranded - Tighten fast and short" by ldezem, CC0, https://freesound.org/people/ldezem/sounds/386209  (cues: redact-2)
+- tick/fs-398275-clock-tick-1: "Clock Tick" by FlashTrauma, CC0, https://freesound.org/people/FlashTrauma/sounds/398275  (cues: name-1)
+- tick/fs-398275-clock-tick-2: "Clock Tick" by FlashTrauma, CC0, https://freesound.org/people/FlashTrauma/sounds/398275  (cues: name-2)
+- tick/fs-398275-clock-tick-3: "Clock Tick" by FlashTrauma, CC0, https://freesound.org/people/FlashTrauma/sounds/398275  (cues: name-3)
+- tick/fs-422642-sfx-ambiance-clock-tick-1: "SFX Ambiance: Clock Tick" by trullilulli, CC0, https://freesound.org/people/trullilulli/sounds/422642  (cues: lcp-roll-4)
+- tick/fs-452648-plastic-gas-container-cap-sc-1: "plastic gas container cap screw back on ratchet twist1.wav" by kyles, CC0, https://freesound.org/people/kyles/sounds/452648  (cues: lcp-roll-5)
+- tick/fs-452648-plastic-gas-container-cap-sc-2: "plastic gas container cap screw back on ratchet twist1.wav" by kyles, CC0, https://freesound.org/people/kyles/sounds/452648  (cues: redact-1)
+- whoosh/fs-147281-fh-paper-swipe-surface2-long-1: "fh_Paper_Swipe_Surface2_Long_01.wav" by Frank1100, CC0, https://freesound.org/people/Frank1100/sounds/147281  (cues: home-scroll)
+- whoosh/fs-147285-fh-paper-swipe-surface2-shor-1: "fh_Paper_Swipe_Surface2_Short_01.wav" by Frank1100, CC0, https://freesound.org/people/Frank1100/sounds/147285  (cues: title-att)
+- whoosh/fs-449992-whoosh-short-low-wav-1: "whoosh_short_low.wav" by DJT4NN3R, CC0, https://freesound.org/people/DJT4NN3R/sounds/449992  (cues: title-brand)
+- whoosh/fs-471097-knife-sword-swing-1: "Knife/sword swing" by spycrah, CC0, https://freesound.org/people/spycrah/sounds/471097  (cues: title-viber)
+- whoosh/fs-475132-fx-swoosh-light-1: "FX - Swoosh - Light" by bolkmar, CC0, https://freesound.org/people/bolkmar/sounds/475132  (cues: title-web)
+- whoosh/fs-60002-swoosh-15-windy-1: "Swoosh 15 Windy" by qubodup, CC0, https://freesound.org/people/qubodup/sounds/60002  (cues: photo-fly)

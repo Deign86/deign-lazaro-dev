@@ -456,3 +456,12 @@ export const fieldPhotos: Picture[] = [
   { src: '/alpha-premier/photos/photo-09.webp', alt: 'The intern team poses together, some crouching and making hand signs, between the desks of the open office.' },
   { src: '/alpha-premier/photos/photo-10.webp', alt: 'Interns stand around the conference-room TV reviewing a warehouse listing on the group website.' },
 ];
+
+/** The 58-second motion reel, shown between the internship record and the thank-you letter. */
+export const reel = {
+  heading: 'The reel',
+  lead: 'Fifty-eight seconds of the internship: the four systems, the 31st floor and the people who made it.',
+  label: 'Lights On at 3104, a 58-second reel of the internship at Alpha Premier Realty, with sound',
+  src: '/alpha-premier/reel/reel.mp4',
+  poster: '/alpha-premier/reel/poster.webp',
+};
