@@ -128,28 +128,6 @@ Browser QA already done with CloakBrowser:
 - Latest mobile screenshot:
   - `C:\Users\Deign\.cloakbrowser\artifacts\annotated_1782679027371.png`
 
-## GitNexus notes
-
-GitNexus index was refreshed with:
-
-```bash
-npx gitnexus analyze
-```
-
-Pre-edit impact checks for these symbols were LOW:
-
-- `Home`
-- `Hero`
-- `Navbar`
-- `About`
-- `Resume`
-- `Deployments`
-- `Projects`
-- `Contact`
-- `ProjectCard`
-
-Final `gitnexus_detect_changes()` / `detect_changes` reported overall `critical` because the redesign spans many home-page sections and flows. This is breadth risk, not a specific high-risk API/data contract. Mention it in any final handoff/PR notes.
-
 ## Reference site findings
 
 Reference: `https://earcouture.jp/`
