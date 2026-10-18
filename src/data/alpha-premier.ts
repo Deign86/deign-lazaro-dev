@@ -39,7 +39,7 @@ export const before = [
 /** The film chapters shown in the sticky half while the reading column scrolls. */
 export const stage = [
   { id: 'arrival', floor: 'Exchange Road, ground level', still: '/alpha-premier/film/leg-1.webp', alt: 'An architectural scale model of Ortigas Center at night, seen from above' },
-  { id: 'climb', floor: 'Tektite East Tower', still: '/alpha-premier/film/leg-2.webp', alt: 'An architectural scale model seen from the street, looking up the east tower of Tektite' },
+  { id: 'climb', floor: 'Tektite East Tower', still: '/alpha-premier/film/leg-2.webp', alt: 'An architectural scale model seen from the street, looking up the east tower of Tektite with its west twin beside it' },
   { id: 'floor', floor: '31st floor, Unit 3104C', still: '/alpha-premier/film/leg-3.webp', alt: 'An architectural scale model of a dark office, seen from outside through its window' },
   { id: 'lit', floor: '31st floor, lights on', still: '/alpha-premier/ui/attendance-scan.webp', alt: 'The attendance kiosk confirming a time-in at the front desk' },
 ] as const;
@@ -404,7 +404,7 @@ export const stageStills: Record<string, Picture> = {
   },
   climb: {
     src: '/alpha-premier/stills/k2-street.webp',
-    alt: 'An architectural scale model seen from the street, looking up the east tower of Tektite',
+    alt: 'An architectural scale model seen from the street, looking up the east tower of Tektite with its west twin beside it',
   },
   floor: {
     src: '/alpha-premier/stills/k3-window.webp',
