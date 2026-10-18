@@ -24,14 +24,23 @@ export function RevealOnScroll() {
       { rootMargin: '0px 0px -12% 0px', threshold: 0.1 }
     );
     targets.forEach((el) => io.observe(el));
-    const safety = window.setTimeout(() => {
+    const revealOnScreen = () => {
       targets.forEach((el) => {
         const r = el.getBoundingClientRect();
         if (r.top < innerHeight && r.bottom > 0) el.classList.add('is-in');
       });
-    }, 2500);
+    };
+    // The observer's bottom margin leaves a band at the foot of the page that can never be
+    // scrolled up into its area (the footer's credits sit there), so at the end, show what's on screen.
+    const atEnd = () => {
+      if (innerHeight + scrollY >= root.scrollHeight - 2) revealOnScreen();
+    };
+    window.addEventListener('scroll', atEnd, { passive: true });
+    atEnd();
+    const safety = window.setTimeout(revealOnScreen, 2500);
     return () => {
       io.disconnect();
+      window.removeEventListener('scroll', atEnd);
       window.clearTimeout(safety);
       root.classList.remove('ap-js');
     };
