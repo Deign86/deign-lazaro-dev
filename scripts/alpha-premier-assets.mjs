@@ -26,23 +26,19 @@ const jobs = [
   [repo('alpha-premier-attendance', 'docs/screenshots/admin-forgot-pin.png'), 'ui/attendance-pin.webp', 1600],
   [repo('alpha-premier-attendance', 'docs/screenshots/bathroom-kiosk.png'), 'ui/attendance-restroom.webp', 1600],
   // Group website
-  [repo('apg-website', 'promo-video/assets/pages/home.jpg'), 'ui/website-home.webp', 1600],
   [repo('apg-website', 'promo-video/assets/pages/enterprises.jpg'), 'ui/website-enterprises.webp', 1600],
   [repo('apg-website', 'promo-video/assets/pages/realty.jpg'), 'ui/website-realty.webp', 1600],
-  [repo('apg-website', 'promo-video/assets/pages/careers.jpg'), 'ui/website-careers.webp', 1600],
   [repo('apg-website', '.github/assets/screenshot-home.png'), 'ui/website-home-fold.webp', 1600],
   [repo('apg-website', '.github/assets/screenshot-admin.png'), 'ui/website-admin.webp', 1600],
   // Branding Studio
   [repo('Alpha_Branding', 'docs/assets/app-screenshot-main.png'), 'ui/branding-main.webp', 1600],
   [repo('Alpha_Branding', 'docs/assets/app-screenshot-crop-editor.png'), 'ui/branding-crop.webp', 1600],
-  [repo('Alpha_Branding', 'docs/assets/app-screenshot-results.png'), 'ui/branding-results.webp', 1600],
   [repo('Alpha_Branding', 'docs/assets/app-screenshot-update-dialog.png'), 'ui/branding-update.webp', 1600],
   [repo('Alpha_Branding', 'docs/manual/images/output_01.jpg'), 'ui/branding-output-1.webp', 1400],
   [repo('Alpha_Branding', 'docs/manual/images/output_02.jpg'), 'ui/branding-output-2.webp', 1400],
   [repo('Alpha_Branding', 'docs/manual/images/output_03.jpg'), 'ui/branding-output-3.webp', 1400],
   // Brand marks (keep alpha)
   [repo('Alpha_Branding', 'assets/logo_phoenix.png'), 'brand/peacock.png', 500],
-  [repo('apg-website', 'promo-video/assets/img/logo-horizontal.png'), 'brand/logo-horizontal.png', 1600],
   // Generated maquette keyframes (Google Flow, Nano Banana Pro), the film's chapter stills
   [path.join(root, '_intake/flow/k1-aerial-a.jpg'), 'stills/k1-aerial.webp', 2400],
   [path.join(root, '_intake/flow/k2-street.jpg'), 'stills/k2-street.webp', 2400],
