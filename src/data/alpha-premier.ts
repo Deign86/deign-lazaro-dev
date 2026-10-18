@@ -267,8 +267,7 @@ export const thanks = {
 };
 
 export const credits = [
-  'Website built with raineer26, sabbie19-design, goyaa25 and ishixxvi.',
-  'Branding Studio began as Joseph Tanay Amandy’s web tool. viber-mcp extends Wawi del Mundo’s original.',
+  'Website built with the APG IT Intern Team: Raineer Rosado, Lorraine Isabel Cabigon, Ishi De Guerto, Margaux Delaog, Narciso Lontoc.',
   'Alpha Premier marks belong to Alpha Premier Group of Companies OPC.',
 ];
 
