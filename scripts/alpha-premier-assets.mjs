@@ -49,10 +49,6 @@ const jobs = [
   [path.join(root, '_intake/flow/k3-window.jpg'), 'stills/k3-window.webp', 2400],
   [path.join(root, '_intake/flow/k4-office-dark.jpg'), 'stills/k4-office-dark.webp', 2400],
   [path.join(root, '_intake/flow/k5-office-lit.jpg'), 'stills/k5-office-lit.webp', 2400],
-  // Found pictures (credits in found/credits.json)
-  [path.join(out, 'found/philippine-stock-exchange-center-tektite-bldg-top.jpg'), 'found/tektite.webp', 1920],
-  [path.join(out, 'found/ortigas-center-at-dusk.jpg'), 'found/ortigas-dusk.webp', 1920],
-  [path.join(out, 'found/ortigas-center-at-night.jpg'), 'found/ortigas-night.webp', 1920],
 ];
 
 async function encode(src, dest, width) {

@@ -246,7 +246,6 @@
   transition: color var(--t-hover) ease, transform var(--t-press) var(--ease-out);
 }
 .ap-footer .ap-footer__link:active { transform: translateY(1px); }
-.ap-footer__legal a { color: var(--bg); }
 .ap-root .ap-footer :focus-visible { outline-color: var(--bg); }
 @media (hover: hover) and (pointer: fine) {
   .ap-root .ap-footer .ap-link:hover { color: var(--gold); }
@@ -258,17 +257,8 @@
   white-space: nowrap;
   font-size: min(var(--step-display), calc((100vw - 80px) / 6.7));
   font-size: min(var(--step-display), calc(100cqi / 6.6));
+  padding-bottom: 0.1em; /* room for the "p" tail, which hangs below the line box */
 }
-
-.ap-footer__legal {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 32px;
-  row-gap: 8px;
-  margin-top: 20px;
-  color: var(--bg);
-}
-.ap-footer__legal p { max-width: 70ch; }
 
 /* ---------- phone: each section composed for 390px ---------- */
 
@@ -307,7 +297,6 @@
   .ap-footer { --edge: 20px; gap: 32px; min-height: 88svh; }
   .ap-footer__top { flex-direction: column; gap: 0; }
   .ap-footer__links { flex-direction: column; }
-  .ap-footer__legal { grid-template-columns: 1fr; }
   .ap-footer__photo img { object-position: 46% 45%; }
 }
 

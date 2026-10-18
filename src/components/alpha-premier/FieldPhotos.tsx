@@ -19,11 +19,8 @@ const SIZES: Record<Kind, string> = {
 
 // Crops for the stand-ins, chosen by eye. Deign's own photographs use the centre.
 const FOCUS: Record<string, string> = {
-  '/alpha-premier/found/ortigas-dusk.webp': '12% 50%',
   '/alpha-premier/ui/attendance-kiosk.webp': '50% 40%',
-  '/alpha-premier/found/ortigas-night.webp': '40% 45%',
   '/alpha-premier/ui/website-realty.webp': '50% 0%',
-  '/alpha-premier/found/tektite.webp': '55% 50%',
 };
 
 const i = (n: number) => ({ '--i': n }) as CSSProperties;

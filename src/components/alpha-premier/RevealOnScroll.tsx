@@ -31,7 +31,7 @@ export function RevealOnScroll() {
       });
     };
     // The observer's bottom margin leaves a band at the foot of the page that can never be
-    // scrolled up into its area (the footer's credits sit there), so at the end, show what's on screen.
+    // scrolled up into its area, so at the end of the page, show what's on screen.
     const atEnd = () => {
       if (innerHeight + scrollY >= root.scrollHeight - 2) revealOnScreen();
     };

@@ -38,9 +38,9 @@ export const before = [
 
 /** The film chapters shown in the sticky half while the reading column scrolls. */
 export const stage = [
-  { id: 'arrival', floor: 'Exchange Road, ground level', still: '/alpha-premier/found/ortigas-night.webp', alt: 'Ortigas Center at night from above, office towers lit along the avenues' },
-  { id: 'climb', floor: 'Tektite East Tower', still: '/alpha-premier/found/tektite.webp', alt: 'The twin stepped towers of Tektite on Exchange Road, seen from a neighbouring rooftop' },
-  { id: 'floor', floor: '31st floor, Unit 3104C', still: '/alpha-premier/found/ortigas-dusk.webp', alt: 'The Ortigas skyline at dusk from a high floor' },
+  { id: 'arrival', floor: 'Exchange Road, ground level', still: '/alpha-premier/film/leg-1.webp', alt: 'An architectural scale model of Ortigas Center at night, seen from above' },
+  { id: 'climb', floor: 'Tektite East Tower', still: '/alpha-premier/film/leg-2.webp', alt: 'An architectural scale model seen from the street, looking up the east tower of Tektite' },
+  { id: 'floor', floor: '31st floor, Unit 3104C', still: '/alpha-premier/film/leg-3.webp', alt: 'An architectural scale model of a dark office, seen from outside through its window' },
   { id: 'lit', floor: '31st floor, lights on', still: '/alpha-premier/ui/attendance-scan.webp', alt: 'The attendance kiosk confirming a time-in at the front desk' },
 ] as const;
 
@@ -266,11 +266,6 @@ export const thanks = {
   role: 'IT Administrator Intern, Alpha Premier Realty',
 };
 
-export const credits = [
-  'Website built with the APG IT Intern Team: Raineer Rosado, Lorraine Isabel Cabigon, Ishi De Guerto, Margaux Delaog, Narciso Lontoc.',
-  'Alpha Premier marks belong to Alpha Premier Group of Companies OPC.',
-];
-
 // ---------------------------------------------------------------------------
 // Appended by build agent C (gallery, figures, record, letter, footer).
 // Above this line, only the `record` rows were rewritten, at the lead's request.
@@ -312,15 +307,12 @@ export const internship: Internship = {
 
 /** Gallery stand-ins, shown until Deign's photographs exist as public/alpha-premier/photos/photo-NN.webp. */
 export const fieldPhotoStandIns: Picture[] = [
-  { src: '/alpha-premier/found/ortigas-dusk.webp', alt: 'The Ortigas skyline at dusk from a high floor' },
   { src: '/alpha-premier/ui/attendance-kiosk.webp', alt: 'The attendance kiosk waiting for a card tap' },
   { src: '/alpha-premier/ui/branding-output-2.webp', alt: 'A living-room listing image in the official Alpha Premier Realty frame' },
-  { src: '/alpha-premier/found/ortigas-night.webp', alt: 'Ortigas Center at night from above, office towers lit along the avenues' },
   { src: '/alpha-premier/ui/branding-crop.webp', alt: 'The crop and alignment editor in Branding Studio' },
   { src: '/alpha-premier/ui/branding-output-3.webp', alt: 'A kitchen and bedroom listing image in the official Realty frame' },
   { src: '/alpha-premier/ui/website-realty.webp', alt: 'The Alpha Premier Realty page of the group website' },
   { src: '/alpha-premier/ui/attendance-live.webp', alt: 'The live attendance view with the day’s time-ins' },
-  { src: '/alpha-premier/found/tektite.webp', alt: 'The twin stepped towers of Tektite on Exchange Road, seen from a neighbouring rooftop' },
 ];
 
 /** The photograph beside the two figures, and the photograph the footer is set on. */
@@ -361,7 +353,6 @@ export const closing = {
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/deign-grey-lazaro-2976a41b6/' },
     { label: 'Message me', href: '/' },
   ],
-  photoCreditsLead: 'Photographs:',
 };
 
 /** Copy for the two interface fragments in the systems section (owned by the systems agent).
@@ -404,7 +395,7 @@ export const systemsDemo = {
 
 /**
  * The maquette keyframes shown as the stage stills, by `stage` chapter id. Each is a photograph of an
- * architectural scale model. When a file is missing, that chapter falls back to its found photograph in `stage`.
+ * architectural scale model. When a file is missing, that chapter falls back to its film poster in `stage`.
  */
 export const stageStills: Record<string, Picture> = {
   arrival: {
