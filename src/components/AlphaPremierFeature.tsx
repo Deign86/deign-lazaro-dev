@@ -15,6 +15,7 @@ export function AlphaPremierFeature({ variant }: { variant: 'hero' | 'work' }) {
       <TransitionLink
         href={ALPHA_PREMIER_HREF}
         direction="in"
+        prefetchOnView={false}
         className="group mx-auto mt-4 sm:mt-6 flex w-full max-w-md items-center gap-3 rounded-2xl border border-white/15 bg-mono-950/70 p-2 pr-4 text-left backdrop-blur-md shadow-xl transition-colors hover:border-white/35 hover:bg-mono-900/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-mono-50"
       >
         <span className="relative h-11 w-20 flex-shrink-0 overflow-hidden rounded-xl border border-white/10 bg-mono-900 sm:h-12 sm:w-[5.5rem]">
@@ -33,6 +34,7 @@ export function AlphaPremierFeature({ variant }: { variant: 'hero' | 'work' }) {
     <TransitionLink
       href={ALPHA_PREMIER_HREF}
       direction="in"
+      prefetchOnView={false}
       className="group grid overflow-hidden rounded-2xl border border-white/15 bg-mono-950/80 backdrop-blur-md shadow-2xl transition-colors hover:border-white/35 focus:outline-none focus-visible:ring-2 focus-visible:ring-mono-50 sm:col-span-2 sm:grid-cols-[1.1fr_1fr]"
     >
       <span className="relative block aspect-[16/9] overflow-hidden bg-mono-900 sm:aspect-auto sm:min-h-[11rem]">

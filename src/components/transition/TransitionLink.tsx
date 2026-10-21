@@ -4,11 +4,18 @@ import Link from 'next/link';
 import { useEffect, useRef, type ComponentProps, type MouseEvent } from 'react';
 import { requestTransition, stingAudioSrc, stingSrc, type StingDirection } from './TransitionLayer';
 
-type Props = Omit<ComponentProps<typeof Link>, 'href'> & { href: string; direction: StingDirection };
+type Props = Omit<ComponentProps<typeof Link>, 'href'> & {
+  href: string;
+  direction: StingDirection;
+  // false: don't fetch the sting when the link scrolls into view. The page calls prefetchSting
+  // itself once its own media has loaded, so the two don't compete for bandwidth. Hovering the
+  // link still fetches it straight away.
+  prefetchOnView?: boolean;
+};
 
 const prefetched = new Set<string>();
 
-function prefetchSting(direction: StingDirection) {
+export function prefetchSting(direction: StingDirection) {
   for (const href of [stingSrc(direction), stingAudioSrc(direction)]) {
     if (prefetched.has(href)) continue;
     prefetched.add(href);
@@ -21,12 +28,12 @@ function prefetchSting(direction: StingDirection) {
 
 // A plain link that plays the sting first. Modified clicks (new tab, etc.) behave normally.
 // The sting is fetched as soon as the link scrolls into view, so it is ready by the click.
-export function TransitionLink({ href, direction, onClick, onMouseEnter, ...rest }: Props) {
+export function TransitionLink({ href, direction, prefetchOnView = true, onClick, onMouseEnter, ...rest }: Props) {
   const ref = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el || !('IntersectionObserver' in window)) return;
+    if (!prefetchOnView || !el || !('IntersectionObserver' in window)) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const io = new IntersectionObserver(
       (entries) => {
@@ -39,7 +46,7 @@ export function TransitionLink({ href, direction, onClick, onMouseEnter, ...rest
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [direction]);
+  }, [direction, prefetchOnView]);
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(event);
