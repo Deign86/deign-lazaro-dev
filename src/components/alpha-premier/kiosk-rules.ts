@@ -1,7 +1,7 @@
 // Pure pricing rules of the front-desk kiosk (alpha-premier-attendance, policy V2_NO_GRACE):
-// on time through 08:00:59; from 08:01:00 every started hour since 08:00 costs ₱10, minimum 1;
-// a day pays ₱80 and never goes below ₱0. Mirrors `LateRounding::CeilActualHours` in
-// src-tauri/src/services/intern_payroll.rs. No imports, so it can be checked on its own.
+// on time through 08:00:59; from 08:01:00 every started hour since 08:00 costs `lateCostPerHour`,
+// minimum 1; a day pays `dailyRate` and never goes below ₱0. The page passes sample rates, not
+// the office's. No imports, so it can be checked on its own.
 
 export type KioskRules = {
   dailyRate: number;

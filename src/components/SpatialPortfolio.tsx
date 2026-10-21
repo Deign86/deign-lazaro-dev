@@ -13,6 +13,8 @@ import {
   Lightbulb,
   ExternalLink,
   Github,
+  Award,
+  BookOpen,
 } from 'lucide-react';
 import { LiquidObject } from './LiquidObject';
 import { KineticFrame } from './KineticFrame';
@@ -119,6 +121,43 @@ const initiatives: {
   },
 ];
 
+// Achievements and training, from the CV and the internship record. No certifications yet.
+const recognition: { title: string; organization: string; period: string }[] = [
+  {
+    title: 'Nominated IT Admin leader of the intern team',
+    organization: 'Alpha Premier Realty',
+    period: 'Jul 2026',
+  },
+  {
+    title: 'Consistent Honor Student',
+    organization: 'Pamantasan ng Lungsod ng Valenzuela',
+    period: '2023 – Present',
+  },
+  {
+    title: 'Consistent Honor Student and Student Council Member',
+    organization: 'St. Louis College of Valenzuela',
+    period: '2016 – 2020',
+  },
+];
+
+const training: { title: string; organization: string; period: string }[] = [
+  {
+    title: 'On-the-job training: IT Administrator Intern, 486 hours',
+    organization: 'Alpha Premier Realty · Ortigas',
+    period: 'Jun – Oct 2026',
+  },
+  {
+    title: 'Trained the HR interns and front desk on the attendance kiosk',
+    organization: 'Alpha Premier Realty',
+    period: 'Aug 2026',
+  },
+  {
+    title: 'Interviewed and onboarded new IT interns',
+    organization: 'Alpha Premier Realty',
+    period: 'Jul – Oct 2026',
+  },
+];
+
 const skillCategories = [
   {
     name: 'Languages',
@@ -192,7 +231,11 @@ const socialLinks = [
   },
 ];
 
-const workIndex = PINNED_PROJECTS.map((project) => ({
+// The index and the cards list the same builds. The APG website is left out of both: the
+// company-portfolio card above them covers it.
+const SHOWN_PROJECTS = PINNED_PROJECTS.filter((project) => project.id !== 'apg-website');
+
+const workIndex = SHOWN_PROJECTS.map((project) => ({
   id: project.id,
   number: String(project.order).padStart(2, '0'),
   name: project.title,
@@ -202,7 +245,7 @@ const workIndex = PINNED_PROJECTS.map((project) => ({
 export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfolioProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  const [activeResumeTab, setActiveResumeTab] = useState<'education' | 'skills'>('education');
+  const [activeResumeTab, setActiveResumeTab] = useState<'education' | 'achievements' | 'skills'>('education');
   const [showContactForm, setShowContactForm] = useState(false);
 
   // Master Global Scroll Runway Progress: 0.0 -> 1.0 spanning entire 700vh runway
@@ -555,7 +598,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
                     Background & Skills
                   </h2>
                   <p className="mt-1 sm:mt-2 text-xs sm:text-sm leading-relaxed text-mono-200 font-light md:text-base">
-                    A structured timeline of education, project leadership, and technical capability.
+                    A structured timeline of education, achievements, training, and technical capability.
                   </p>
                 </div>
                 <a
@@ -570,9 +613,10 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             </div>
 
             {/* Tab Controls */}
-            <div className="mb-3 sm:mb-4 flex gap-2">
+            <div className="mb-3 sm:mb-4 flex flex-wrap gap-2">
               {[
                 { id: 'education', label: 'Timeline & History', icon: GraduationCap },
+                { id: 'achievements', label: 'Achievements & Training', icon: Award },
                 { id: 'skills', label: 'Core Competencies', icon: Code },
               ].map((tab) => (
                 <button
@@ -662,6 +706,34 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
                   </div>
                 </div>
               </div>
+            ) : activeResumeTab === 'achievements' ? (
+              <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
+                {[
+                  { heading: 'Achievements', icon: Award, items: recognition },
+                  { heading: 'Training', icon: BookOpen, items: training },
+                ].map((group) => (
+                  <div key={group.heading} className="space-y-3 rounded-3xl border border-white/10 bg-mono-950/70 p-4 sm:p-6 backdrop-blur-md shadow-2xl">
+                    <div className="flex items-center gap-2 text-[11px] sm:text-xs font-mono uppercase tracking-[0.24em] text-mono-200 mb-3 sm:mb-4">
+                      <group.icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-mono-100" />
+                      <span>{group.heading}</span>
+                    </div>
+                    <div className="space-y-3 sm:space-y-4 border-l border-white/10 pl-4 sm:pl-5">
+                      {group.items.map((item) => (
+                        <div key={item.title} className="relative">
+                          <div className="absolute -left-[23px] sm:-left-[27px] top-1.5 h-2 w-2 rounded-full bg-mono-400 ring-4 ring-mono-950" />
+                          <div className="rounded-xl border border-white/10 bg-mono-900/60 p-3 sm:p-3.5">
+                            <div className="flex flex-wrap items-center justify-between gap-1">
+                              <h4 className="text-xs sm:text-sm font-semibold text-mono-50">{item.title}</h4>
+                              <span className="text-[9px] sm:text-[10px] font-mono text-mono-300 bg-mono-950/80 px-2 py-0.5 rounded border border-white/10">{item.period}</span>
+                            </div>
+                            <p className="mt-1 text-[11px] sm:text-xs text-mono-300">{item.organization}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
             ) : (
               <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
                 {skillCategories.map((cat) => (
@@ -732,7 +804,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
                 className="grid auto-rows-max gap-3 sm:gap-4 sm:grid-cols-2 max-h-[58vh] overflow-y-auto pr-1 no-scrollbar"
               >
                 <AlphaPremierFeature variant="work" />
-                {PINNED_PROJECTS.slice(0, 4).map((project) => (
+                {SHOWN_PROJECTS.map((project) => (
                   <div
                     key={project.id}
                     className="flex flex-col justify-between rounded-2xl border border-white/10 bg-mono-950/80 p-4 sm:p-5 backdrop-blur-md shadow-2xl transition-all hover:border-white/30"

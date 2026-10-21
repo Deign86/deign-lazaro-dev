@@ -24,7 +24,7 @@ export const company = {
 export const hero = {
   headline: ['Lights on at', 'Unit 3104'],
   sentence:
-    'Alpha Premier Realty had no IT department, so as its 2026 IT Administrator intern I built four systems it now uses.',
+    'Alpha Premier Realty had no IT department, so as its 2026 IT Administrator intern I built four systems it now uses, one of them with the intern team.',
   action: { label: 'See the systems', href: '#systems' },
 };
 
@@ -57,7 +57,7 @@ export const ledger: { month: string; rows: LedgerRow[] }[] = [
   {
     month: 'July',
     rows: [
-      { name: 'Group website', kind: 'One site for eight brands', month: 'Jul 2026', image: '/alpha-premier/ui/website-home-fold.webp', alt: 'alphapremiergroup.com home page' },
+      { name: 'Group website', kind: 'Eight brands, built with the team', month: 'Jul 2026', image: '/alpha-premier/ui/website-home-fold.webp', alt: 'alphapremiergroup.com home page' },
       { name: 'Attendance kiosk', kind: 'RFID taps, offline first', month: 'Jul 2026', image: '/alpha-premier/ui/attendance-kiosk.webp', alt: 'The attendance kiosk waiting for a card tap' },
     ],
   },
@@ -82,7 +82,7 @@ export const ledger: { month: string; rows: LedgerRow[] }[] = [
       { name: 'Website launch', kind: 'Hostinger, October 9', month: 'Oct 2026', image: '/alpha-premier/ui/website-enterprises.webp', alt: 'The enterprises page of alphapremiergroup.com' },
       { name: 'Live listings', kind: 'Drive to website, every 15 minutes', month: 'Oct 2026', image: '/alpha-premier/ui/website-realty.webp', alt: 'The Alpha Premier Realty page with listings' },
       { name: 'PIN reset mailer', kind: 'Google Apps Script', month: 'Oct 2026', image: '/alpha-premier/ui/attendance-pin.webp', alt: 'The forgot-PIN screen of the kiosk admin' },
-      { name: 'Viber MCP', kind: '42 tools for the office inbox', month: 'Oct 2026', image: '/alpha-premier/ui/website-admin.webp', alt: 'The website admin dashboard' },
+      { name: 'Viber MCP', kind: '42 tools for the office inbox', month: 'Oct 2026', image: '/alpha-premier/photos/photo-15.webp', alt: 'An intern works in a Viber group chat on a laptop beside a freshly set-up Windows laptop.' },
     ],
   },
 ];
@@ -144,6 +144,7 @@ export const systems: System[] = [
       { label: 'Stack', value: '.NET 8, WPF, Magick.NET' },
       { label: 'Releases', value: '20, signed' },
       { label: 'Frame', value: '1200 × 1000, the official ratio' },
+      { label: 'Based on', value: 'Joseph Tanay Amandy’s original tool' },
     ],
     image: { src: '/alpha-premier/ui/branding-output-1.webp', alt: 'A sample listing image in the official Alpha Premier Realty frame' },
     primary: { label: 'Source code', href: 'https://github.com/Deign86/Alpha_Branding' },
@@ -160,16 +161,17 @@ export const systems: System[] = [
       { label: 'Stack', value: 'Python, MCP, Windows UI Automation' },
       { label: 'Tools', value: '42' },
       { label: 'Group chats', value: 'Named FIRSTNAME-TYPE-(SQM, LOCATION)' },
+      { label: 'Based on', value: 'Wawi del Mundo’s original' },
     ],
     primary: { label: 'Source code', href: 'https://github.com/Deign86/viber-mcp' },
     secondary: { label: 'How it works', href: 'https://github.com/Deign86/viber-mcp#readme' },
   },
 ];
 
-/** Kiosk rules, from the attendance README: day starts 08:00, every started hour late costs ₱10. */
+/** Kiosk rules: the timing follows the attendance README; the peso amounts are samples, not the office's rates. */
 export const kioskRules = {
-  dailyRate: 80,
-  lateCostPerHour: 10,
+  dailyRate: 500,
+  lateCostPerHour: 50,
   dayStart: { hour: 8, minute: 0 },
   repeatTapSeconds: 10,
 };
@@ -266,6 +268,42 @@ export const thanks = {
   role: 'IT Administrator Intern, Alpha Premier Realty',
 };
 
+/** The reflection: what the internship taught, one lesson per row. Every example is from the record above. */
+export const learned = {
+  heading: 'What I learned',
+  lead: 'Four months as the office’s whole IT department taught me as much about people as about code.',
+  lessons: [
+    {
+      name: 'Fix what people touch first',
+      text: 'My first weeks were PCs, printers and a router fault, not software. Getting those right is what earned the yes for the kiosk and the website: reliable basics come before new systems.',
+    },
+    {
+      name: 'Ship small, then listen',
+      text: 'The kiosk went live on August 11 and took 115 updates after that, and Branding Studio changed with each round of staff suggestions. Small, frequent releases let the people using a tool tell me what was wrong while it still mattered.',
+    },
+    {
+      name: 'Lead by reviewing, not redoing',
+      text: 'As IT lead of the intern team I assigned work, checked it and interviewed new interns. I learned to write tasks down clearly on the Jira board and to review someone’s work rather than quietly redo it.',
+    },
+    {
+      name: 'Privacy is part of the design',
+      text: 'A brokerage runs on client names, numbers and addresses. The Viber assistant holds back addresses and owner and agent numbers, Branding Studio has a pen for covering private details, and every screenshot here uses demo data. I learned to decide what stays private before writing the feature, in line with the Data Privacy Act of 2012.',
+    },
+  ],
+};
+
+/** Permission and credits, set after the letter. The footer itself stays the photograph, the links and the wordmark. */
+export const credits = {
+  heading: 'Credits',
+  lines: [
+    'Published with the permission of Alpha Premier Realty. The Alpha Premier name, peacock mark and logos belong to Alpha Premier Group of Companies OPC.',
+    'The group website was built with the APG IT intern team: raineer26, sabbie19-design, goyaa25 and ishixxvi on GitHub. Branding Studio is a rebuild of Joseph Tanay Amandy’s original tool, and the Viber assistant builds on Wawi del Mundo’s original.',
+    'Screenshots use demo data, the client in the Viber example is fictional, and the kiosk demo uses sample rates rather than the office’s.',
+    'The building film and its stills are AI-generated scale models made with Google Flow. The reel’s motion and music were made in code, and its sound effects are CC0 recordings from Kenney and Freesound contributors.',
+    'Type: Bodoni Moda and Jost, from Google Fonts under the SIL Open Font License.',
+  ],
+};
+
 // ---------------------------------------------------------------------------
 // Appended by build agent C (gallery, figures, record, letter, footer).
 // Above this line, only the `record` rows were rewritten, at the lead's request.
@@ -301,7 +339,7 @@ export const internship: Internship = {
   start: 'June 29, 2026',
   period: 'June 29 – October 23, 2026',
   hours: '444 of 486 hours, as of October 16, 2026',
-  supervisor: 'Jean Ashley Chico, HR Staff',
+  supervisor: 'Ma’am Jean, HR Staff',
   team: 'Nominated IT Admin leader of the intern team on July 6',
 };
 
@@ -351,7 +389,7 @@ export const closing = {
   ],
   contact: [
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/deign-grey-lazaro-2976a41b6/' },
-    { label: 'Message me', href: '/' },
+    { label: 'Message me', href: '/#contact' },
   ],
 };
 
@@ -369,7 +407,7 @@ export const systemsDemo = {
     timeOut: 'Time out recorded',
     complete: 'Attendance is already complete for today.',
     reset: 'Reset',
-    note: 'A working copy of the kiosk’s rules: the day starts at 8:00, and every started hour late costs ₱10.',
+    note: `A working copy of the kiosk’s rules, with sample rates in place of the office’s: the day starts at 8:00, and every started hour late costs ₱${kioskRules.lateCostPerHour}.`,
     examplesCaption: 'How the kiosk prices a time-in',
     examples: [
       { time: '08:00', hour: 8, minute: 0 },

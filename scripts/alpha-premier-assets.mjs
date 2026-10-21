@@ -29,7 +29,6 @@ const jobs = [
   [repo('apg-website', 'promo-video/assets/pages/enterprises.jpg'), 'ui/website-enterprises.webp', 1600],
   [repo('apg-website', 'promo-video/assets/pages/realty.jpg'), 'ui/website-realty.webp', 1600],
   [repo('apg-website', '.github/assets/screenshot-home.png'), 'ui/website-home-fold.webp', 1600],
-  [repo('apg-website', '.github/assets/screenshot-admin.png'), 'ui/website-admin.webp', 1600],
   // Branding Studio
   [repo('Alpha_Branding', 'docs/assets/app-screenshot-main.png'), 'ui/branding-main.webp', 1600],
   [repo('Alpha_Branding', 'docs/assets/app-screenshot-crop-editor.png'), 'ui/branding-crop.webp', 1600],

@@ -209,6 +209,35 @@
 }
 .ap-letter__role { display: block; margin-top: 6px; }
 
+/* ---------- reflection: what the internship taught ---------- */
+
+.ap-learned {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--margin);
+  align-items: start;
+  padding: var(--section) var(--pad);
+}
+.ap-learned__head { position: sticky; top: 12vh; grid-column: 1 / 6; }
+.ap-learned__head h2 { margin-bottom: 32px; }
+.ap-learned__head .ap-lead { max-width: 24ch; }
+
+.ap-learned__list { grid-column: 7 / 12; display: grid; row-gap: 48px; }
+.ap-learned__name {
+  margin-bottom: 14px;
+  font-size: var(--step-lead);
+  line-height: 1.2;
+}
+.ap-learned__item p { max-width: 46ch; line-height: 1.55; }
+
+/* ---------- credits: permission and sources, the letter's postscript ---------- */
+
+.ap-credits { padding: 0 24px var(--section); }
+.ap-credits__title,
+.ap-credits__lines { width: 100%; max-width: 520px; margin-inline: auto; }
+.ap-credits__title { margin-bottom: 20px; font-size: var(--step-lead); line-height: 1.2; }
+.ap-credits__lines p + p { margin-top: 0.9em; }
+
 /* ---------- footer: the name across the last photograph ---------- */
 
 .ap-footer {
@@ -293,6 +322,10 @@
   }
   .ap-record__list { position: relative; z-index: 1; padding-top: 12px; }
   .ap-record__row { min-height: 56px; }
+
+  .ap-learned { display: block; padding-inline: 20px; }
+  .ap-learned__head { position: static; padding-bottom: 40px; }
+  .ap-learned__list { row-gap: 36px; }
 
   .ap-footer { --edge: 20px; gap: 32px; min-height: 88svh; }
   .ap-footer__top { flex-direction: column; gap: 0; }
