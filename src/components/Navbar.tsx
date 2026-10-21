@@ -136,6 +136,7 @@ export function Navbar() {
               <TransitionLink
                 href={ALPHA_PREMIER_HREF}
                 direction="in"
+                prefetchOnView={false}
                 className="inline-flex items-center gap-2 border-l border-mono-800 pl-6 text-xs uppercase tracking-[0.24em] font-mono text-mono-200 hover:text-mono-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mono-400 rounded-sm"
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-[#c5a059]" aria-hidden="true" />
@@ -219,6 +220,7 @@ export function Navbar() {
                   <TransitionLink
                     href={ALPHA_PREMIER_HREF}
                     direction="in"
+                    prefetchOnView={false}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center gap-3 py-3 px-4 text-base font-mono uppercase tracking-[0.2em] text-mono-100 hover:text-mono-50 hover:bg-mono-900 rounded-xl transition-colors"
                   >

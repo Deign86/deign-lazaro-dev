@@ -22,7 +22,7 @@ import { Navbar } from './Navbar';
 import { GlassButton } from './ui/apple-tahoe-liquid-glass-button';
 import { ContactForm } from './ui/contact-form';
 import { PINNED_PROJECTS } from '@/data/projects';
-import { TransitionLink } from './transition/TransitionLink';
+import { TransitionLink, prefetchSting } from './transition/TransitionLink';
 import { AlphaPremierFeature } from './AlphaPremierFeature';
 
 interface TechStackProps {
@@ -231,6 +231,12 @@ const socialLinks = [
   },
 ];
 
+// The links into the company portfolio don't fetch its 2 MB sting on sight (prefetchOnView=false):
+// it's fetched once the scrub clip has fully buffered, so the two never split the bandwidth.
+function prefetchStingAfterClip() {
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) prefetchSting('in');
+}
+
 // The index and the cards list the same builds. The APG website is left out of both: the
 // company-portfolio card above them covers it.
 const SHOWN_PROJECTS = PINNED_PROJECTS.filter((project) => project.id !== 'apg-website');
@@ -281,6 +287,9 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
   // =========================================================================
   // SPATIAL SCENE CHOREOGRAPHY CURVES (Synchronized with Reference Interaction)
   // =========================================================================
+  // Every element these curves move carries `will-change-transform`: without it Chrome
+  // repaints the panels (blurred shadows included) at each new scale, every scroll frame.
+  // Never add opacity to that will-change: it would cut the glass panels off from the video.
 
   // SCENE 1: HERO (0% -> 20%)
   const heroOpacity = useTransform(smoothProgress, [0, 0.14, 0.20, 1], [1, 1, 0, 0]);
@@ -350,6 +359,30 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
     return () => window.removeEventListener('hire-me', handleHireMe);
   }, []);
 
+  // Scenes 2-5 start with content-visibility: hidden, so the first paint only lays out the hero.
+  // One more scene is laid out each time the browser goes idle; the first scroll lays out the rest
+  // (as does arriving already scrolled: a #section link or a restored scroll position).
+  // Their markup stays in the HTML, so search engines still read every section.
+  const [scenesLaidOut, setScenesLaidOut] = useState(1);
+  useEffect(() => {
+    if (scenesLaidOut >= 5) return;
+    const layOutNext = () => setScenesLaidOut((n) => n + 1);
+    const layOutAll = () => setScenesLaidOut(5);
+    if (window.scrollY > 0) {
+      const frame = window.requestAnimationFrame(layOutAll);
+      return () => window.cancelAnimationFrame(frame);
+    }
+    const idle = 'requestIdleCallback' in window;
+    const id = idle ? window.requestIdleCallback(layOutNext, { timeout: 1000 }) : window.setTimeout(layOutNext, 200);
+    window.addEventListener('scroll', layOutAll, { once: true, passive: true });
+    return () => {
+      if (idle) window.cancelIdleCallback(id);
+      else window.clearTimeout(id);
+      window.removeEventListener('scroll', layOutAll);
+    };
+  }, [scenesLaidOut]);
+  const deferLayout = (scene: number) => (!reduceMotion && scene >= scenesLaidOut ? '[content-visibility:hidden]' : '');
+
   return (
     <div
       ref={containerRef}
@@ -377,7 +410,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
       {/* ========================================================================= */}
       <div className="spatial-stage sticky top-0 flex h-[100dvh] w-full items-center justify-center overflow-hidden px-4 sm:px-8 lg:px-12">
         {/* Fixed 3D Liquid Metal Scrubber Canvas (raw scroll progress: 1:1 tracking, no spring trail) */}
-        <LiquidObject progress={scrollYProgress} />
+        <LiquidObject progress={scrollYProgress} onBuffered={prefetchStingAfterClip} />
 
         {/* Global Architectural Hairline Grid */}
         <div
@@ -396,7 +429,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             visibility: reduceMotion ? 'visible' : heroVisibility,
             pointerEvents: reduceMotion ? 'auto' : heroPointerEvents,
           }}
-          className="spatial-scene absolute inset-x-0 top-0 flex h-full w-full flex-col justify-between px-4 pb-6 pt-20 sm:px-8 sm:pb-12 sm:pt-28 lg:px-12 z-10 overflow-y-auto no-scrollbar"
+          className="spatial-scene will-change-transform absolute inset-x-0 top-0 flex h-full w-full flex-col justify-between px-4 pb-6 pt-20 sm:px-8 sm:pb-12 sm:pt-28 lg:px-12 z-10 overflow-y-auto no-scrollbar"
         >
           {/* Top Editorial Metadata (Desktop) */}
           <div className="mx-auto w-full max-w-7xl hidden sm:block">
@@ -490,7 +523,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             visibility: reduceMotion ? 'visible' : aboutVisibility,
             pointerEvents: reduceMotion ? 'auto' : aboutPointerEvents,
           }}
-          className="spatial-scene absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
+          className={`spatial-scene will-change-transform absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20 ${deferLayout(1)}`}
         >
           <div className="mx-auto w-full max-w-7xl max-h-[82vh] overflow-y-auto no-scrollbar pr-1">
             {/* Header */}
@@ -511,7 +544,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
               {/* Left Column: Portrait & Narrative */}
               <motion.div
                 style={{ x: reduceMotion ? '0px' : aboutLeftX }}
-                className="flex flex-col gap-4 sm:gap-5 rounded-3xl border border-white/10 bg-mono-950/70 p-4 sm:p-6 backdrop-blur-md shadow-2xl"
+                className="will-change-transform flex flex-col gap-4 sm:gap-5 rounded-3xl border border-white/10 bg-mono-950/70 p-4 sm:p-6 backdrop-blur-md shadow-2xl"
               >
                 <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-5">
                   <div className="relative h-28 w-24 sm:h-36 sm:w-32 flex-shrink-0 overflow-hidden rounded-2xl border border-white/20 bg-mono-900 shadow-2xl mx-auto sm:mx-0">
@@ -546,7 +579,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
               {/* Right Column: Tech Capability Matrix */}
               <motion.div
                 style={{ x: reduceMotion ? '0px' : aboutRightX }}
-                className="flex flex-col gap-3 sm:gap-4 rounded-3xl border border-white/10 bg-mono-950/70 p-4 sm:p-6 backdrop-blur-md shadow-2xl"
+                className="will-change-transform flex flex-col gap-3 sm:gap-4 rounded-3xl border border-white/10 bg-mono-950/70 p-4 sm:p-6 backdrop-blur-md shadow-2xl"
               >
                 <h3 className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-mono-300 font-mono font-medium">Technical Capabilities</h3>
                 <div className="space-y-2.5 sm:space-y-3.5">
@@ -586,7 +619,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             visibility: reduceMotion ? 'visible' : resumeVisibility,
             pointerEvents: reduceMotion ? 'auto' : resumePointerEvents,
           }}
-          className="spatial-scene absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
+          className={`spatial-scene will-change-transform absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20 ${deferLayout(2)}`}
         >
           <div className="mx-auto w-full max-w-7xl max-h-[82vh] overflow-y-auto no-scrollbar pr-1">
             {/* Header */}
@@ -604,7 +637,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
                 <a
                   href="/Lazaro CV.pdf"
                   download="Lazaro CV.pdf"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-mono-900/90 px-4 py-2 text-[11px] sm:text-xs uppercase tracking-[0.2em] font-mono text-mono-100 backdrop-blur-md transition-all hover:bg-mono-50 hover:text-mono-950 shadow-xl"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-mono-900/90 px-4 py-2 text-[11px] sm:text-xs uppercase tracking-[0.2em] font-mono text-mono-100 transition-all hover:bg-mono-50 hover:text-mono-950 shadow-xl"
                 >
                   <Download className="h-3.5 w-3.5" />
                   <span>Download CV</span>
@@ -634,7 +667,9 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
               ))}
             </div>
 
-            {/* Tab Content */}
+            {/* Tab Content. The cards inside these glass panels (and the CV button inside the header)
+                carry no backdrop-blur of their own: blurring the panel's already-blurred backdrop
+                again looks the same and costs a render pass per card on every scroll frame. */}
             {activeResumeTab === 'education' ? (
               <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
                 <div className="space-y-3 rounded-3xl border border-white/10 bg-mono-950/70 p-4 sm:p-6 backdrop-blur-md shadow-2xl">
@@ -646,7 +681,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
                     {education.map((item, idx) => (
                       <div key={idx} className="relative">
                         <div className="absolute -left-[23px] sm:-left-[27px] top-1.5 h-2 w-2 rounded-full bg-mono-400 ring-4 ring-mono-950" />
-                        <div className="rounded-xl border border-white/10 bg-mono-900/60 p-3 sm:p-3.5 backdrop-blur-sm">
+                        <div className="rounded-xl border border-white/10 bg-mono-900/60 p-3 sm:p-3.5">
                           <div className="flex flex-wrap items-center justify-between gap-1">
                             <h4 className="text-xs sm:text-sm font-semibold text-mono-50">{item.title}</h4>
                             <span className="text-[9px] sm:text-[10px] font-mono text-mono-300 bg-mono-950/80 px-2 py-0.5 rounded border border-white/10">{item.period}</span>
@@ -674,7 +709,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
                     {initiatives.map((item, idx) => (
                       <div key={idx} className="relative">
                         <div className="absolute -left-[23px] sm:-left-[27px] top-1.5 h-2 w-2 rounded-full bg-mono-400 ring-4 ring-mono-950" />
-                        <div className="rounded-xl border border-white/10 bg-mono-900/60 p-3 sm:p-3.5 backdrop-blur-sm">
+                        <div className="rounded-xl border border-white/10 bg-mono-900/60 p-3 sm:p-3.5">
                           <div className="flex flex-wrap items-center justify-between gap-1">
                             <h4 className="text-xs sm:text-sm font-semibold text-mono-50">{item.title}</h4>
                             <span className="text-[9px] sm:text-[10px] font-mono text-mono-300 bg-mono-950/80 px-2 py-0.5 rounded border border-white/10">{item.period}</span>
@@ -694,6 +729,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
                             <TransitionLink
                               href={item.href}
                               direction="in"
+                              prefetchOnView={false}
                               className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-mono-50 px-3 py-1.5 text-[11px] sm:text-xs font-semibold text-mono-950 transition-colors hover:bg-mono-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-mono-50"
                             >
                               {item.linkLabel}
@@ -762,7 +798,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             visibility: reduceMotion ? 'visible' : workVisibility,
             pointerEvents: reduceMotion ? 'auto' : workPointerEvents,
           }}
-          className="spatial-scene absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20"
+          className={`spatial-scene will-change-transform absolute inset-0 flex items-center justify-center px-4 sm:px-6 pt-16 pb-4 sm:pt-24 sm:pb-8 z-20 ${deferLayout(3)}`}
         >
           <div className="mx-auto w-full max-w-7xl max-h-[82vh] overflow-y-auto no-scrollbar pr-1">
             {/* Header */}
@@ -782,7 +818,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
               {/* Left Aside Index */}
               <motion.div
                 style={{ x: reduceMotion ? '0px' : workAsideX }}
-                className="hidden rounded-3xl border border-white/10 bg-mono-950/70 p-6 backdrop-blur-md shadow-2xl lg:block"
+                className="will-change-transform hidden rounded-3xl border border-white/10 bg-mono-950/70 p-6 backdrop-blur-md shadow-2xl lg:block"
               >
                 <p className="mb-3 text-[10px] uppercase tracking-[0.34em] text-mono-300 font-mono font-semibold">Index Showcase</p>
                 <div className="border-t border-white/10">
@@ -801,7 +837,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
               {/* Right Streaming Project Cards */}
               <motion.div
                 style={{ y: reduceMotion ? '0px' : workCardsY }}
-                className="grid auto-rows-max gap-3 sm:gap-4 sm:grid-cols-2 max-h-[58vh] overflow-y-auto pr-1 no-scrollbar"
+                className="will-change-transform grid auto-rows-max gap-3 sm:gap-4 sm:grid-cols-2 max-h-[58vh] overflow-y-auto pr-1 no-scrollbar"
               >
                 <AlphaPremierFeature variant="work" />
                 {SHOWN_PROJECTS.map((project) => (
@@ -866,7 +902,7 @@ export function SpatialPortfolio({ techStack, liveDeployCount }: SpatialPortfoli
             visibility: reduceMotion ? 'visible' : contactVisibility,
             pointerEvents: reduceMotion ? 'auto' : contactPointerEvents,
           }}
-          className="spatial-scene absolute inset-0 flex flex-col justify-between px-4 sm:px-6 pt-16 pb-3 z-30 overflow-y-auto no-scrollbar"
+          className={`spatial-scene will-change-transform absolute inset-0 flex flex-col justify-between px-4 sm:px-6 pt-16 pb-3 z-30 overflow-y-auto no-scrollbar ${deferLayout(4)}`}
         >
           <div className="mx-auto w-full max-w-5xl my-auto text-center flex flex-col items-center justify-center">
             <span className="text-[10px] sm:text-xs uppercase tracking-[0.34em] text-mono-400 font-mono">05 / Contact</span>

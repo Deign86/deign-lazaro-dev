@@ -1,4 +1,6 @@
-import { SpatialPortfolio } from '@/components';
+// Import the module itself, not the '@/components' barrel: every client component the barrel
+// re-exports (Hero, About, AppLogos + embla...) would otherwise ship in this page's bundle.
+import { SpatialPortfolio } from '@/components/SpatialPortfolio';
 
 export const revalidate = 3600;
 

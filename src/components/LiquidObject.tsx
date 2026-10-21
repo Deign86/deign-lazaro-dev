@@ -7,35 +7,47 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 const DESKTOP_SEEK_INTERVAL_MS = 24;
 const MOBILE_SEEK_INTERVAL_MS = 50;
 const MOBILE_MEDIA_QUERY = '(pointer: coarse), (hover: none), (max-width: 767px)';
+// Screens 9:16 or taller (phones held upright) get the portrait cut: the centre 608x1080 of the
+// 16:9 clip, which is exactly the part object-cover shows there, at a fraction of the bytes.
+const PORTRAIT_MEDIA_QUERY = '(max-aspect-ratio: 9/16)';
+
+const BUFFERED_FALLBACK_MS = 15000;
 
 interface LiquidObjectProps {
   progress?: MotionValue<number>;
   className?: string;
+  // Called once the whole clip is buffered (or after BUFFERED_FALLBACK_MS, whichever is first).
+  onBuffered?: () => void;
 }
 
-export function LiquidObject({ progress, className = '' }: LiquidObjectProps) {
+export function LiquidObject({ progress, className = '', onBuffered }: LiquidObjectProps) {
   const reduceMotion = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isMobileMedia, setIsMobileMedia] = useState<boolean | null>(null);
+  const [media, setMedia] = useState<{ mobile: boolean; portrait: boolean } | null>(null);
   const targetTimeRef = useRef(0);
   const rafIdRef = useRef<number | null>(null);
   const lastSeekTimeRef = useRef(-DESKTOP_SEEK_INTERVAL_MS);
   const pendingTimeRef = useRef<number | null>(null);
   const decoderPrimedRef = useRef(false);
-  const showStaticPoster = reduceMotion === true || isMobileMedia === null;
-  const videoSrc = isMobileMedia
+  const showStaticPoster = reduceMotion === true || media === null;
+  const videoSrc = media?.portrait
     ? '/video/liquid-metal-mobile.mp4'
     : '/video/liquid-metal-scrub.mp4';
-  const seekIntervalMs = isMobileMedia ? MOBILE_SEEK_INTERVAL_MS : DESKTOP_SEEK_INTERVAL_MS;
+  const seekIntervalMs = media?.mobile ? MOBILE_SEEK_INTERVAL_MS : DESKTOP_SEEK_INTERVAL_MS;
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia(MOBILE_MEDIA_QUERY);
-    const updatePreference = () => setIsMobileMedia(mediaQuery.matches);
+    const mobileQuery = window.matchMedia(MOBILE_MEDIA_QUERY);
+    const portraitQuery = window.matchMedia(PORTRAIT_MEDIA_QUERY);
+    const updatePreference = () => setMedia({ mobile: mobileQuery.matches, portrait: portraitQuery.matches });
 
     updatePreference();
-    mediaQuery.addEventListener('change', updatePreference);
-    return () => mediaQuery.removeEventListener('change', updatePreference);
+    mobileQuery.addEventListener('change', updatePreference);
+    portraitQuery.addEventListener('change', updatePreference);
+    return () => {
+      mobileQuery.removeEventListener('change', updatePreference);
+      portraitQuery.removeEventListener('change', updatePreference);
+    };
   }, []);
 
   // Direct video seek executed smoothly
@@ -221,6 +233,34 @@ export function LiquidObject({ progress, className = '' }: LiquidObjectProps) {
     };
   }, [progress, videoSrc, showStaticPoster, performSeek]);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (showStaticPoster || !video || !onBuffered) return;
+
+    let reported = false;
+    const report = () => {
+      if (reported) return;
+      reported = true;
+      onBuffered();
+    };
+    const checkBuffered = () => {
+      const { buffered, duration } = video;
+      if (duration && buffered.length === 1 && buffered.start(0) <= 0.05 && buffered.end(0) >= duration - 0.1) report();
+    };
+    const fallback = window.setTimeout(report, BUFFERED_FALLBACK_MS);
+
+    checkBuffered();
+    video.addEventListener('progress', checkBuffered);
+    video.addEventListener('suspend', checkBuffered);
+    video.addEventListener('canplaythrough', checkBuffered);
+    return () => {
+      window.clearTimeout(fallback);
+      video.removeEventListener('progress', checkBuffered);
+      video.removeEventListener('suspend', checkBuffered);
+      video.removeEventListener('canplaythrough', checkBuffered);
+    };
+  }, [videoSrc, showStaticPoster, onBuffered]);
+
   const handleLoadStart = useCallback(() => {
     setIsLoaded(false);
     pendingTimeRef.current = null;
@@ -256,6 +296,9 @@ export function LiquidObject({ progress, className = '' }: LiquidObjectProps) {
           draggable={false}
           className="object-cover opacity-70"
         />
+        {/* No poster attribute: the Image above already shows that frame, and the attribute
+            would download the full-size JPEG a second time. preload="auto" lets the browser
+            keep buffering the (small) clip to the end instead of stopping after the first part. */}
         {!showStaticPoster && (
           <video
             key={videoSrc}
@@ -267,8 +310,7 @@ export function LiquidObject({ progress, className = '' }: LiquidObjectProps) {
             controls={false}
             disablePictureInPicture
             disableRemotePlayback
-            preload="metadata"
-            poster="/video/liquid-metal-poster.jpg"
+            preload="auto"
             onLoadStart={handleLoadStart}
             onLoadedMetadata={handleLoadedMetadata}
             onLoadedData={handleLoadedData}
