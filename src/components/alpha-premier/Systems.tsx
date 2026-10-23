@@ -33,7 +33,7 @@ function Plate({ system }: { system: System }) {
         src={system.image.src}
         alt={system.image.alt}
         fill
-        sizes="(min-width: 1000px) calc(50vw - 80px), calc(100vw - 24px)"
+        sizes="(min-width: 1000px) calc(50vw - 80px), (min-width: 600px) 576px, calc(100vw - 24px)"
         className={`ap-sys-img ap-sys-img--${system.id}`}
       />
     </div>

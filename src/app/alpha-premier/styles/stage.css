@@ -110,9 +110,11 @@
 
 /* ---------- hero sheet: a menu card, everything centred ---------- */
 
+/* The headline starts at 34%, or below the top row when a short landscape screen leaves less room. */
 .ap-hero {
+  container: ap-hero / inline-size;
   display: grid;
-  grid-template-rows: calc(0.34 * (100svh - 2 * var(--margin))) auto 1fr; /* headline starts at 34% */
+  grid-template-rows: minmax(calc(0.34 * (100svh - 2 * var(--margin))), max-content) auto 1fr;
   min-height: calc(100svh - 2 * var(--margin));
   padding: 0 var(--pad) var(--pad);
   text-align: center;
@@ -124,9 +126,22 @@
   align-items: center;
   gap: 12px;
   padding-top: 14px;
+  margin-bottom: 28px;
 }
 .ap-hero__top > :first-child { justify-self: start; }
 .ap-hero__top > :last-child { justify-self: end; }
+
+/* Too narrow for a link either side of the wordmark (phones under ~400px, a landscape phone's column):
+   the links take the two top corners and the wordmark is centred on its own row beneath them. */
+@container ap-hero (max-width: 21rem) {
+  .ap-hero__top {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: "back contact" "mark mark";
+  }
+  .ap-hero__top > :first-child { grid-area: back; }
+  .ap-hero__top > :last-child { grid-area: contact; }
+  .ap-hero__top > .ap-wordmark { grid-area: mark; justify-self: center; }
+}
 
 .ap-hero__link {
   display: inline-flex;
@@ -244,9 +259,12 @@
   .ap-row:hover .ap-row__name { transform: translateX(4px); }
 }
 
-/* ---------- phone and narrow tablet: the stage becomes a panel above the sheet ---------- */
+/* ---------- portrait screens and phones: the stage becomes a panel above the sheet ----------
+   Landscape screens 560px and wider keep the split: a 56svh panel on a landscape phone is a strip
+   that pushes the headline below the fold, and a half-width panel on a portrait tablet is a sliver.
+   StageMedia.tsx and Ledger.tsx mirror this query in their image `sizes` (SPLIT_MEDIA). */
 
-@media (max-width: 959.98px) {
+@media (orientation: portrait), (max-width: 559.98px) {
   .ap-stage {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: calc(56svh + var(--margin)) auto auto auto;
@@ -270,7 +288,7 @@
     min-height: 60svh;
     padding: 0 20px 72px;
   }
-  .ap-hero__top { width: 100%; gap: 8px; padding-top: 8px; }
+  .ap-hero__top { width: 100%; gap: 8px; padding-top: 8px; margin-bottom: 0; }
   .ap-wordmark img { width: 32px; height: 32px; }
   .ap-hero__body { width: 100%; margin-top: 56px; }
   .ap-hero__action { width: min(100%, 22rem); }
@@ -279,9 +297,9 @@
   .ap-before { padding: 72px 20px 96px; }
   .ap-before__column { width: min(78vw, 26rem); }
 
+  /* The rows and shots keep the split's 40rem measure,
+     so a portrait tablet's ledger does not stretch across the whole sheet. */
   .ap-ledger { padding: 0 20px 96px; }
-  .ap-ledger__title,
-  .ap-ledger__group { max-width: none; }
   .ap-ledger__shot {
     position: relative;
     display: block;

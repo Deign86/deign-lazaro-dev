@@ -11,10 +11,12 @@ type Module = { kind: Kind; shots: Picture[] };
 // Blueprint "Drag row of mixed modules": tall 3:4, a stacked pair of 4:3, a wide 16:10, repeating.
 const PATTERN: readonly Kind[] = ['tall', 'pair', 'wide', 'pair', 'tall', 'wide'];
 
+// Frame widths follow the row's height (68svh, 62svh on a phone), so most slots are in vh; a portrait
+// phone uses its vw widths and a portrait screen caps the wide frame at 88vw (closing.css).
 const SIZES: Record<Kind, string> = {
-  tall: '(max-width: 767px) 72vw, 40vw',
-  pair: '(max-width: 767px) 64vw, 34vw',
-  wide: '(max-width: 767px) 88vw, 80vw',
+  tall: '(max-width: 767px) and (orientation: portrait) 72vw, 51vh',
+  pair: '(max-width: 767px) and (orientation: portrait) 64vw, 46vh',
+  wide: '(orientation: portrait) 88vw, 109vh',
 };
 
 // Crops for the stand-ins, chosen by eye. Deign's own photographs use the centre.

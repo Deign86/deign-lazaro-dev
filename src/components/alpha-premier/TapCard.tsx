@@ -121,7 +121,8 @@ export function TapCard() {
       <div className="ap-kiosk-inner">
         <div className="ap-kiosk-bar">
           <div className="ap-kiosk-brand">
-            <Image src="/alpha-premier/brand/peacock.png" alt="" width={24} height={24} />
+            {/* drawn at 24px and up to about 55px on a wide plate (systems.css), so the source is 48 */}
+            <Image src="/alpha-premier/brand/peacock.png" alt="" width={48} height={48} />
             <p>
               <span className="ap-kiosk-name">{copy.brand}</span>
               <span>{copy.place}</span>

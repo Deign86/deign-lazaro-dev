@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import type { CSSProperties, PointerEvent } from 'react';
 import type { LedgerRow } from '@/data/alpha-premier';
-import { previewOnStage } from './StageMedia';
+import { previewOnStage, SPLIT_MEDIA } from './StageMedia';
 
 type LedgerGroup = { month: string; rows: LedgerRow[] };
 
@@ -18,6 +18,8 @@ type LedgerProps = {
 
 /** On a phone there is no stage beside the ledger, so the first rows carry their own picture. */
 const INLINE_SHOTS = 3;
+// Full column width under the stage panel, capped at the ledger's 40rem measure (stage.css).
+const SHOT_SIZES = `${SPLIT_MEDIA} 1px, (min-width: 704px) 640px, calc(100vw - 64px)`;
 
 const at = (i: number) => ({ '--i': i }) as CSSProperties;
 
@@ -51,7 +53,7 @@ export function Ledger({ title, groups, rowHref, chapters }: LedgerProps) {
               <li key={row.name} className="ap-ledger__item" data-reveal style={at(r + 1)}>
                 {offsets[g] + r < INLINE_SHOTS && (
                   <div className="ap-ledger__shot">
-                    <Image src={row.image} alt={row.alt} fill sizes="(min-width: 960px) 1px, calc(100vw - 64px)" />
+                    <Image src={row.image} alt={row.alt} fill sizes={SHOT_SIZES} />
                   </div>
                 )}
                 <a

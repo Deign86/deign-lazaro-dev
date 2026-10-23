@@ -47,7 +47,12 @@
 }
 .ap-gallery__module--tall { width: calc(var(--row-h) * 3 / 4); }
 .ap-gallery__module--pair { width: calc((var(--row-h) - var(--gap)) * 2 / 3); } /* two 4:3 frames */
-.ap-gallery__module--wide { width: calc(var(--row-h) * 16 / 10); }
+/* the wide frame never outgrows the screen: on a tall window it narrows to 88vw and centres, still 16:10 */
+.ap-gallery__module--wide {
+  width: min(calc(var(--row-h) * 16 / 10), 88vw);
+  aspect-ratio: 16 / 10;
+  align-self: center;
+}
 
 .ap-gallery__frame {
   position: relative;
@@ -67,7 +72,7 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 1fr 1fr;
-  height: 66vw;
+  min-height: min(66vw, 100svh); /* never taller than the screen; a tile with more text grows its row */
 }
 .ap-figures__photo {
   position: relative;
@@ -105,7 +110,8 @@
   padding: var(--section) var(--pad);
 }
 
-.ap-record__head { grid-column: 7 / 12; grid-row: 1; padding-bottom: 48px; }
+/* head and list stop at 720px, so a period never sits a screen-width away from its name */
+.ap-record__head { grid-column: 7 / 12; grid-row: 1; max-width: 720px; padding-bottom: 48px; }
 .ap-record__head h2 { margin-bottom: 32px; }
 
 .ap-record__facts { display: grid; row-gap: 6px; }
@@ -116,7 +122,7 @@
   line-height: 1.5;
 }
 .ap-record__fact dt { color: var(--muted); }
-.ap-record__fact dd { color: var(--ink); }
+.ap-record__fact dd { color: var(--ink); text-wrap: pretty; }
 
 .ap-record__print-wrap { margin-top: 20px; }
 .ap-record .ap-record__print {
@@ -141,7 +147,7 @@
 .ap-record__img { object-fit: cover; opacity: 0; transition: opacity 300ms ease; }
 .ap-record__img[data-on='true'] { opacity: 1; }
 
-.ap-record__list { grid-column: 7 / 12; grid-row: 2; }
+.ap-record__list { grid-column: 7 / 12; grid-row: 2; max-width: 720px; }
 
 .ap-record__row {
   display: grid;
@@ -151,6 +157,7 @@
   column-gap: 24px;
   width: 100%;
   min-height: 58px;
+  padding-block: 8px; /* a name that wraps to two lines still clears the rows around it */
   text-align: left;
   color: var(--muted);
   transition: color var(--t-hover) ease;
@@ -183,6 +190,14 @@
 }
 .ap-record__item[data-open='true'] .ap-record__panel { grid-template-rows: 1fr; }
 .ap-record__item[data-open='true'] .ap-record__panel p { opacity: 1; }
+
+/* tablet and landscape phone: five columns are too narrow for the facts, so the head takes the
+   full width and the photograph and list share the row below it */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .ap-record__head { grid-column: 1 / -1; }
+  .ap-record__media { grid-row: 2; }
+  .ap-record__list { grid-column: 7 / 13; }
+}
 
 /* ---------- about: the thank-you letter ---------- */
 
@@ -229,6 +244,10 @@
   line-height: 1.2;
 }
 .ap-learned__item p { max-width: 46ch; line-height: 1.55; }
+/* tablets and landscape phones: the list takes the last column too, so its lines stay near 40ch */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .ap-learned__list { grid-column: 7 / -1; }
+}
 
 /* ---------- credits: permission and sources, the letter's postscript ---------- */
 
@@ -300,18 +319,21 @@
     padding-inline: 20px;
     scroll-padding-inline: 20px;
   }
-  .ap-gallery__module--tall { width: 72vw; }
-  .ap-gallery__module--pair { width: 64vw; }
-  .ap-gallery__module--wide { width: 88vw; height: calc(88vw * 10 / 16); align-self: center; }
+  /* capped by the row's height so a phone on its side keeps the 3:4 and 4:3 frames (the wide one already does) */
+  .ap-gallery__module--tall { width: min(72vw, calc(var(--row-h) * 3 / 4)); }
+  .ap-gallery__module--pair { width: min(64vw, calc((var(--row-h) - var(--gap)) * 2 / 3)); }
 
   .ap-figures__title { padding-inline: 20px; }
-  .ap-figures__mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; height: auto; }
-  .ap-figures__photo { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 4 / 3; }
-  .ap-figures__tile { aspect-ratio: 1; padding: 20px; }
+  .ap-figures__mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; min-height: 0; }
+  .ap-figures__photo { grid-column: 1 / -1; grid-row: auto; height: min(75vw, 100svh); } /* 4:3, never past the screen */
+  /* square at least (half a screen tall at most on a phone on its side); when a caption needs more
+     room both tiles grow together */
+  .ap-figures__tile { min-height: min(50vw, 50svh); padding: 20px; }
   .ap-figures .ap-figures__caption { margin-top: 10px; }
 
   .ap-record { display: block; padding-inline: 20px; }
   .ap-record__head { padding-bottom: 32px; }
+  .ap-record__fact { grid-template-columns: 6em minmax(0, 1fr); } /* "Supervisor" is under 5em */
   .ap-record__media {
     top: 0;
     z-index: 2;
@@ -331,6 +353,11 @@
   .ap-footer__top { flex-direction: column; gap: 0; }
   .ap-footer__links { flex-direction: column; }
   .ap-footer__photo img { object-position: 46% 45%; }
+}
+
+/* a phone on its side has the width for the footer links in rows but not the height for a column */
+@media (max-width: 767px) and (orientation: landscape) {
+  .ap-footer .ap-footer__links { flex-direction: row; }
 }
 
 /* ---------- motion: entrances per section, the record's crossfade and expand ---------- */
@@ -367,13 +394,15 @@
   .ap-record__media,
   .ap-record .ap-no-print { display: none !important; }
 
+  .ap-record__head,
+  .ap-record__list { max-width: none; }
   .ap-record__head { padding-bottom: 18pt; }
   .ap-record__head h2 { margin-bottom: 14pt; font-size: 26pt; }
   .ap-record__facts { font-size: 10.5pt; }
   .ap-record__fact { grid-template-columns: 7em minmax(0, 1fr); }
 
   .ap-record__item { break-inside: avoid; }
-  .ap-record__row { min-height: 0; padding-top: 10pt; }
+  .ap-record__row { min-height: 0; padding: 10pt 0 0; }
   .ap-record__name { font-size: 13pt; }
   .ap-record__period { font-size: 10pt; }
   .ap-record__panel { grid-template-rows: 1fr !important; }
@@ -386,7 +415,14 @@
 }
 
 /* ── The reel: one full-width 16:9 frame under a short heading ───────────────────────────── */
-.ap-reel { padding: var(--section) var(--margin) 0; }
+.ap-reel {
+  /* the widest 16:9 frame that fits the screen's height with a margin around it, so the whole
+     picture and its controls are in view at once on landscape phones, short laptops and ultrawides */
+  --reel-w: calc((100svh - 2 * var(--margin)) * 16 / 9);
+  padding: var(--section) var(--margin) 0;
+}
+.ap-reel__head,
+.ap-reel__frame { max-width: var(--reel-w); margin-inline: auto; } /* the head keeps to the frame's width */
 .ap-reel__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 1rem 2rem; padding-inline: 6vw; margin-bottom: 40px; }
 .ap-reel .ap-reel__lead { max-width: 40ch; color: var(--muted); }
 .ap-reel__frame { position: relative; aspect-ratio: 16 / 9; background: var(--night); }

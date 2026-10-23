@@ -31,8 +31,10 @@ type StageMediaProps = {
 // blocks whose top has passed it, so the last ledger group still lands before the sticky stage releases.
 const READING_LINE = '0px 0px -25% 0px';
 const SPLIT_STAGE = '[data-split-stage]';
-const STILL_SIZES = '(min-width: 960px) 50vw, 100vw';
-const PLATE_SIZES = '(min-width: 960px) 44vw, 1px';
+/** When the stage sits beside the reading column; otherwise it is a full-width panel above it (stage.css). */
+export const SPLIT_MEDIA = '(orientation: landscape) and (min-width: 560px)';
+const STILL_SIZES = `${SPLIT_MEDIA} 50vw, 100vw`;
+const PLATE_SIZES = `${SPLIT_MEDIA} 44vw, 1px`;
 
 export function StageMedia({ chapters, office, previews, film }: StageMediaProps) {
   const panelRef = useRef<HTMLDivElement>(null);

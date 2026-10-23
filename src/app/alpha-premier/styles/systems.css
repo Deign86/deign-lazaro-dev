@@ -14,19 +14,19 @@
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto auto auto auto;
 }
+/* on a phone the four tabs share the plate's width, so none hides behind a sideways scroll;
+   under a large text setting they wrap to a second row instead of running off the screen */
 .ap-systems .ap-sys-tablist {
   grid-column: 1;
   grid-row: 2;
   position: relative;
   z-index: 2;
   display: flex;
-  gap: 1.25rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  column-gap: 0.5rem;
   padding: 1.25rem var(--margin) 6px;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scrollbar-width: none;
 }
-.ap-systems .ap-sys-tablist::-webkit-scrollbar { display: none; }
 
 .ap-systems .ap-sys-panel {
   grid-column: 1;
@@ -44,11 +44,12 @@
   transition: opacity var(--t-ui) ease, visibility 0s linear var(--t-ui);
 }
 
+/* the plate is held to the screen's height, so on a landscape phone it does not run off the bottom */
 .ap-systems .ap-sys-plate {
   grid-column: 1;
   grid-row: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: min(100%, max(18rem, calc(100svh - 2 * var(--margin))));
   align-content: center;
   padding-inline: var(--margin);
 }
@@ -79,6 +80,7 @@
   flex: none;
   display: inline-grid;
   align-items: center;
+  min-width: 44px;
   min-height: 44px;
   font-size: var(--step-body);
   font-weight: 400;
@@ -169,20 +171,29 @@
 
 /* ---------- tablet: same stack, a composed plate instead of a giant one ---------- */
 @media (min-width: 600px) {
-  .ap-systems .ap-sys-plate { grid-template-columns: min(100%, 36rem); }
-  .ap-systems .ap-sys-tablist { gap: 2rem; }
+  .ap-systems .ap-sys-plate { grid-template-columns: min(100%, 36rem, max(18rem, calc(100svh - 2 * var(--margin)))); }
+  .ap-systems .ap-sys-tablist { justify-content: flex-start; column-gap: 2rem; }
   .ap-systems .ap-sys-tab { font-size: var(--step-lead); }
 }
 
 /* ---------- desktop: one field split 50/50, at least 88svh ---------- */
 @media (min-width: 1000px) {
   .ap-systems { padding-top: 0; }
+  /* Tabs, text and cells stay one group: where the field is taller than they are (large screens) the
+     group centres against the plate instead of pinning tabs and cells to its far edges. Past 16:9
+     (ultrawide) the field narrows to twice the plate's half, so the plate keeps its 40px margins. */
   .ap-systems .ap-sys {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: minmax(0, 1fr) auto auto auto minmax(0, 1fr);
     min-height: 88svh;
+    max-width: max(80rem, calc(200svh - 160px));
+    margin-inline: auto;
   }
-  .ap-systems .ap-sys-tablist { grid-column: 2; grid-row: 1; padding: 40px 40px 6px var(--pad); overflow: visible; }
+  .ap-systems .ap-sys-tablist { grid-column: 2; grid-row: 2; padding: 40px 40px 6px var(--pad); }
+  /* the half is too narrow for lead-size tabs until 1200px */
+  .ap-systems .ap-sys-tab { font-size: var(--step-body); }
+  /* the text column keeps a reading width on wide screens instead of stretching the cells */
+  .ap-systems .ap-sys-tablist, .ap-systems .ap-sys-body, .ap-systems .ap-sys-actions { max-width: calc(44rem + var(--pad) + 40px); }
   .ap-systems .ap-sys-panel { grid-column: 1 / -1; }
   /* the square fills the half minus 40px margins, held inside short viewports */
   .ap-systems .ap-sys-plate {
@@ -192,14 +203,17 @@
     justify-content: center;
     padding: 40px;
   }
-  .ap-systems .ap-sys-body { grid-column: 2; grid-row: 2; align-self: center; padding: 48px 40px 48px var(--pad); }
+  .ap-systems .ap-sys-body { grid-column: 2; grid-row: 3; align-self: center; padding: 48px 40px 48px var(--pad); }
   .ap-systems .ap-sys-actions {
     grid-column: 2;
-    grid-row: 3;
+    grid-row: 4;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     padding: 0 40px 40px var(--pad);
   }
   .ap-systems .ap-sys-cell { min-height: 72px; padding-inline: 1.5rem; }
+}
+@media (min-width: 1200px) {
+  .ap-systems .ap-sys-tab { font-size: var(--step-lead); }
 }
 
 /* ---------- motion ---------- */
@@ -228,8 +242,9 @@
   .ap-systems .ap-sys-plate { grid-row: 1; }
   .ap-systems .ap-sys-body { grid-row: 2; }
   .ap-systems .ap-sys-actions { grid-row: 3; }
-  [data-ui].ap-kiosk .ap-kiosk-live, [data-ui].ap-kiosk .ap-kiosk-clock { display: none; }
-  [data-ui].ap-kiosk noscript { display: block; margin-block: auto; }
+  /* .ap-systems lifts these above the kiosk rules further down, which would otherwise show the dead card */
+  .ap-systems [data-ui].ap-kiosk .ap-kiosk-live, .ap-systems [data-ui].ap-kiosk .ap-kiosk-clock { display: none; }
+  .ap-systems [data-ui].ap-kiosk noscript { display: block; margin-block: auto; }
 }
 @media (scripting: none) and (min-width: 1000px) {
   .ap-systems .ap-sys-panel, .ap-systems .ap-sys-panel[data-active="false"] {
@@ -242,6 +257,12 @@
   .ap-systems .ap-sys-body { grid-column: 2; grid-row: 1; }
   .ap-systems .ap-sys-actions { grid-column: 2; grid-row: 2; }
 }
+
+/* Fragment pixels. Both fragments are drawn as they look on a 560px plate and grow with a larger plate
+   like a picture, so on a wide desktop the UI does not float small in its field; their CSS pixels and
+   type steps stay the floor, so on a phone nothing shrinks. --kpx is one pixel of that 560px drawing,
+   resolved against the fragment's own width (each fragment is its own container). */
+[data-ui].ap-kiosk, [data-ui].ap-viber { --kpx: calc(100cqi / 560); }
 
 /* ==========================================================================
    TapCard: the front-desk kiosk, in its own dark look (data-ui fragment)
@@ -258,30 +279,36 @@
 }
 [data-ui].ap-kiosk :focus-visible { outline-color: var(--gold); }
 [data-ui].ap-kiosk p { max-width: none; }
-[data-ui].ap-kiosk .ap-kiosk-inner { display: flex; flex-direction: column; gap: 12px; padding: max(16px, 5cqi); }
+[data-ui].ap-kiosk .ap-kiosk-inner {
+  display: flex;
+  flex-direction: column;
+  gap: max(12px, 12 * var(--kpx));
+  padding: max(16px, 5cqi);
+  font-size: max(var(--step-small), 14 * var(--kpx));
+}
 
-[data-ui].ap-kiosk .ap-kiosk-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; }
-[data-ui].ap-kiosk .ap-kiosk-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
-[data-ui].ap-kiosk .ap-kiosk-brand img { flex: none; width: 24px; height: 24px; }
+[data-ui].ap-kiosk .ap-kiosk-bar { display: flex; align-items: center; justify-content: space-between; gap: max(12px, 12 * var(--kpx)); text-align: left; }
+[data-ui].ap-kiosk .ap-kiosk-brand { display: flex; align-items: center; gap: max(10px, 10 * var(--kpx)); min-width: 0; }
+[data-ui].ap-kiosk .ap-kiosk-brand img { flex: none; width: max(24px, 24 * var(--kpx)); height: max(24px, 24 * var(--kpx)); }
 [data-ui].ap-kiosk .ap-kiosk-brand p { display: grid; line-height: 1.3; }
 [data-ui].ap-kiosk .ap-kiosk-name { font-weight: 500; }
-[data-ui].ap-kiosk .ap-kiosk-clock { color: var(--gold); font-size: var(--step-body); font-weight: 500; font-variant-numeric: tabular-nums; }
+[data-ui].ap-kiosk .ap-kiosk-clock { color: var(--gold); font-size: max(var(--step-body), 19 * var(--kpx)); font-weight: 500; font-variant-numeric: tabular-nums; }
 
-[data-ui].ap-kiosk .ap-kiosk-live { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; }
+[data-ui].ap-kiosk .ap-kiosk-live { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: max(16px, 16 * var(--kpx)); }
 [data-ui].ap-kiosk .ap-kiosk-screen {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  min-height: 8.75rem;
+  gap: max(4px, 4 * var(--kpx));
+  min-height: max(8.75rem, 140 * var(--kpx));
 }
-[data-ui].ap-kiosk .ap-kiosk-greet { font-size: var(--step-lead); font-weight: 500; line-height: 1.2; }
-[data-ui].ap-kiosk .ap-kiosk-what { display: flex; align-items: center; justify-content: center; gap: 8px; }
+[data-ui].ap-kiosk .ap-kiosk-greet { font-size: max(var(--step-lead), 26 * var(--kpx)); font-weight: 500; line-height: 1.2; }
+[data-ui].ap-kiosk .ap-kiosk-what { display: flex; align-items: center; justify-content: center; gap: max(8px, 8 * var(--kpx)); }
 [data-ui].ap-kiosk .ap-kiosk-reset {
-  min-height: 44px;
-  padding: 0 10px;
+  min-height: max(44px, 44 * var(--kpx));
+  padding: 0 max(10px, 10 * var(--kpx));
   color: var(--night-ink);
   text-decoration: underline;
   text-decoration-thickness: 0.07em;
@@ -289,15 +316,21 @@
   transition: color var(--t-hover) ease, transform var(--t-press) var(--ease-out);
 }
 [data-ui].ap-kiosk .ap-kiosk-reset:active { transform: scale(0.96); }
-[data-ui].ap-kiosk .ap-kiosk-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: 100%; max-width: 30rem; }
-[data-ui].ap-kiosk .ap-kiosk-facts > div { padding: 6px 8px; border: 1px solid var(--muted); }
+[data-ui].ap-kiosk .ap-kiosk-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: max(6px, 6 * var(--kpx));
+  width: 100%;
+  max-width: max(30rem, 480 * var(--kpx));
+}
+[data-ui].ap-kiosk .ap-kiosk-facts > div { padding: max(6px, 6 * var(--kpx)) max(8px, 8 * var(--kpx)); border: 1px solid var(--muted); }
 [data-ui].ap-kiosk .ap-kiosk-facts dt { color: var(--gold); }
 [data-ui].ap-kiosk .ap-kiosk-facts dd { font-weight: 500; font-variant-numeric: tabular-nums; }
 
 /* the card rests above the reader; a time-in docks it into the reader, a time-out lifts it out */
 [data-ui].ap-kiosk .ap-kiosk-dock {
-  --card-w: clamp(144px, 50cqi, 300px);
-  --dock: calc(10px + var(--card-w) * 0.16);
+  --card-w: max(144px, 50cqi);
+  --dock: calc(max(10px, 10 * var(--kpx)) + var(--card-w) * 0.16);
   display: grid;
   justify-items: center;
 }
@@ -324,18 +357,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  width: min(100%, calc(var(--card-w) + 64px));
-  min-height: 48px;
-  margin-top: 10px;
-  padding: 8px 12px;
+  gap: max(10px, 10 * var(--kpx));
+  width: min(100%, var(--card-w) + max(64px, 64 * var(--kpx)));
+  min-height: max(48px, 48 * var(--kpx));
+  margin-top: max(10px, 10 * var(--kpx));
+  padding: max(8px, 8 * var(--kpx)) max(12px, 12 * var(--kpx));
   border: 1px solid var(--gold);
   background: var(--night);
   color: var(--gold);
   font-variant-numeric: tabular-nums;
   pointer-events: none;
 }
-[data-ui].ap-kiosk .ap-kiosk-waves { flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+[data-ui].ap-kiosk .ap-kiosk-waves { flex: none; width: max(20px, 20 * var(--kpx)); height: max(20px, 20 * var(--kpx)); fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
 @media (hover: hover) and (pointer: fine) {
   [data-ui].ap-kiosk[data-docked="false"] .ap-kiosk-card:hover { transform: translateY(-4px); }
   [data-ui].ap-kiosk[data-docked="false"] .ap-kiosk-card:active { transform: scale(0.97); }
@@ -361,25 +394,35 @@
   font-size: var(--step-small);
   line-height: 1.45;
 }
-[data-ui].ap-viber .ap-viber-head { display: grid; align-items: center; padding: 12px max(16px, 5cqi); border-bottom: 1px solid var(--bg); }
-[data-ui].ap-viber .ap-viber-from, [data-ui].ap-viber .ap-viber-to { grid-area: 1 / 1; display: flex; align-items: center; gap: 12px; min-width: 0; }
+[data-ui].ap-viber .ap-viber-head, [data-ui].ap-viber .ap-viber-log { font-size: max(var(--step-small), 14 * var(--kpx)); }
+[data-ui].ap-viber .ap-viber-head { display: grid; align-items: center; padding: max(12px, 12 * var(--kpx)) max(16px, 5cqi); border-bottom: 1px solid var(--bg); }
+[data-ui].ap-viber .ap-viber-from, [data-ui].ap-viber .ap-viber-to { grid-area: 1 / 1; display: flex; align-items: center; gap: max(12px, 12 * var(--kpx)); min-width: 0; }
 [data-ui].ap-viber .ap-viber-from { opacity: 0; }
-[data-ui].ap-viber .ap-viber-avatar { flex: none; display: grid; place-items: center; width: 36px; height: 36px; background: var(--bg); color: var(--ink); font-weight: 500; }
+[data-ui].ap-viber .ap-viber-avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: max(36px, 36 * var(--kpx));
+  height: max(36px, 36 * var(--kpx));
+  background: var(--bg);
+  color: var(--ink);
+  font-weight: 500;
+}
 [data-ui].ap-viber .ap-viber-avatar--group { background: var(--accent); color: var(--accent-ink); }
-[data-ui].ap-viber .ap-viber-name { font-size: var(--step-body); font-weight: 500; line-height: 1.25; overflow-wrap: anywhere; }
-[data-ui].ap-viber .ap-viber-log { display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; padding: max(16px, 5cqi); }
+[data-ui].ap-viber .ap-viber-name { font-size: max(var(--step-body), 19 * var(--kpx)); font-weight: 500; line-height: 1.25; overflow-wrap: anywhere; }
+[data-ui].ap-viber .ap-viber-log { display: flex; flex-direction: column; justify-content: flex-end; gap: max(10px, 10 * var(--kpx)); padding: max(16px, 5cqi); }
 [data-ui].ap-viber .ap-viber-note { align-self: center; text-align: center; }
-[data-ui].ap-viber .ap-viber-msg { align-self: flex-end; max-width: 84%; padding: 10px 14px; background: var(--bg); }
+[data-ui].ap-viber .ap-viber-msg { align-self: flex-end; max-width: 84%; padding: max(10px, 10 * var(--kpx)) max(14px, 14 * var(--kpx)); background: var(--bg); }
 [data-ui].ap-viber .ap-viber-doc { display: grid; width: 84%; }
-[data-ui].ap-viber .ap-viber-doc-title { margin-bottom: 4px; font-weight: 500; }
+[data-ui].ap-viber .ap-viber-doc-title { margin-bottom: max(4px, 4 * var(--kpx)); font-weight: 500; }
 /* the real convention: text above the dashed line goes to the client, the rest stays internal */
-[data-ui].ap-viber .ap-viber-cut { display: block; margin: 10px 0; border-top: 1px dashed var(--muted); }
-[data-ui].ap-viber .ap-viber-redact { display: grid; gap: 6px; }
+[data-ui].ap-viber .ap-viber-cut { display: block; margin: max(10px, 10 * var(--kpx)) 0; border-top: 1px dashed var(--muted); }
+[data-ui].ap-viber .ap-viber-redact { display: grid; gap: max(6px, 6 * var(--kpx)); }
 [data-ui].ap-viber .ap-viber-redact span { display: block; height: 0.7em; background: var(--ink); }
 [data-ui].ap-viber .ap-viber-redact span:nth-child(1) { width: 74%; }
 [data-ui].ap-viber .ap-viber-redact span:nth-child(2) { width: 52%; }
 [data-ui].ap-viber .ap-viber-redact span:nth-child(3) { width: 63%; }
-[data-ui].ap-viber .ap-viber-held { margin-top: 8px; color: var(--muted); }
+[data-ui].ap-viber .ap-viber-held { margin-top: max(8px, 8 * var(--kpx)); color: var(--muted); }
 @container (max-width: 400px) {
   [data-ui].ap-viber .ap-viber-hello { display: none; }
 }
