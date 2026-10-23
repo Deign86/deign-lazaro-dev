@@ -111,7 +111,7 @@ export const systems: System[] = [
     specs: [
       { label: 'Built', value: 'July to October 2026' },
       { label: 'Stack', value: 'Tauri, Rust, React, SQLite' },
-      { label: 'Releases', value: '115, updated on its own' },
+      { label: 'Releases', value: '117, updated on its own' },
       { label: 'Turnover', value: 'In use at the front desk' },
     ],
     primary: { label: 'Source code', href: 'https://github.com/Deign86/alpha-premier-attendance' },
@@ -177,7 +177,7 @@ export const kioskRules = {
 };
 
 export const figures = [
-  { value: '115', caption: 'updates shipped to the front-desk kiosk since August' },
+  { value: '117', caption: 'updates shipped to the front-desk kiosk from August to October' },
   { value: '15 min', caption: 'from a new listing in Drive to the website' },
 ];
 
@@ -279,7 +279,7 @@ export const learned = {
     },
     {
       name: 'Ship small, then listen',
-      text: 'The kiosk went live on August 11 and took 115 updates after that, and Branding Studio changed with each round of staff suggestions. Small, frequent releases let the people using a tool tell me what was wrong while it still mattered.',
+      text: 'The kiosk went live on August 11 and took 117 updates after that, and Branding Studio changed with each round of staff suggestions. Small, frequent releases let the people using a tool tell me what was wrong while it still mattered.',
     },
     {
       name: 'Lead by reviewing, not redoing',
@@ -338,7 +338,7 @@ export const internship: Internship = {
   office: `${company.office}, ${company.district}`,
   start: 'June 29, 2026',
   period: 'June 29 – October 23, 2026',
-  hours: '444 of 486 hours, as of October 16, 2026',
+  hours: '486 of 486 hours, completed October 23, 2026',
   supervisor: 'Ma’am Jean, HR Staff',
   team: 'Nominated IT Admin leader of the intern team on July 6',
 };

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Deign Grey Lazaro - CV</title>
+<!-- Source for public/Lazaro CV.pdf. Print with: node scripts/print-cv.mjs (A4, Chrome). -->
+<style>
+  @page { size: A4; margin: 0.72in 0.92in 0.6in 1in; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 10.6pt;
+    line-height: 1.22;
+    color: #000;
+  }
+  a { color: inherit; text-decoration: none; }
+  header { text-align: center; margin-bottom: 6pt; }
+  h1 { font-size: 17pt; font-weight: bold; letter-spacing: 0.02em; margin: 0 0 1pt; }
+  .contact { font-size: 8.6pt; }
+  h2 {
+    font-size: 11.5pt; font-weight: bold; text-transform: uppercase; letter-spacing: 0.03em;
+    margin: 6pt 0 3pt; padding-bottom: 1pt; border-bottom: 1.2pt solid #000;
+  }
+  .entry { margin-bottom: 3pt; break-inside: avoid; }
+  .row { display: flex; justify-content: space-between; gap: 12pt; }
+  .row .when { white-space: nowrap; }
+  .sub { font-style: italic; }
+  ul { margin: 0; padding-left: 21pt; }
+  li { margin: 0; }
+  .skills p { margin: 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>DEIGN GREY LAZARO</h1>
+  <div class="contact">+63 962 418 0920 &nbsp;|&nbsp; <a href="mailto:deign86@gmail.com">deign86@gmail.com</a> &nbsp;|&nbsp; <a href="https://www.linkedin.com/in/deign-grey-lazaro-2976a41b6/">linkedin.com/in/deign-grey-lazaro-2976a41b6</a> &nbsp;|&nbsp; <a href="https://github.com/Deign86">github.com/Deign86</a> &nbsp;|&nbsp; <a href="https://deign-lazaro-dev.vercel.app">deign-lazaro-dev.vercel.app</a> &nbsp;|&nbsp; Valenzuela City, Philippines</div>
+</header>
+
+<h2>Education</h2>
+<div class="entry">
+  <div class="row"><span><b>Pamantasan ng Lungsod ng Valenzuela</b>, Valenzuela City, Philippines</span><span class="when">2023 – Present</span></div>
+  <div class="sub">Bachelor of Science in Information Technology (4th Year), Consistent Honor Student</div>
+  <ul><li>Completed a 486-hour OJT practicum at Alpha Premier Realty; 4+ years of coding experience, 10+ shipped projects, 6 live deployments.</li></ul>
+</div>
+<div class="entry">
+  <div class="row"><span><b>Our Lady of Lourdes College</b>, Valenzuela City, Philippines</span><span class="when">2020 – 2022</span></div>
+  <div class="sub">Senior High School, ICT Track</div>
+</div>
+<div class="entry">
+  <div class="row"><span><b>St. Louis College of Valenzuela</b>, Valenzuela City, Philippines</span><span class="when">2016 – 2020</span></div>
+  <div class="sub">Junior High School, Student Council Member, Consistent Honor Student</div>
+</div>
+
+<h2>Experience</h2>
+<div class="entry">
+  <div class="row"><span><b>Alpha Premier Realty</b>, IT &amp; Administrative Specialist (OJT)</span><span class="when">June – October 2026</span></div>
+  <div class="sub">Real estate operations, Pasig City, client-facing IT support and admin systems</div>
+  <ul>
+    <li>Handled daily client communications across phone calls, online chat, email, and on-site visits to give clear property information and resolve inquiries promptly.</li>
+    <li>Built and maintained automated admin workflows and digital tools for property records, documentation, and transaction tracking, including the RFID attendance/payroll kiosk and enterprise portal below.</li>
+    <li>Provided frontline IT support for office hardware, network systems, and data management, keeping day-to-day operations running.</li>
+  </ul>
+</div>
+<div class="entry">
+  <div class="row"><span><b>Freelance Developer</b>, Fiverr &amp; Facebook</span><span class="when">2023 – Present</span></div>
+  <div class="sub">Client websites and full-stack web applications, delivered end to end</div>
+  <ul>
+    <li>Design, build, and deploy responsive websites and full-stack apps for clients sourced on Fiverr and Facebook: scoping, delivery, and revisions handled directly with owners.</li>
+    <li>Ship production-ready work across React, Firebase, and REST API stacks with clean handover and post-delivery support.</li>
+  </ul>
+</div>
+
+<h2>Projects</h2>
+<div class="entry">
+  <div class="row"><span><b>MATHPULSE-AI</b>, AI Math Education Platform (PWA + Android APK)</span><span class="when">2024 – Live</span></div>
+  <div><a href="https://github.com/Deign86/MATHPULSE-AI">github.com/Deign86/MATHPULSE-AI</a>, React 18, TypeScript, FastAPI, Firebase, DeepSeek API</div>
+  <ul>
+    <li><b>Result:</b> Live (PWA + APK): 40+ struggling SHS students tutored weekly, with personal AI support keeping them off the fail list.</li>
+    <li><b>Action:</b> Streaming DeepSeek tutor + RAG (ChromaDB), Firebase Auth/Firestore/Hosting, Capacitor, Docker + CI/CD.</li>
+    <li><b>Relevance:</b> Flagship proof I lead production AI end-to-end, from model integration to shipped native app.</li>
+  </ul>
+</div>
+<div class="entry">
+  <div class="row"><span><b>apg-website</b>, Alpha Premier Group Enterprise Portal</span><span class="when">2025 – Live</span></div>
+  <div>Vite 7, React 18, Native PHP 8.2 REST API, MySQL</div>
+  <ul>
+    <li><b>Result:</b> Company's live portal: 6 businesses under one domain, so every client inquiry lands in a single trackable pipeline.</li>
+    <li><b>Action:</b> React SPA (Tailwind v4, Router 7) on PDO-secured PHP 8.2 API + MySQL; Hostinger + Titan SMTP.</li>
+    <li><b>Relevance:</b> Same group as my OJT host: I shipped revenue-carrying enterprise software, not demos.</li>
+  </ul>
+</div>
+<div class="entry">
+  <div class="row"><span><b>Digital Classroom</b>, PLV CEIT Classroom Reservation Portal</span><span class="when">2025 – Live</span></div>
+  <div>TypeScript, React, Firebase</div>
+  <ul>
+    <li><b>Result:</b> Live for PLV CEIT: 15+ rooms bookable 24/7, with approvals down from days of chat threads to minutes.</li>
+    <li><b>Action:</b> TypeScript React + Firebase Auth/Firestore/rules, conflict logic, admin flow, email templates.</li>
+    <li><b>Relevance:</b> Built as a PLV student for my own campus. Classmates and faculty are the users; initiative before any job title.</li>
+  </ul>
+</div>
+<div class="entry">
+  <div class="row"><span><b>gamecon-system (PlayVerse Ops)</b>, GameCon 2026 Live Ops</span><span class="when">2025 – Live</span></div>
+  <div>React 18, Firebase, FCM, Capacitor, Tauri</div>
+  <ul>
+    <li><b>Result:</b> Ran 100+ event staff across 2 days (COED Hall, Mar 5–6): every shift, task, and incident on one live board.</li>
+    <li><b>Action:</b> Firestore sync, shift board, 16×21m venue map, incident + FCM push, xlsx I/O, audit logs; PWA/Android/desktop.</li>
+    <li><b>Relevance:</b> Ran live event tech under real pressure: incident handling and teamwork when it counted.</li>
+  </ul>
+</div>
+<div class="entry">
+  <div class="row"><span><b>V-Serve ARTA Feedback Analytics</b>, Government CSM Platform</span><span class="when">2025 – Live</span></div>
+  <div>Flutter/Dart, Firebase</div>
+  <ul>
+    <li><b>Result:</b> Digitized CSM intake end-to-end: every response auto-encoded, cutting round reporting down from days to minutes.</li>
+    <li><b>Action:</b> Offline-queued surveys, QR distribution, FL Chart dashboards, configurable admin; one Flutter codebase.</li>
+    <li><b>Relevance:</b> Institutional compliance plus measurement rigor, shipped as real software, not a classroom exercise.</li>
+  </ul>
+</div>
+<div class="entry">
+  <div class="row"><span><b>alpha-premier-attendance</b>, RFID Attendance Kiosk (v0.1.51)</span><span class="when">2025 – Live</span></div>
+  <div><a href="https://github.com/Deign86/alpha-premier-attendance">github.com/Deign86/alpha-premier-attendance</a>, Tauri v2, React, SQLite, NSIS</div>
+  <ul>
+    <li><b>Result:</b> 30+ employees and interns tap daily: payroll prep down from hours of Excel per cutoff to minutes, missing-entry disputes eliminated.</li>
+    <li><b>Action:</b> Tauri (Rust) + React on SQLite: RFID flow, LAN viewer, payroll export, lockdown, Win10/11 installer.</li>
+    <li><b>Relevance:</b> Payroll-critical system Alpha Premier relies on: ownership an OJT host can trust.</li>
+  </ul>
+</div>
+
+<h2>Skills</h2>
+<div class="skills">
+  <p><b>Languages:</b> TypeScript, JavaScript, Python, Dart, SQL, HTML5, CSS3</p>
+  <p><b>Frontend:</b> React 18, Next.js, Vite, Tailwind CSS, shadcn/ui, Framer Motion, Recharts, KaTeX, Radix UI</p>
+  <p><b>Backend:</b> FastAPI, Django, Node.js, Firebase (Auth, Firestore, Cloud Functions, Storage), REST APIs, PostgreSQL, MongoDB</p>
+  <p><b>AI/ML:</b> RAG Pipelines, ChromaDB, Embeddings, DeepSeek, OpenAI, Claude, Hugging Face, XGBoost, SHAP, Model Hot-Swap</p>
+  <p><b>Mobile / PWA:</b> React Native, Capacitor, Tauri, Offline-first Architecture &nbsp;|&nbsp; <b>DevOps:</b> Docker, GitHub Actions, CI/CD, Vercel, Automated Testing</p>
+  <p><b>Design:</b> Figma, Glassmorphism, Design Systems, Photoshop, Premiere Pro, After Effects &nbsp;|&nbsp; <b>Practices:</b> Code Reviews, Agile/Scrum, REST API Design, A/B Testing, Technical Documentation</p>
+</div>
+</body>
+</html>
